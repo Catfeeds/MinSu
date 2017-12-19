@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MinSu</string>
+    <string name="app_home">首页</string>
+    <string name="app_find">发现</string>
+    <string name="app_message">消息</string>
+    <string name="app_order">订单</string>
+    <string name="app_me">我的</string>
+    <string name="app_login">登录</string>
+    <string name="app_register">注册</string>
+    <string name="loading">正在加载中...</string>
+</resources>
