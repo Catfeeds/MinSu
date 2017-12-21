@@ -167,4 +167,6 @@
     <color name="zuidi_color">#c9caca</color><!--课程学习人数颜色 -->
     <color name="tans">#00000000</color>
     <color name="colorBarText">#F0F5E5</color>
+    <color name="aaa">#f12345</color>
+    <color name="translate">#00000000</color>
 </resources>

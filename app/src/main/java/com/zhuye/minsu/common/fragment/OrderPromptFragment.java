@@ -13,6 +13,7 @@ import com.zhuye.minsu.base.BaseFragment;
 
 public class OrderPromptFragment extends BaseFragment {
     private View view;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_me, container, false);

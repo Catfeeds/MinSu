@@ -11,6 +11,7 @@ import com.zhuye.minsu.R;
 import com.zhuye.minsu.base.BaseActivity;
 import com.zhuye.minsu.base.BaseNoActivity;
 import com.zhuye.minsu.common.fragment.FragmentController;
+import com.zhuye.minsu.utils.StatusBarUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +55,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void loadViewLayout() {
         setContentView(R.layout.activity_main);
+//        StatusBarUtils.setColor(this,R.color.colorPrimary);
         controller = FragmentController.getInstance(this, R.id.frame_layout);
         controller.showFragment(0);
     }
