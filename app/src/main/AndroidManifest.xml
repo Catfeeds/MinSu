@@ -24,7 +24,16 @@
         <activity android:name=".user.LoginActivity" />
         <activity android:name=".user.setting.SettingActivity" />
         <activity android:name=".common.RoomDetailActivity" />
-        <activity android:name=".search.SearchActivity"></activity>
+        <activity android:name=".search.SearchActivity" />
+        <activity android:name=".user.OrderActivity" />
+        <activity android:name=".user.AccountActivity" />
+        <activity android:name=".user.AddressActivity" />
+        <activity android:name=".user.IntegralActivity" />
+        <activity android:name=".user.HelpActivity" />
+        <activity android:name=".user.CollectActivity" />
+        <activity android:name=".user.CouponActivity" />
+        <activity android:name=".user.UserInfoActivity" />
+        <activity android:name=".user.AuthenticationActivity"></activity>
     </application>
 
 </manifest>

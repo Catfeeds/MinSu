@@ -35,7 +35,20 @@ public abstract class BaseFragment extends Fragment {
         initListener();
         initData();
     }
-
+    /**
+     * 获取状态栏高度
+     *
+     * @return
+     */
+    public int getStatusBarHeight() {
+        //获取status_bar_height资源的ID
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            //根据资源ID获取响应的尺寸值
+            return getResources().getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
     protected abstract View initView(LayoutInflater inflater, ViewGroup container);
 
     protected abstract void initListener();
