@@ -16,6 +16,7 @@
         app:theme="@style/ThemeOverlay.AppCompat">
 
         <RelativeLayout style="@style/ActivityTitle">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

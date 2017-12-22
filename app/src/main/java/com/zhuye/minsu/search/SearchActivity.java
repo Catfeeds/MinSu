@@ -1,7 +1,6 @@
 package com.zhuye.minsu.search;
 
 import android.content.Context;
-
 import com.zhuye.minsu.R;
 import com.zhuye.minsu.base.BaseActivity;
 
