@@ -69,15 +69,36 @@
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
-
-    <cn.bingoogolapple.bgabanner.BGABanner
-        android:id="@+id/banner_pager"
+<com.zhuye.minsu.widget.MyScrollview
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:banner_pageChangeDuration="1000"
-        app:banner_pointAutoPlayAble="true"
-        app:banner_pointContainerBackground="@android:color/transparent"
-        app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
-        app:banner_pointTopBottomMargin="15dp"
-        app:banner_transitionEffect="rotate" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <cn.bingoogolapple.bgabanner.BGABanner
+            android:id="@+id/banner_pager"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:banner_pageChangeDuration="1000"
+            app:banner_pointAutoPlayAble="true"
+            app:banner_pointContainerBackground="@android:color/transparent"
+            app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+            app:banner_pointTopBottomMargin="15dp"
+            app:banner_transitionEffect="rotate" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="-------------发现新居----------"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</com.zhuye.minsu.widget.MyScrollview>
+
+
 </LinearLayout>

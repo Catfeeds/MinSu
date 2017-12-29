@@ -6,7 +6,9 @@ package com.zhuye.minsu.api;
 
 public class Constant {
     //基本URL
-    public static final String BASE_URL = "http://www.minsu.com/api/";
+//    public static final String BASE_URL = "http://www.minsu.com/api/";
+    public static final String BASE_URL = "http://192.168.1.43/api/";
+    public static final String BASE2_URL = "http://192.168.1.43";
     //手机发送验证码
     public static final String SEND_SMSCODE_URL = BASE_URL + "user/MobileVerify";
     //动态码登录
@@ -15,12 +17,22 @@ public class Constant {
     public static final String LOGIN_URL = BASE_URL + "user/logo1";
     //第三方登录
     public static final String THIRD_LOGIN_URL = BASE_URL + "user/logo2";
-    //个人资料-昵称修改
-    public static final String NICHEN_CHANGE_URL = BASE_URL + "user/name_user";
+    //个人中心
+    public static final String USER_CENTER_URL = BASE_URL + "user/index";
+    //用户个人资料
+    public static final String USER_INFO_URL = BASE_URL + "user/user_info";
     //个人资料-性别修改
-    public static final String NICHEN_SEX_URL = BASE_URL + "user/user_sex";
+    public static final String USER_SEX_URL = BASE_URL + "user/user_sex";
+    //个人资料-昵称修改
+    public static final String USER_NICKNAME_URL = BASE_URL + "user/user_nickname";
     //个人资料-生日修改
-    public static final String NICHEN_BIRTHDAY_URL = BASE_URL + "user/user_birthday";
+    public static final String USER_BIRTHDAY_URL = BASE_URL + "user/user_birthday";
+    //个人资料-邮箱修改
+    public static final String USER_EMAIL_URL = BASE_URL + "user/user_email";
+    //实名认证提交
+    public static final String SHIMING_SUBMIT_URL = BASE_URL + "user/add_name_user";
+    //实名认证页面数据
+    public static final String SHIMING_PAGE_URL = BASE_URL + "user/name_user";
     //删除收货地址
     public static final String DELETE_ADDRESS_URL = BASE_URL + "user/del_address";
     //编辑收货地址页面
@@ -37,6 +49,10 @@ public class Constant {
     public static final String SIGN_PAGE_URL = BASE_URL + "user/sign_html";
     //点击签到
     public static final String SIGN_URL = BASE_URL + "user/sign";
+    //系统消息
+    public static final String SYSTEM_MESSAGE_URL = BASE_URL + "Message/system_msg";
+    //用户端-首页
+    public static final String HOME_PAGE_URL = BASE_URL + "index/index";
 
 
     /*--------------------------------------------发现模块---------------------------------------------*/

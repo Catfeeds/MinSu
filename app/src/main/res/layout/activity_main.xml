@@ -16,10 +16,9 @@
         android:layout_width="match_parent"
         android:background="#ececec"
         android:layout_height="1dp" />
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="-5dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <RadioGroup
@@ -27,9 +26,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:paddingTop="5dp">
+            android:paddingBottom="-10dp">
 
             <RadioButton
                 android:id="@+id/rb_home"
@@ -62,6 +61,6 @@
                 android:drawableTop="@drawable/tab_4_back"
                 android:text="@string/app_me" />
         </RadioGroup>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
