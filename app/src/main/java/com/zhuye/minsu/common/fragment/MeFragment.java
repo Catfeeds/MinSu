@@ -18,6 +18,7 @@ import com.zhuye.minsu.api.Constant;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseFragment;
+import com.zhuye.minsu.houseResource.HouseResourceActivity;
 import com.zhuye.minsu.user.AccountActivity;
 import com.zhuye.minsu.user.CollectActivity;
 import com.zhuye.minsu.user.CouponActivity;
@@ -71,6 +72,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
     ImageView imgSetting;
     @BindView(R.id.lay_header)
     RelativeLayout layHeader;
+    @BindView(R.id.ll_house_resource)
+    LinearLayout llHouseResource;
     private View view;
     private String token;
 
@@ -94,6 +97,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
         llCollect.setOnClickListener(this);
         llHelp.setOnClickListener(this);
         userAvatar.setOnClickListener(this);
+        llHouseResource.setOnClickListener(this);
     }
 
     @Override
@@ -186,6 +190,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                 break;
             case R.id.user_avatar:
                 startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                break;
+                case R.id.ll_house_resource:
+                startActivity(new Intent(getActivity(), HouseResourceActivity.class));
                 break;
         }
     }

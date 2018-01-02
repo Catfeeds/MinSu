@@ -46,7 +46,6 @@
             <RadioButton
                 android:id="@+id/rb_message"
                 style="@style/RadioButtonBottomTab"
-
                 android:drawableTop="@drawable/tab_2_back"
                 android:text="@string/app_message" />
 

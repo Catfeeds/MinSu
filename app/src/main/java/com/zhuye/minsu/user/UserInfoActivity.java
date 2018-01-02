@@ -283,7 +283,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                         ToastManager.show("您选择了：" + year + "年" + monthOfYear
                                 + "月" + dayOfMonth + "日");
-                        MinSuApi.birthdayChange(0x003, token, year + "-" + monthOfYear + "-" + dayOfMonth, callBack);
+                        MinSuApi.birthdayChange(0x003, token, year + "-" + (monthOfYear + 1) + "-" + dayOfMonth, callBack);
                     }
 
                 });

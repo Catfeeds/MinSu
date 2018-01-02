@@ -78,4 +78,12 @@ public class Constant {
     public static final String ADD_ARTICLE_URL = BASE_URL + "Article/add_article";
     //发现列表
     public static final String FIND_LIST_URL = BASE_URL + "Article/faxian";
+
+
+    //----------------------房东端------------------------------------------------
+    //我的房源
+    public static final String MY_HOUSE_LIST_URL = BASE_URL + "Fangdong/my_house";
+    //添加房源页面
+    public static final String ADD_HOUSE_URL = BASE_URL + "Fangdong/add_house";
+
 }
