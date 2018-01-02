@@ -33,6 +33,10 @@ public class Constant {
     public static final String SHIMING_SUBMIT_URL = BASE_URL + "user/add_name_user";
     //实名认证页面数据
     public static final String SHIMING_PAGE_URL = BASE_URL + "user/name_user";
+    //房东认证提交
+    public static final String LANDLORD_SUBMIT_URL = BASE_URL + "/api/user/add_house_user";
+    //房东认证页面数据
+    public static final String LANDLORD_PAGE_URL = BASE_URL + "/api/user/house_user";
     //删除收货地址
     public static final String DELETE_ADDRESS_URL = BASE_URL + "user/del_address";
     //编辑收货地址页面

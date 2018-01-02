@@ -367,9 +367,58 @@ public class MinSuApi {
                     }
                 });
     }
+
+
+    //房东认证提交
+    public static void landlordSubmit(Activity activity, final int what, String token, String h_name,
+                                     String h_card, String h_mobile, String h_address, File h_zheng_pic,
+                                     File h_fan_pic,File h_fc_pic ,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_SUBMIT_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("h_name", h_name)
+                .params("h_card", h_card)
+                .params("h_mobile", h_mobile)
+                .params("h_address", h_address)
+                .params("h_zheng_pic", h_zheng_pic)
+                .params("h_fan_pic", h_fan_pic)
+                .params("h_fc_pic",h_fc_pic)
+                .execute(new StringDialogCallback(activity,"加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
     //实名认证页面
     public static void renzhenPage(Activity activity,final int what, String token, final CallBack myCallBack) {
         OkGo.<String>post(Constant.SHIMING_PAGE_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringDialogCallback(activity,"加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+    //房东认证页面
+    public static void landlordPage(Activity activity,final int what, String token, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_PAGE_URL)
                 .tag(App.getInstance())
                 .params("token", token)
                 .execute(new StringDialogCallback(activity,"加载中...") {
