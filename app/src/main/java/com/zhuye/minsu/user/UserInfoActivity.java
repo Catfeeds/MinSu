@@ -26,6 +26,7 @@ import com.zhuye.minsu.R;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
+import com.zhuye.minsu.user.setting.LandlordAuthentication;
 import com.zhuye.minsu.utils.StorageUtil;
 import com.zhuye.minsu.utils.ToastManager;
 import com.zhuye.minsu.widget.RoundedCornerImageView;
@@ -125,6 +126,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         rlNickname.setOnClickListener(this);
         rlEmail.setOnClickListener(this);
         rlAuthentication.setOnClickListener(this);
+        rlLandlordAuthentication.setOnClickListener(this);
     }
 
     @Override
@@ -362,6 +364,8 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.rl_authentication:
                 startActivity(new Intent(UserInfoActivity.this, NameAuthenticationActivity.class));
                 break;
+            case R.id.rl_landlord_authentication:
+                startActivity(new Intent(UserInfoActivity.this, LandlordAuthentication.class));
         }
     }
 

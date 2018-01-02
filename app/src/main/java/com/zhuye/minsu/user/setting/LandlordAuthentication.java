@@ -1,9 +1,10 @@
-package com.zhuye.minsu.user;
+package com.zhuye.minsu.user.setting;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.zhuye.minsu.api.Constant;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
+import com.zhuye.minsu.user.NameAuthenticationActivity;
 import com.zhuye.minsu.user.camera.CropUtils;
 import com.zhuye.minsu.user.camera.FileUtil;
 import com.zhuye.minsu.user.camera.PermissionUtil;
@@ -37,10 +40,10 @@ import org.json.JSONObject;
 import java.io.File;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class NameAuthenticationActivity extends BaseActivity implements View.OnClickListener {
-
-
+public class LandlordAuthentication extends BaseActivity implements View.OnClickListener
+{
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.tv_right)
@@ -63,29 +66,35 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
     EditText userAddress;
     @BindView(R.id.id_front)
     ImageView idFront;
+    @BindView(R.id.ll)
+    LinearLayout ll;
     @BindView(R.id.id_back)
     ImageView idBack;
+    @BindView(R.id.id_fangchuan)
+    ImageView idFangchuan;
     @BindView(R.id.submit)
     Button submit;
+    private String token;
     private File file;
     private Uri uri;
-    private String token;
     private static final int REQUEST_CODE_TAKE_PHOTO = 1;
     private static final int REQUEST_CODE_ALBUM = 2;
     private static final int REQUEST_CODE_CROUP_PHOTO = 3;
     private int photoType = 1;//默认正面
     private File frontFile;
     private File backFile;
-
+    private File fcFile;
     @Override
-    protected void processLogic() {
-        MinSuApi.renzhenPage(this, 0x002, token, callBack);
+    protected void processLogic()
+    {
+        MinSuApi.landlordPage(this, 0x002, token, callBack);
     }
 
     @Override
-    protected void setListener() {
+    protected void setListener()
+    {
         token = StorageUtil.getTokenId(this);
-        toolbarTitle.setText("实名认证");
+        toolbarTitle.setText("房东认证");
         ivLeft.setVisibility(View.VISIBLE);
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,23 +104,11 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
         });
         idFront.setOnClickListener(this);
         idBack.setOnClickListener(this);
+        idFangchuan.setOnClickListener(this);
         submit.setOnClickListener(this);
+
         init();//建立相机存储的缓存的路径
     }
-
-    @Override
-    protected void loadViewLayout() {
-        setContentView(R.layout.activity_name_authentication);
-    }
-
-    @Override
-    protected Context getActivityContext() {
-        return this;
-    }
-
-    /**
-     * 建立相机存储的缓存的路径
-     */
     private void init() {
         file = new File(FileUtil.getCachePath(this), "idcard.jpg");
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -121,14 +118,21 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
             uri = FileProvider.getUriForFile(App.getInstance(), "com.zhuye.minsu", file);
         }
     }
-
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void loadViewLayout()
+    {
+        setContentView(R.layout.activity_landlord_authentication);
     }
 
     @Override
-    public void onClick(View view) {
+    protected Context getActivityContext()
+    {
+        return this;
+    }
+
+    @Override
+    public void onClick(View view)
+    {
         switch (view.getId()) {
             case R.id.id_front:
                 photoType = 1;
@@ -138,12 +142,16 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
                 photoType = 2;
                 chooseType();
                 break;
+            case R.id.id_fangchuan:
+                photoType=3;
+                chooseType();
+                break;
             case R.id.submit:
                 String userName = username.getText().toString();
                 String id_card = idCard.getText().toString();
                 String user_phone = userPhone.getText().toString();
                 String user_address = userAddress.getText().toString();
-                MinSuApi.shimingSubmit(this, 0x001, token, userName, id_card, user_phone, user_address, frontFile, backFile, callBack);
+                MinSuApi.landlordSubmit(this, 0x001, token, userName, id_card, user_phone, user_address, frontFile, backFile,fcFile,callBack);
                 break;
         }
     }
@@ -160,14 +168,14 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
                 switch (position) {
                     //拍照
                     case 0:
-                        if (PermissionUtil.hasCameraPermission(NameAuthenticationActivity.this)) {
+                        if (PermissionUtil.hasCameraPermission(LandlordAuthentication.this)) {
                             uploadAvatarFromPhotoRequest();
                             dialog.dismiss();
                         }
                         break;
                     //相册
                     case 1:
-                        if (PermissionUtil.hasReadExternalStoragePermission(NameAuthenticationActivity.this)) {
+                        if (PermissionUtil.hasReadExternalStoragePermission(LandlordAuthentication.this)) {
                             uploadAvatarFromAlbumRequest();
                             dialog.dismiss();
                         }
@@ -180,9 +188,6 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
         });
     }
 
-    /**
-     * photo
-     */
     private void uploadAvatarFromPhotoRequest() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -191,9 +196,6 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
         startActivityForResult(intent, REQUEST_CODE_TAKE_PHOTO);
     }
 
-    /**
-     * album
-     */
     private void uploadAvatarFromAlbumRequest() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
@@ -206,7 +208,6 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
         if (resultCode != -1) {
             return;
         }
-        //相册
         if (requestCode == REQUEST_CODE_ALBUM && data != null) {
             Uri newUri;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -219,13 +220,15 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
             } else {
                 Toast.makeText(this, "没有得到相册图片", Toast.LENGTH_LONG).show();
             }
-            //相机
         } else if (requestCode == REQUEST_CODE_TAKE_PHOTO) {
             startPhotoZoom(uri);
         } else if (requestCode == REQUEST_CODE_CROUP_PHOTO) {
             uploadAvatarFromPhoto();
         }
     }
+
+
+
 
     private void uploadAvatarFromPhoto() {
         compressAndUploadAvatar(file.getPath());
@@ -243,11 +246,16 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
         if (photoType == 1) {
             Glide.with(this).load(uri).into(idFront);
             frontFile = FileUtil.getFileByUri(uri, this);
-            StorageUtil.setKeyValue(NameAuthenticationActivity.this, "front_img", fileSrc);
+            StorageUtil.setKeyValue(LandlordAuthentication.this, "front_img", fileSrc);
         } else if (photoType == 2) {
             Glide.with(this).load(uri).into(idBack);
             backFile = FileUtil.getFileByUri(uri, this);
-            StorageUtil.setKeyValue(NameAuthenticationActivity.this, "back_img", fileSrc);
+            StorageUtil.setKeyValue(LandlordAuthentication.this, "back_img", fileSrc);
+        }else if (photoType==3)
+        {
+            Glide.with(this).load(uri).into(idFangchuan);
+            fcFile = FileUtil.getFileByUri(uri, this);
+            StorageUtil.setKeyValue(LandlordAuthentication.this, "fc_img", fileSrc);
         }
 
 
@@ -255,12 +263,6 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
 
 //        DreamApi.uploadAvator(this, 0x002, token, file, uploadCallBack);
     }
-
-    /**
-     * 裁剪拍照裁剪
-     *
-     * @param uri
-     */
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -302,14 +304,15 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
                         if (code == 200) {
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject jsonObject1 = new JSONObject(data.toString());
-                            String n_name = jsonObject1.getString("n_name");
-                            String n_card = jsonObject1.getString("n_card");
-                            String n_mobile = jsonObject1.getString("n_mobile");
-                            String n_address = jsonObject1.getString("n_address");
-                            String n_zheng_pic = jsonObject1.getString("n_zheng_pic");
-                            String n_fan_pic = jsonObject1.getString("n_fan_pic");
-                            int is_name = jsonObject1.getInt("is_name");
-                            if (is_name == 2) {
+                            String n_name = jsonObject1.getString("h_name");
+                            String n_card = jsonObject1.getString("h_card");
+                            String n_mobile = jsonObject1.getString("h_mobile");
+                            String n_address = jsonObject1.getString("h_address");
+                            String h_zheng_pic = jsonObject1.getString("h_zheng_pic");
+                            String h_fan_pic = jsonObject1.getString("h_fan_pic");
+                            String h_fc_pic=jsonObject1.getString("h_fc_pic");
+                            int is_house = jsonObject1.getInt("is_house");
+                            if (is_house == 2) {
                                 username.setEnabled(false);
                                 userPhone.setEnabled(false);
                                 userAddress.setEnabled(false);
@@ -318,7 +321,7 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
                                 idBack.setClickable(false);
                                 submit.setClickable(false);
                                 ToastManager.show("审核中");
-                            } else if (is_name == 1) {
+                            } else if (is_house == 1) {
                                 username.setEnabled(false);
                                 userPhone.setEnabled(false);
                                 userAddress.setEnabled(false);
@@ -334,14 +337,18 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
                             userPhone.setText(n_mobile);
                             userAddress.setText(n_address);
                             idCard.setText(n_card);
-                            Glide.with(NameAuthenticationActivity.this)
-                                    .load(Constant.BASE2_URL + n_zheng_pic)
+                            Glide.with(LandlordAuthentication.this)
+                                    .load(Constant.BASE2_URL + h_zheng_pic)
                                     .placeholder(R.mipmap.ic_launcher)
                                     .into(idFront);
-                            Glide.with(NameAuthenticationActivity.this)
-                                    .load(Constant.BASE2_URL + n_fan_pic)
+                            Glide.with(LandlordAuthentication.this)
+                                    .load(Constant.BASE2_URL + h_fan_pic)
                                     .placeholder(R.mipmap.ic_launcher)
                                     .into(idBack);
+                            Glide.with(LandlordAuthentication.this)
+                                    .load(Constant.BASE2_URL + h_fc_pic)
+                                    .placeholder(R.mipmap.ic_launcher)
+                                    .into(idFangchuan);
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }
