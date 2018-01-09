@@ -137,10 +137,10 @@ public abstract class BaseNoActivity extends AppCompatActivity {
     }
 
     public void displayImage(String url, ImageView imageView) {
-        Glide.with(App.getInstance())//
-                .load(url)//
-                .error(R.mipmap.ic_launcher)//
-                .into(imageView);
+//        Glide.with(App.getInstance())//
+//                .load(url)//
+//                .error(R.mipmap.ic_launcher)//
+//                .into(imageView);
     }
 
     @Override

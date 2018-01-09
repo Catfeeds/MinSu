@@ -1,14 +1,21 @@
 package com.zhuye.minsu.user;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.zhuye.minsu.R;
+import com.zhuye.minsu.api.Constant;
 import com.zhuye.minsu.base.BaseActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class IntegralActivity extends BaseActivity {
 
+    @BindView(R.id.webview)
+    WebView webview;
 
     @Override
     protected void processLogic() {
@@ -17,7 +24,12 @@ public class IntegralActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-
+        WebSettings webSettings  = webview.getSettings();
+        // 设置与Js交互的权限
+        webSettings.setJavaScriptEnabled(true);
+        // 设置允许JS弹窗
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webview.loadUrl(Constant.INTEGRAL_URL);
     }
 
     @Override
@@ -28,5 +40,12 @@ public class IntegralActivity extends BaseActivity {
     @Override
     protected Context getActivityContext() {
         return this;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

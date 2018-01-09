@@ -2,8 +2,10 @@ package com.zhuye.minsu.api;
 
 
 import com.zhuye.minsu.R;
+import com.zhuye.minsu.houseResource.adapter.FacilitiesBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mr.Jude on 2016/1/6.
@@ -12,25 +14,23 @@ public class DataProvider {
 
 
     //
-//    public static List<Material> getMaterialList(int page) {
-//        ArrayList<Material> arr = new ArrayList<>();
-//        if (page == 12) return arr;
-//
-//        arr.add(new Material("微积分", "http://i2.hdslb.com/52_52/user/61175/6117592/myface.jpg", "侯鹏成", "中国教育出版社"));
-//        arr.add(new Material("线性代数", "http://i1.hdslb.com/52_52/user/6738/673856/myface.jpg", "侯鹏成", "北京大学出版社"));
-//        arr.add(new Material("高等数学", "http://i1.hdslb.com/account/face/1467772/e1afaf4a/myface.png", "侯鹏成", "中国教育出版社"));
-//        arr.add(new Material("工程制图", "http://i0.hdslb.com/52_52/user/18494/1849483/myface.jpg", "侯鹏成", "中国教育出版社"));
-//        arr.add(new Material("通信原理", "http://i0.hdslb.com/52_52/account/face/4613528/303f4f5a/myface.png", "侯鹏成", "中国教育出版社"));
-//        arr.add(new Material("汇编语言", "http://i0.hdslb.com/52_52/account/face/611203/76c02248/myface.png", "侯鹏成", "中国教育出版社"));
-//        arr.add(new Material("数据结构", "http://i2.hdslb.com/52_52/user/46230/4623018/myface.jpg", "侯鹏成", "北京大学出版社"));
-//        arr.add(new Material("多媒体通信", "http://i2.hdslb.com/52_52/user/66723/6672394/myface.jpg", "侯鹏成", "中国教育出版社"));
-//        arr.add(new Material("电子电路", "http://i1.hdslb.com/user/3039/303946/myface.jpg", "侯鹏成", "北京大学出版社"));
-//        arr.add(new Material("大学英语", "http://i2.hdslb.com/account/face/9034989/aabbc52a/myface.png", "侯鹏成", "中国教育出版社"));
-//        arr.add(new Material("算法导论", "http://i0.hdslb.com/account/face/1557783/8733bd7b/myface.png", "侯鹏成", "北京大学出版社"));
-//        arr.add(new Material("大学计算机基础", "http://i2.hdslb.com/user/3716/371679/myface.jpg", "侯鹏成", "北京大学出版社"));
-//        arr.add(new Material("C语言程序算法", "http://i1.hdslb.com/account/face/9045165/4b11d894/myface.png", "侯鹏成", "中国教育出版社"));
-//        return arr;
-//    }
+    public static List<FacilitiesBean> getFacilitiesList() {
+        ArrayList<FacilitiesBean> arr = new ArrayList<>();
+        arr.add(new FacilitiesBean(1, "标准间", R.mipmap.pc_01));
+        arr.add(new FacilitiesBean(2, "大床房", R.mipmap.pc_02));
+        arr.add(new FacilitiesBean(3, "家庭房", R.mipmap.pc_03));
+        arr.add(new FacilitiesBean(4, "24小时热水", R.mipmap.pc_04));
+        arr.add(new FacilitiesBean(5, "电视", R.mipmap.pc_05));
+        arr.add(new FacilitiesBean(6, "空调", R.mipmap.pc_06));
+        arr.add(new FacilitiesBean(7, "整租", R.mipmap.pc_07));
+        arr.add(new FacilitiesBean(8, "单间", R.mipmap.pc_08));
+        arr.add(new FacilitiesBean(9, "wifi", R.mipmap.pc_09));
+        arr.add(new FacilitiesBean(10, "三人行礼包", R.mipmap.pc_10));
+        arr.add(new FacilitiesBean(11, "娱乐设施", R.mipmap.pc_12));
+        arr.add(new FacilitiesBean(12, "周边景点", R.mipmap.pc_13));
+        arr.add(new FacilitiesBean(13, "停车场", R.mipmap.pc_11));
+        return arr;
+    }
 //
 //    public static List<Numbers> getNumberList(int page) {
 //        ArrayList<Numbers> arr = new ArrayList<>();
@@ -81,7 +81,6 @@ public class DataProvider {
 //    }
 
 
-
     static final int[] BannerImage = {
             R.mipmap.banner_0,
             R.mipmap.banner_1,
@@ -94,6 +93,57 @@ public class DataProvider {
 
         for (int i = 0; i < BannerImage.length; i++) {
             arrayList.add(BannerImage[i]);
+        }
+        return arrayList;
+    }
+
+    static final int[] FacilitiesImage = {
+            R.mipmap.pc_01,
+            R.mipmap.pc_02,
+            R.mipmap.pc_03,
+            R.mipmap.pc_04,
+            R.mipmap.pc_05,
+            R.mipmap.pc_06,
+            R.mipmap.pc_07,
+            R.mipmap.pc_08,
+            R.mipmap.pc_09,
+            R.mipmap.pc_10,
+            R.mipmap.pc_11,
+            R.mipmap.pc_12,
+            R.mipmap.pc_13,
+    };
+
+    public static ArrayList<Integer> getFacilitiesImage() {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+//        if (page == 4) return arrayList;
+
+        for (int i = 0; i < FacilitiesImage.length; i++) {
+            arrayList.add(FacilitiesImage[i]);
+        }
+        return arrayList;
+    }
+    static final int[] FacilitiesSecImage = {
+            R.mipmap.pc_s01,
+            R.mipmap.pc_s02,
+            R.mipmap.pc_s03,
+            R.mipmap.pc_s04,
+            R.mipmap.pc_s05,
+            R.mipmap.pc_s06,
+            R.mipmap.pc_s07,
+            R.mipmap.pc_s08,
+            R.mipmap.pc_s09,
+            R.mipmap.pc_s10,
+            R.mipmap.pc_s11,
+            R.mipmap.pc_s12,
+            R.mipmap.pc_s13,
+    };
+
+    public static ArrayList<Integer> getFacilitiesSecImage() {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+//        if (page == 4) return arrayList;
+
+        for (int i = 0; i < FacilitiesSecImage.length; i++) {
+            arrayList.add(FacilitiesSecImage[i]);
         }
         return arrayList;
     }

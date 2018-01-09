@@ -143,6 +143,30 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
                 String id_card = idCard.getText().toString();
                 String user_phone = userPhone.getText().toString();
                 String user_address = userAddress.getText().toString();
+                if (user_address.equals("")) {
+                    ToastManager.show("请输入姓名");
+                    return;
+                }
+                if (id_card.equals("")) {
+                    ToastManager.show("请输入身份证号");
+                    return;
+                }
+                if (user_phone.equals("")) {
+                    ToastManager.show("请输入电话");
+                    return;
+                }
+                if (user_address.equals("")) {
+                    ToastManager.show("请输入地址");
+                    return;
+                }
+                if (frontFile == null) {
+                    ToastManager.show("身份证正面照不能为空");
+                    return;
+                }
+                if (backFile == null) {
+                    ToastManager.show("身份证反面照不能为空");
+                    return;
+                }
                 MinSuApi.shimingSubmit(this, 0x001, token, userName, id_card, user_phone, user_address, frontFile, backFile, callBack);
                 break;
         }
@@ -330,18 +354,42 @@ public class NameAuthenticationActivity extends BaseActivity implements View.OnC
                             } else {
                                 ToastManager.show("审核失败");
                             }
-                            username.setText(n_name);
-                            userPhone.setText(n_mobile);
-                            userAddress.setText(n_address);
-                            idCard.setText(n_card);
-                            Glide.with(NameAuthenticationActivity.this)
-                                    .load(Constant.BASE2_URL + n_zheng_pic)
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .into(idFront);
-                            Glide.with(NameAuthenticationActivity.this)
-                                    .load(Constant.BASE2_URL + n_fan_pic)
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .into(idBack);
+                            if (username != null) {
+                                username.setText(n_name);
+                            }
+                            if (userPhone != null) {
+                                userPhone.setText(n_mobile);
+                            }
+                            if (userAddress != null) {
+                                userAddress.setText(n_address);
+                            }
+                            if (idCard != null) {
+                                idCard.setText(n_card);
+                            }
+                            if (n_zheng_pic != null) {
+                                Glide.with(NameAuthenticationActivity.this)
+                                        .load(Constant.BASE2_URL + n_zheng_pic)
+//                                    .placeholder(R.mipmap.ic_launcher)
+                                        .into(idFront);
+                            }
+                            if (n_fan_pic != null) {
+                                Glide.with(NameAuthenticationActivity.this)
+                                        .load(Constant.BASE2_URL + n_fan_pic)
+//                                    .placeholder(R.mipmap.ic_launcher)
+                                        .into(idBack);
+                            }
+//                            username.setText(n_name);
+//                            userPhone.setText(n_mobile);
+//                            userAddress.setText(n_address);
+//                            idCard.setText(n_card);
+//                            Glide.with(NameAuthenticationActivity.this)
+//                                    .load(Constant.BASE2_URL + n_zheng_pic)
+////                                    .placeholder(R.mipmap.ic_launcher)
+//                                    .into(idFront);
+//                            Glide.with(NameAuthenticationActivity.this)
+//                                    .load(Constant.BASE2_URL + n_fan_pic)
+////                                    .placeholder(R.mipmap.ic_launcher)
+//                                    .into(idBack);
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }

@@ -13,13 +13,15 @@ public class HomeBean {
     public List<Data2> data2;
     public class Data1{
         public String title;
+        public String house_id;
         public String house_info;
         public String house_price;
         public String province;
+        public String city;
         public String district;
         public String town;
         public String house_img;
-        public String collect;
+        public int collect;
     }
     public class Data2{
         public String ad_code;

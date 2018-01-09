@@ -15,24 +15,26 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat">
 
-        <RelativeLayout style="@style/ActivityTitle">
+        <LinearLayout style="@style/ActivityTitle">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/location_ad"/>
 
             <TextView
                 android:id="@+id/toolbar_title"
-                android:layout_width="280dp"
+                android:layout_width="0dp"
                 android:layout_height="32dp"
+                android:layout_weight="6"
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/frame_search"
                 android:gravity="center_vertical"
-                android:paddingLeft="100dp"
+                android:paddingLeft="50dp"
                 android:text="输入搜索关键词"
                 android:textColor="@color/grey"
                 android:textSize="14sp"
@@ -60,14 +62,15 @@
                 android:visibility="gone" />
 
             <ImageView
+                android:layout_weight="1"
                 android:id="@+id/iv_sign"
-                android:layout_width="22dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:src="@mipmap/sign_0" />
 
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.Toolbar>
 <com.zhuye.minsu.widget.MyScrollview
     android:layout_width="match_parent"
@@ -93,10 +96,15 @@
             android:gravity="center_vertical"
             android:textSize="14sp"
             android:layout_gravity="center_horizontal"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </RelativeLayout>
+
     </LinearLayout>
 </com.zhuye.minsu.widget.MyScrollview>
 

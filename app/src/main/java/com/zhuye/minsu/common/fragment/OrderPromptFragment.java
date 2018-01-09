@@ -7,13 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhuye.minsu.R;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseFragment;
+import com.zhuye.minsu.common.adapter.OrderPromptAdapter;
+import com.zhuye.minsu.common.bean.OrderBean;
 import com.zhuye.minsu.utils.StorageUtil;
+import com.zhuye.minsu.utils.ToastManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +37,7 @@ public class OrderPromptFragment extends BaseFragment {
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     private View view;
+    private String tokenId;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -39,19 +47,41 @@ public class OrderPromptFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-        String tokenId = StorageUtil.getTokenId(getActivity());
+
+        tokenId = StorageUtil.getTokenId(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
     protected void initData() {
-        MinSuApi.SystemMessage(getActivity(), 0x001, callBack);
+        MinSuApi.orderPrompt(getActivity(), 0x001, tokenId, callBack);
     }
 
     private CallBack callBack = new CallBack() {
         @Override
         public void onSuccess(int what, Response<String> result) {
+            switch (what) {
+                case 0x001:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200) {
+                            OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
+                            OrderPromptAdapter orderPromptAdapter = new OrderPromptAdapter(R.layout.item_order_prompt, orderBean.data);
+                            recyclerView.setAdapter(orderPromptAdapter);
+                            if (orderBean.data.size() == 0) {
+                                orderPromptAdapter.setEmptyView(R.layout.empty, recyclerView);
+                            }
 
+                        } else if (code == 111) {
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
         }
 
         @Override

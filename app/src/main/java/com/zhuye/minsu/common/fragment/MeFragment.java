@@ -143,7 +143,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                             }
                             Glide.with(getActivity())
                                     .load(Constant.BASE2_URL + head_pic)
-                                    .placeholder(R.mipmap.ic_launcher)
+//                                    .placeholder(R.mipmap.ic_launcher)
                                     .into(userAvatar);
                         }
                     } catch (JSONException e) {
@@ -209,5 +209,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
     @Override
     public void onRightClick() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        MinSuApi.userCenter(getActivity(), 0x001, token, callBack);
     }
 }

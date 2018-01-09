@@ -23,8 +23,8 @@ public class BGABannerAdapter implements BGABanner.Adapter {
     public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
         Glide.with(context)
                 .load(model)
-                .crossFade()
-                .placeholder(R.mipmap.banner_0)
+//                .crossFade()
+//                .placeholder(R.mipmap.banner_0)
                 .into((ImageView) view);
     }
 }

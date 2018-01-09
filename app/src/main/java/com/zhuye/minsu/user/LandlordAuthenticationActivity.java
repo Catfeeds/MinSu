@@ -1,10 +1,9 @@
-package com.zhuye.minsu.user.setting;
+package com.zhuye.minsu.user;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
@@ -27,7 +26,6 @@ import com.zhuye.minsu.api.Constant;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
-import com.zhuye.minsu.user.NameAuthenticationActivity;
 import com.zhuye.minsu.user.camera.CropUtils;
 import com.zhuye.minsu.user.camera.FileUtil;
 import com.zhuye.minsu.user.camera.PermissionUtil;
@@ -40,10 +38,8 @@ import org.json.JSONObject;
 import java.io.File;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class LandlordAuthentication extends BaseActivity implements View.OnClickListener
-{
+public class LandlordAuthenticationActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.tv_right)
@@ -84,15 +80,14 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
     private File frontFile;
     private File backFile;
     private File fcFile;
+
     @Override
-    protected void processLogic()
-    {
+    protected void processLogic() {
         MinSuApi.landlordPage(this, 0x002, token, callBack);
     }
 
     @Override
-    protected void setListener()
-    {
+    protected void setListener() {
         token = StorageUtil.getTokenId(this);
         toolbarTitle.setText("房东认证");
         ivLeft.setVisibility(View.VISIBLE);
@@ -109,6 +104,7 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
 
         init();//建立相机存储的缓存的路径
     }
+
     private void init() {
         file = new File(FileUtil.getCachePath(this), "idcard.jpg");
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -118,21 +114,19 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
             uri = FileProvider.getUriForFile(App.getInstance(), "com.zhuye.minsu", file);
         }
     }
+
     @Override
-    protected void loadViewLayout()
-    {
+    protected void loadViewLayout() {
         setContentView(R.layout.activity_landlord_authentication);
     }
 
     @Override
-    protected Context getActivityContext()
-    {
+    protected Context getActivityContext() {
         return this;
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.id_front:
                 photoType = 1;
@@ -143,7 +137,7 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
                 chooseType();
                 break;
             case R.id.id_fangchuan:
-                photoType=3;
+                photoType = 3;
                 chooseType();
                 break;
             case R.id.submit:
@@ -151,7 +145,35 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
                 String id_card = idCard.getText().toString();
                 String user_phone = userPhone.getText().toString();
                 String user_address = userAddress.getText().toString();
-                MinSuApi.landlordSubmit(this, 0x001, token, userName, id_card, user_phone, user_address, frontFile, backFile,fcFile,callBack);
+                if (user_address.equals("")) {
+                    ToastManager.show("请输入姓名");
+                    return;
+                }
+                if (id_card.equals("")) {
+                    ToastManager.show("请输入身份证号");
+                    return;
+                }
+                if (user_phone.equals("")) {
+                    ToastManager.show("请输入电话");
+                    return;
+                }
+                if (user_address.equals("")) {
+                    ToastManager.show("请输入地址");
+                    return;
+                }
+                if (frontFile == null) {
+                    ToastManager.show("身份证正面照不能为空");
+                    return;
+                }
+                if (backFile == null) {
+                    ToastManager.show("身份证反面照不能为空");
+                    return;
+                }
+                if (fcFile == null) {
+                    ToastManager.show("房产证照片不能为空");
+                    return;
+                }
+                MinSuApi.landlordSubmit(this, 0x001, token, userName, id_card, user_phone, user_address, frontFile, backFile, fcFile, callBack);
                 break;
         }
     }
@@ -168,14 +190,14 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
                 switch (position) {
                     //拍照
                     case 0:
-                        if (PermissionUtil.hasCameraPermission(LandlordAuthentication.this)) {
+                        if (PermissionUtil.hasCameraPermission(LandlordAuthenticationActivity.this)) {
                             uploadAvatarFromPhotoRequest();
                             dialog.dismiss();
                         }
                         break;
                     //相册
                     case 1:
-                        if (PermissionUtil.hasReadExternalStoragePermission(LandlordAuthentication.this)) {
+                        if (PermissionUtil.hasReadExternalStoragePermission(LandlordAuthenticationActivity.this)) {
                             uploadAvatarFromAlbumRequest();
                             dialog.dismiss();
                         }
@@ -228,8 +250,6 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
     }
 
 
-
-
     private void uploadAvatarFromPhoto() {
         compressAndUploadAvatar(file.getPath());
     }
@@ -246,23 +266,18 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
         if (photoType == 1) {
             Glide.with(this).load(uri).into(idFront);
             frontFile = FileUtil.getFileByUri(uri, this);
-            StorageUtil.setKeyValue(LandlordAuthentication.this, "front_img", fileSrc);
+            StorageUtil.setKeyValue(LandlordAuthenticationActivity.this, "front_img", fileSrc);
         } else if (photoType == 2) {
             Glide.with(this).load(uri).into(idBack);
             backFile = FileUtil.getFileByUri(uri, this);
-            StorageUtil.setKeyValue(LandlordAuthentication.this, "back_img", fileSrc);
-        }else if (photoType==3)
-        {
+            StorageUtil.setKeyValue(LandlordAuthenticationActivity.this, "back_img", fileSrc);
+        } else if (photoType == 3) {
             Glide.with(this).load(uri).into(idFangchuan);
             fcFile = FileUtil.getFileByUri(uri, this);
-            StorageUtil.setKeyValue(LandlordAuthentication.this, "fc_img", fileSrc);
+            StorageUtil.setKeyValue(LandlordAuthenticationActivity.this, "fc_img", fileSrc);
         }
-
-
-        //上传文件
-
-//        DreamApi.uploadAvator(this, 0x002, token, file, uploadCallBack);
     }
+
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -310,7 +325,7 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
                             String n_address = jsonObject1.getString("h_address");
                             String h_zheng_pic = jsonObject1.getString("h_zheng_pic");
                             String h_fan_pic = jsonObject1.getString("h_fan_pic");
-                            String h_fc_pic=jsonObject1.getString("h_fc_pic");
+                            String h_fc_pic = jsonObject1.getString("h_fc_pic");
                             int is_house = jsonObject1.getInt("is_house");
                             if (is_house == 2) {
                                 username.setEnabled(false);
@@ -333,22 +348,36 @@ public class LandlordAuthentication extends BaseActivity implements View.OnClick
                             } else {
                                 ToastManager.show("审核失败");
                             }
-                            username.setText(n_name);
-                            userPhone.setText(n_mobile);
-                            userAddress.setText(n_address);
-                            idCard.setText(n_card);
-                            Glide.with(LandlordAuthentication.this)
-                                    .load(Constant.BASE2_URL + h_zheng_pic)
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .into(idFront);
-                            Glide.with(LandlordAuthentication.this)
-                                    .load(Constant.BASE2_URL + h_fan_pic)
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .into(idBack);
-                            Glide.with(LandlordAuthentication.this)
-                                    .load(Constant.BASE2_URL + h_fc_pic)
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .into(idFangchuan);
+                            if (username != null) {
+                                username.setText(n_name);
+                            }
+                            if (userPhone != null) {
+                                userPhone.setText(n_mobile);
+                            }
+                            if (userAddress != null) {
+                                userAddress.setText(n_address);
+                            }
+                            if (idCard != null) {
+                                idCard.setText(n_card);
+                            }
+                            if (h_zheng_pic != null) {
+                                Glide.with(LandlordAuthenticationActivity.this)
+                                        .load(Constant.BASE2_URL + h_zheng_pic)
+//                                    .placeholder(R.mipmap.ic_launcher)
+                                        .into(idFront);
+                            }
+                            if (h_fan_pic != null) {
+                                Glide.with(LandlordAuthenticationActivity.this)
+                                        .load(Constant.BASE2_URL + h_fan_pic)
+//                                    .placeholder(R.mipmap.ic_launcher)
+                                        .into(idBack);
+                            }
+                            if (h_fc_pic != null) {
+                                Glide.with(LandlordAuthenticationActivity.this)
+                                        .load(Constant.BASE2_URL + h_fc_pic)
+//                                    .placeholder(R.mipmap.ic_launcher)
+                                        .into(idFangchuan);
+                            }
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }

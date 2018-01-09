@@ -13,6 +13,7 @@
             android:id="@+id/room_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -55,6 +56,8 @@
             android:layout_below="@+id/room_price"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
+            android:drawableLeft="@mipmap/location_ad"
+            android:drawablePadding="5dp"
             android:layout_toEndOf="@+id/room_img"
             android:text="北京 海淀区 西三旗"
             android:textColor="@color/gray"

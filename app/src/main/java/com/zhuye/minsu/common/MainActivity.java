@@ -49,8 +49,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void setListener() {
         hometabRadio = (RadioGroup) findViewById(R.id.hometab_radio);
         hometabRadio.setOnCheckedChangeListener(this);
-//        rbOrder.setVisibility(View.GONE);
-        rbHome.setVisibility(View.GONE);
+        rbOrder.setVisibility(View.GONE);
+//        rbHome.setVisibility(View.GONE);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         setContentView(R.layout.activity_main);
 //        StatusBarUtils.setColor(this,R.color.colorPrimary);
         controller = FragmentController.getInstance(this, R.id.frame_layout);
-        controller.showFragment(3);
+        controller.showFragment(0);
     }
 
     @Override

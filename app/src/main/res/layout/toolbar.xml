@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:visibility="gone" />
 
@@ -62,7 +62,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
-            android:src="@mipmap/arrow_left_0"
+            android:src="@mipmap/arrow_left_1"
             android:paddingStart="5dp"
             android:paddingEnd="25dp"
             android:visibility="gone" />

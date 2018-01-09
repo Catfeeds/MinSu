@@ -7,8 +7,8 @@ package com.zhuye.minsu.api;
 public class Constant {
     //基本URL
 //    public static final String BASE_URL = "http://www.minsu.com/api/";
-    public static final String BASE_URL = "http://192.168.1.43/api/";
-    public static final String BASE2_URL = "http://192.168.1.43";
+    public static final String BASE_URL = "http://192.168.1.30/api/";
+    public static final String BASE2_URL = "http://192.168.1.30";
     //手机发送验证码
     public static final String SEND_SMSCODE_URL = BASE_URL + "user/MobileVerify";
     //动态码登录
@@ -29,14 +29,16 @@ public class Constant {
     public static final String USER_BIRTHDAY_URL = BASE_URL + "user/user_birthday";
     //个人资料-邮箱修改
     public static final String USER_EMAIL_URL = BASE_URL + "user/user_email";
+    //个人资料-头像修改
+    public static final String USER_AVATAR_URL = BASE_URL + "user/user_head_pic";
     //实名认证提交
     public static final String SHIMING_SUBMIT_URL = BASE_URL + "user/add_name_user";
     //实名认证页面数据
     public static final String SHIMING_PAGE_URL = BASE_URL + "user/name_user";
     //房东认证提交
-    public static final String LANDLORD_SUBMIT_URL = BASE_URL + "/api/user/add_house_user";
+    public static final String LANDLORD_SUBMIT_URL = BASE_URL + "user/add_house_user";
     //房东认证页面数据
-    public static final String LANDLORD_PAGE_URL = BASE_URL + "/api/user/house_user";
+    public static final String LANDLORD_PAGE_URL = BASE_URL + "user/house_user";
     //删除收货地址
     public static final String DELETE_ADDRESS_URL = BASE_URL + "user/del_address";
     //编辑收货地址页面
@@ -57,7 +59,28 @@ public class Constant {
     public static final String SYSTEM_MESSAGE_URL = BASE_URL + "Message/system_msg";
     //用户端-首页
     public static final String HOME_PAGE_URL = BASE_URL + "index/index";
-
+    //帮助
+    public static final String HELP_URL = BASE_URL + "user/bangzhu";
+    //关于
+    public static final String ABOUT_US_URL = BASE_URL + "user/guanyu";
+    //反馈
+    public static final String FEEDBACK_URL = BASE_URL + "user/user_fankui";
+    //取消收藏
+    public static final String COLLECT_CANCEL_URL = BASE_URL + "user/qx_collect";
+    //添加收藏
+    public static final String COLLECT_ADD_URL = BASE_URL + "user/add_collect";
+    //我的收藏
+    public static final String MY_COLLECT_URL = BASE_URL + "user/mycollect";
+    //优惠券列表
+    public static final String COUPON_LIST_URL = BASE_URL + "quan/quan_list";
+    //领取优惠券
+    public static final String GET_COUPON_URL = BASE_URL + "quan/get_quan";
+    //我的优惠券
+    public static final String MY_COUPON_LIST_URL = BASE_URL + "quan/my_quan";
+    //订单提示
+    public static final String ORDER_PROMPT_URL = BASE_URL + "Message/order_msg";
+    //房源详情
+    public static final String HOUSE_DETAIL_URL = BASE_URL + "House/house_detail";
 
     /*--------------------------------------------发现模块---------------------------------------------*/
     //文章详情
@@ -89,5 +112,18 @@ public class Constant {
     public static final String MY_HOUSE_LIST_URL = BASE_URL + "Fangdong/my_house";
     //添加房源页面
     public static final String ADD_HOUSE_URL = BASE_URL + "Fangdong/add_house";
+    //添加房源提交
+    public static final String ADD_HOUSE_SUBMIT_URL = BASE_URL + "Fangdong/add_house_cz";
+    //市-信息
+    public static final String CITY_URL = BASE_URL + "fangdong/city";
+    //地区-信息
+    public static final String AREA_URL = BASE_URL + "fangdong/district";
+    //乡镇-信息
+    public static final String TOWN_URL = BASE_URL + "fangdong/twon";
+
+
+    //---------------------------前端-------------------------------------------------
+    //积分
+    public static final String INTEGRAL_URL = "http://192.168.1.36:8020/%E6%B0%91%E5%AE%BF_reg/integral.html?__hbt=1515133178500";
 
 }
