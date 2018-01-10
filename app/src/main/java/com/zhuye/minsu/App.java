@@ -2,8 +2,11 @@ package com.zhuye.minsu;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
 import android.content.Context;
+import android.os.Vibrator;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -21,6 +24,9 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
+import com.zhuye.minsu.service.LocationService;
 import com.zhuye.minsu.utils.DynamicTimeFormat;
 
 import java.util.ArrayList;
@@ -40,12 +46,29 @@ public class App extends Application {
     private List<Activity> activities = new ArrayList<Activity>();
     //记录需要一次性关闭的页面
     private List<Activity> activitys = new ArrayList<Activity>();
+    public LocationService locationService;
+    public Vibrator mVibrator;
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
         initOkGo();
+        UMShareAPI.get(this);
+
+        /***
+         * 初始化定位sdk，建议在Application中创建
+         */
+        locationService = new LocationService(instance);
+        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        SDKInitializer.initialize(getApplicationContext());
+        locationStart();
     }
+
+    private void locationStart() {
+
+    }
+
     //static 代码段可以防止内存泄露
     static {
         //设置全局的Header构建器
@@ -65,6 +88,7 @@ public class App extends Application {
             }
         });
     }
+
     private void initOkGo() {
         //---------这里给出的是示例代码,告诉你可以这么传,实际使用的时候,根据需要传,不需要就不传-------------//
         HttpHeaders headers = new HttpHeaders();
@@ -118,10 +142,22 @@ public class App extends Application {
                 .addCommonParams(params);                       //全局公共参数
     }
 
+    //各个平台的配置
+    {
+        //微信
+        PlatformConfig.setWeixin("wx719fa095e03da584", "213cf56c16ca7b84aa2f70fd21633636");
+        //新浪微博(第三个参数为回调地址)
+        PlatformConfig.setSinaWeibo("4062334712", "367000f6a77325c3ebfe25afd1b7ece2", "http://sns.whalecloud.com/sina2/callback");
+        //QQ
+        PlatformConfig.setQQZone("1106431205", "9RV38cc6xTSHXJbp");
+//        PlatformConfig.setQQZone("1106464520", "LQu455zRP3RwbATK");
+    }
+
     /**
      * 应用实例
      **/
     private static App instance;
+
     /**
      * 获得实例
      *
@@ -130,6 +166,7 @@ public class App extends Application {
     public static App getInstance() {
         return instance;
     }
+
     /**
      * 新建了一个activity
      *

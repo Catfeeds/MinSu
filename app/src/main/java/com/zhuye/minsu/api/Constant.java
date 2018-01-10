@@ -81,6 +81,8 @@ public class Constant {
     public static final String ORDER_PROMPT_URL = BASE_URL + "Message/order_msg";
     //房源详情
     public static final String HOUSE_DETAIL_URL = BASE_URL + "House/house_detail";
+    //房源列表
+    public static final String ROMM_RESOURCE_LIST_URL = BASE_URL + "House/index";
 
     /*--------------------------------------------发现模块---------------------------------------------*/
     //文章详情

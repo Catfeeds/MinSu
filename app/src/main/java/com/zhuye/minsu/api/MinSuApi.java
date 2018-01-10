@@ -737,6 +737,7 @@ public class MinSuApi {
                     }
                 });
     }
+
     //点击签到
     public static void clickSign(Activity activity, final int what, String token, final CallBack myCallBack) {
         OkGo.<String>post(Constant.SIGN_URL)
@@ -755,6 +756,7 @@ public class MinSuApi {
                     }
                 });
     }
+
     //我的优惠券列表
     public static void myCouponList(Activity activity, final int what, String token, final CallBack myCallBack) {
         OkGo.<String>post(Constant.MY_COUPON_LIST_URL)
@@ -812,6 +814,7 @@ public class MinSuApi {
                     }
                 });
     }
+
     //订单提示
     public static void orderPrompt(Activity activity, final int what, String token, final CallBack myCallBack) {
         OkGo.<String>post(Constant.ORDER_PROMPT_URL)
@@ -830,8 +833,9 @@ public class MinSuApi {
                     }
                 });
     }
+
     //房源详情
-    public static void houseDetail(Activity activity, final int what, String token, String house_id,final CallBack myCallBack) {
+    public static void houseDetail(Activity activity, final int what, String token, String house_id, final CallBack myCallBack) {
         OkGo.<String>post(Constant.HOUSE_DETAIL_URL)
                 .tag(App.getInstance())
                 .params("token", token)
@@ -849,4 +853,49 @@ public class MinSuApi {
                     }
                 });
     }
+
+    //房源列表
+    public static void roomList(Activity activity, final int what, String token, String city,
+                                String qy_id, String price_desc, String price_asc, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.ROMM_RESOURCE_LIST_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("city", city)
+                .params("qy_id", qy_id)
+                .params("price_desc", price_desc)
+                .params("price_asc", price_asc)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+    //第三方登录
+    public static void thirdLogin(Activity activity, final int what, String openid, String nickname, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.THIRD_LOGIN_URL)
+                .tag(App.getInstance())
+                .params("openid", openid)
+                .params("nickname", nickname)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
 }

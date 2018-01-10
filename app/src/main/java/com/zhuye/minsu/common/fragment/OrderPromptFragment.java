@@ -49,7 +49,7 @@ public class OrderPromptFragment extends BaseFragment {
     protected void initListener() {
 
         tokenId = StorageUtil.getTokenId(getActivity());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     @Override
@@ -69,6 +69,8 @@ public class OrderPromptFragment extends BaseFragment {
                         if (code == 200) {
                             OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
                             OrderPromptAdapter orderPromptAdapter = new OrderPromptAdapter(R.layout.item_order_prompt, orderBean.data);
+                            recyclerView = view.findViewById(R.id.recyclerView);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(orderPromptAdapter);
                             if (orderBean.data.size() == 0) {
                                 orderPromptAdapter.setEmptyView(R.layout.empty, recyclerView);

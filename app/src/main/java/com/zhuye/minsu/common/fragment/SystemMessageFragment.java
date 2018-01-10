@@ -44,7 +44,7 @@ public class SystemMessageFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
     }
 
@@ -64,9 +64,11 @@ public class SystemMessageFragment extends BaseFragment {
                         if (code == 200) {
                             SystemMessageBean systemMessageBean = new Gson().fromJson(result.body(), SystemMessageBean.class);
                             SystemMessageAdapter systemMessageAdapter = new SystemMessageAdapter(R.layout.item_xitong_message, systemMessageBean.data);
+                            recyclerView = view.findViewById(R.id.recyclerView);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(systemMessageAdapter);
-                            if (systemMessageBean.data.size()==0){
-                                systemMessageAdapter.setEmptyView(R.layout.empty,recyclerView);
+                            if (systemMessageBean.data.size() == 0) {
+                                systemMessageAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
                         }
                     } catch (JSONException e) {

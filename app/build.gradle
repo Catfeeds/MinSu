@@ -3,7 +3,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.3'
     defaultConfig {
-        applicationId "com.zhuye.minsu"
+        applicationId "com.minsu.minsu"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -56,4 +56,8 @@ dependencies {
     compile 'com.hyman:flowlayout-lib:1.1.2'
     compile 'me.iwf.photopicker:PhotoPicker:0.9.12@aar'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
+//    implementation files('libs/open_sdk_r5886_lite.jar')
+//    implementation files('libs/umeng_social_api.jar')
+//    implementation files('libs/umeng_social_shareboard.jar')
+//    implementation files('libs/umeng_social_shareview.jar')
 }
