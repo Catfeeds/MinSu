@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,10 +16,13 @@ import com.bumptech.glide.Glide;
 import com.lzy.okgo.model.Response;
 import com.zhuye.minsu.R;
 import com.zhuye.minsu.api.Constant;
+import com.zhuye.minsu.api.DataProvider;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
 import com.zhuye.minsu.common.adapter.BGABannerAdapter;
+import com.zhuye.minsu.houseResource.adapter.FacilitiesAdapter;
+import com.zhuye.minsu.houseResource.adapter.FacilitiesBean;
 import com.zhuye.minsu.utils.StorageUtil;
 import com.zhuye.minsu.utils.ToastManager;
 import com.zhuye.minsu.widget.RoundedCornerImageView;
@@ -72,6 +78,8 @@ public class RoomDetailActivity extends BaseActivity {
     TextView leaveTime;
     @BindView(R.id.ll_tag)
     RelativeLayout llTag;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     private String tokenId;
     private String house_id;
     private String h_mobile;
@@ -100,6 +108,8 @@ public class RoomDetailActivity extends BaseActivity {
                 call(h_mobile);
             }
         });
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+
     }
 
     private void call(String phone) {
@@ -139,6 +149,14 @@ public class RoomDetailActivity extends BaseActivity {
                             String town = jsonObject1.getString("town");
                             String h_name = jsonObject1.getString("h_name");
                             String status = jsonObject1.getString("status");
+                            ArrayList<FacilitiesBean> sheshiList = new ArrayList<>();
+                            String[] split = status.split(",");
+                            for (String aSplit : split) {
+                                sheshiList.add(DataProvider.getFacilitiesList().get(Integer.parseInt(aSplit) - 1));
+                            }
+                            Log.i(TAG, "onSuccess: " + sheshiList);
+                            FacilitiesAdapter facilitiesAdapter = new FacilitiesAdapter(R.layout.item_facilities, sheshiList);
+                            recyclerView.setAdapter(facilitiesAdapter);
                             JSONArray house_img = jsonObject1.getJSONArray("house_img");
                             List<String> bannerImage = new ArrayList<>();
                             for (int i = 0; i < house_img.length(); i++) {

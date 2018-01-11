@@ -5,36 +5,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.zhuye.minsu.sign.CalendarSignActivity">
-<include layout="@layout/toolbar"/>
-    <LinearLayout
+
+    <include layout="@layout/toolbar" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/sign_bac"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/sign_bac" />
 
         <TextView
             android:id="@+id/tv_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
             android:text="签到"
-            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
             android:textColor="@color/orange"
-            android:layout_marginTop="65dp"/>
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/tv_integral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:textColor="@color/white"
-            android:text="积分:2000"/>
-    </LinearLayout>
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_marginTop="140dp"
+            android:layout_centerHorizontal="true"
+            android:text="积分:"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/calendarView"
-        android:layout_marginTop="-120dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mcv_showOtherDates="all"
-        app:mcv_selectionColor="@color/orange" />
+        android:layout_marginTop="-120dp"
+        app:mcv_selectionColor="@color/orange"
+        app:mcv_showOtherDates="all" />
 </LinearLayout>

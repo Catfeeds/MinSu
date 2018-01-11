@@ -111,7 +111,7 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
             uri = Uri.fromFile(file);
         } else {
             //通过FileProvider创建一个content类型的Uri(android 7.0需要这样的方法跨应用访问)
-            uri = FileProvider.getUriForFile(App.getInstance(), "com.zhuye.minsu", file);
+            uri = FileProvider.getUriForFile(App.getInstance(), "com.minsu.minsu.FileProvider", file);
         }
     }
 
@@ -346,38 +346,38 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
                                 submit.setClickable(false);
                                 ToastManager.show("认证已通过，请勿重复提交");
                             } else {
-                                ToastManager.show("审核失败");
-                            }
-                            if (username != null) {
-                                username.setText(n_name);
-                            }
-                            if (userPhone != null) {
-                                userPhone.setText(n_mobile);
-                            }
-                            if (userAddress != null) {
-                                userAddress.setText(n_address);
-                            }
-                            if (idCard != null) {
-                                idCard.setText(n_card);
-                            }
-                            if (h_zheng_pic != null) {
-                                Glide.with(LandlordAuthenticationActivity.this)
-                                        .load(Constant.BASE2_URL + h_zheng_pic)
+                                if (!n_name.equals("null")) {
+                                    username.setText(n_name);
+                                }
+                                if (!n_mobile.equals("null")) {
+                                    userPhone.setText(n_mobile);
+                                }
+                                if (!n_address.equals("null")) {
+                                    userAddress.setText(n_address);
+                                }
+                                if (!n_card.equals("null")) {
+                                    idCard.setText(n_card);
+                                }
+                                if (!h_zheng_pic.equals("null")) {
+                                    Glide.with(LandlordAuthenticationActivity.this)
+                                            .load(Constant.BASE2_URL + h_zheng_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
-                                        .into(idFront);
-                            }
-                            if (h_fan_pic != null) {
-                                Glide.with(LandlordAuthenticationActivity.this)
-                                        .load(Constant.BASE2_URL + h_fan_pic)
+                                            .into(idFront);
+                                }
+                                if (!h_fan_pic.equals("null")) {
+                                    Glide.with(LandlordAuthenticationActivity.this)
+                                            .load(Constant.BASE2_URL + h_fan_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
-                                        .into(idBack);
-                            }
-                            if (h_fc_pic != null) {
-                                Glide.with(LandlordAuthenticationActivity.this)
-                                        .load(Constant.BASE2_URL + h_fc_pic)
+                                            .into(idBack);
+                                }
+                                if (!h_fc_pic.equals("null")) {
+                                    Glide.with(LandlordAuthenticationActivity.this)
+                                            .load(Constant.BASE2_URL + h_fc_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
-                                        .into(idFangchuan);
+                                            .into(idFangchuan);
+                                }
                             }
+
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }

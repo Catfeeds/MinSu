@@ -212,4 +212,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        MinSuApi.homeShow(getActivity(), 0x001, tokenId, location_city, callBack);
+    }
 }

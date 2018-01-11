@@ -1,6 +1,8 @@
 package com.zhuye.minsu.sign;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +22,7 @@ import com.zhuye.minsu.R;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
+import com.zhuye.minsu.utils.DateUtil;
 import com.zhuye.minsu.utils.StorageUtil;
 import com.zhuye.minsu.utils.ToastManager;
 
@@ -28,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +60,7 @@ public class CalendarSignActivity extends BaseActivity {
     private String tokenId;
     private static final String TAG = "CalendarSignActivity";
     private String sign_time;
-    private ArrayList<String> signData;
+    private ArrayList<Date> signData;
 
     protected void processLogic() {
         MinSuApi.signPage(this, 0x001, tokenId, callBack);
@@ -80,11 +84,6 @@ public class CalendarSignActivity extends BaseActivity {
                 Log.i(TAG, "onDateSelected: " + date);
             }
         });
-        calendarView.addDecorator(new PrimeDayDisableDecorator());
-        calendarView.addDecorator(new EnableOneToTenDecorator());
-        Calendar calendar = Calendar.getInstance();
-//        calendarView.setSelectedDate(calendar.getTime());
-
         tvSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,68 +91,22 @@ public class CalendarSignActivity extends BaseActivity {
             }
         });
     }
+    public class MySelectorDecorator implements DayViewDecorator {
 
-    private static class PrimeDayDisableDecorator implements DayViewDecorator {
+        private final Drawable drawable;
+
+        public MySelectorDecorator(Activity context) {
+            drawable = context.getResources().getDrawable(R.mipmap.sign_2);
+        }
 
         @Override
         public boolean shouldDecorate(CalendarDay day) {
-            return PRIME_TABLE[day.getDay()];
+            return signData.contains(day.getDate());
         }
 
         @Override
         public void decorate(DayViewFacade view) {
-            view.setDaysDisabled(true);
-        }
-
-        private static boolean[] PRIME_TABLE = {
-                true,  // 0?
-                true,
-                true, // 2
-                true, // 3
-                true,
-                true, // 5
-                true,
-                true, // 7
-                true,
-                true,
-                true,
-                true, // 11
-                true,
-                true, // 13
-                true,
-                true,
-                true,
-                true, // 17
-                true,
-                true, // 19
-                true,
-                true,
-                true,
-                true, // 23
-                true,
-                true,
-                true,
-                true,
-                true,
-                true, // 29
-                true,
-                true, // 31
-                true,
-                true,
-                true, //PADDING
-        };
-    }
-
-    private static class EnableOneToTenDecorator implements DayViewDecorator {
-
-        @Override
-        public boolean shouldDecorate(CalendarDay day) {
-            return day.getDay() <= 10;
-        }
-
-        @Override
-        public void decorate(DayViewFacade view) {
-            view.setDaysDisabled(false);
+            view.setSelectionDrawable(drawable);
         }
     }
 
@@ -183,10 +136,15 @@ public class CalendarSignActivity extends BaseActivity {
 
                             signData = new ArrayList<>();
                             for (int i = 0; i < signBean.data1.size(); i++) {
-                                signData.add(signBean.data1.get(i).sign_time);
+                                String sign_time = signBean.data1.get(i).sign_time;
+                                Date date = DateUtil.getDate(sign_time);
+                                signData.add(date);
                             }
-                            Log.i(TAG, "onSuccess: "+signData);
-
+                            Log.i(TAG, "onSuccess: " + signData);
+                            for (int i=0;i<signData.size();i++){
+                                calendarView.setSelectedDate(signData.get(i));
+                            }
+                            calendarView.addDecorator(new MySelectorDecorator(CalendarSignActivity.this));
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }

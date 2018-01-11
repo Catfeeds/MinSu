@@ -15,7 +15,8 @@
         <RelativeLayout
             android:id="@+id/rl_avatar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -27,9 +28,10 @@
 
             <com.zhuye.minsu.widget.RoundedCornerImageView
                 android:id="@+id/img_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/tag_arrow"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_toStartOf="@+id/tag_arrow"
+                android:layout_marginEnd="10dp"
                 android:src="@mipmap/avatar_default" />
 
             <ImageView
@@ -64,6 +66,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tag01"
                 android:text="用户昵称"
+                android:layout_marginEnd="10dp"
                 android:textSize="16sp" />
 
             <ImageView
@@ -105,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tag02"
+                android:layout_marginEnd="10dp"
                 android:textSize="16sp" />
 
             <ImageView
@@ -146,6 +150,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tag03"
                 android:text="1991-05-28"
+                android:layout_marginEnd="10dp"
                 android:textSize="16sp" />
 
             <ImageView
@@ -187,6 +192,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tag04"
                 android:text="1297608492@qq.com"
+                android:layout_marginEnd="10dp"
                 android:textSize="16sp" />
 
             <ImageView
@@ -226,8 +232,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tag05"
-                android:text="已认证"
+                android:layout_toStartOf="@+id/tag05"
+                android:layout_marginEnd="10dp"
                 android:textSize="16sp" />
 
             <ImageView
@@ -268,7 +274,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tag06"
-                android:text="已认证"
+                android:layout_marginEnd="10dp"
                 android:textSize="16sp" />
 
             <ImageView

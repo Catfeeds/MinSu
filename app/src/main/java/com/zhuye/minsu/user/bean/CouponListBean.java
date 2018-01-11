@@ -11,10 +11,13 @@ public class CouponListBean {
     public int code;
     public List<Data> data;
     public class Data{
+        public int quan_id;
         public String info;
-        public String price;
+        public int price;
+        public int sum;
+        public int get_num;
         public String start_time;
-        public int end_time;
+        public String end_time;
         public int is_type;
     }
 }

@@ -83,6 +83,10 @@ public class Constant {
     public static final String HOUSE_DETAIL_URL = BASE_URL + "House/house_detail";
     //房源列表
     public static final String ROMM_RESOURCE_LIST_URL = BASE_URL + "House/index";
+    //修改密码
+    public static final String CHANGE_PASSWORD_URL = BASE_URL + "user/edit_pwd";
+    //忘记密码
+    public static final String FORGET_PASSWORD_URL = BASE_URL + "user/wj_pwd";
 
     /*--------------------------------------------发现模块---------------------------------------------*/
     //文章详情

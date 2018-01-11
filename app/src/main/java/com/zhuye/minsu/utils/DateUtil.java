@@ -1,5 +1,6 @@
 package com.zhuye.minsu.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,10 +17,23 @@ public class DateUtil {
         return d;
     }
 
-    public static String nowTime(){
+    public static String nowTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());
         String str = formatter.format(curDate);
         return str;
+    }
+
+    public static Date getDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date adf = null;
+        try {
+            adf = sdf.parse(time);
+            return adf;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }

@@ -69,10 +69,10 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_user_data:
-
+                startActivity(new Intent(AccountActivity.this, UserInfoActivity.class));
                 break;
             case R.id.rl_address:
-                startActivity(new Intent(this,AddressActivity.class));
+                startActivity(new Intent(this, AddressActivity.class));
                 break;
             case R.id.rl_visitor:
 

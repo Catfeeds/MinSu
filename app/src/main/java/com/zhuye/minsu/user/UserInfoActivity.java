@@ -164,7 +164,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             uri = Uri.fromFile(file);
         } else {
             //通过FileProvider创建一个content类型的Uri(android 7.0需要这样的方法跨应用访问)
-            uri = FileProvider.getUriForFile(App.getInstance(), "com.zhuye.minsu", file);
+            uri = FileProvider.getUriForFile(App.getInstance(), "com.minsu.minsu.FileProvider", file);
         }
     }
 

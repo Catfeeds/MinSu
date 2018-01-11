@@ -106,6 +106,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.rl_function_feedback:
                 startActivity(new Intent(this, FeedbackActivity.class));
                 break;
+            case R.id.rl_change_password:
+                startActivity(new Intent(this, ChangePasswordActivity.class));
+                break;
         }
     }
 }

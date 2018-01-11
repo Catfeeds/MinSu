@@ -208,50 +208,53 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:drawablePadding="5dp"-->
+                    <!--android:drawableTop="@mipmap/room"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:text="单间"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="14sp" />-->
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@mipmap/room"
-                    android:gravity="center_horizontal"
-                    android:text="单间"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:drawablePadding="5dp"-->
+                    <!--android:drawableTop="@mipmap/bed"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:text="双人床"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="14sp" />-->
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@mipmap/bed"
-                    android:gravity="center_horizontal"
-                    android:text="双人床"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:drawablePadding="5dp"-->
+                    <!--android:drawableTop="@mipmap/people_number"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:text="2人"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="14sp" />-->
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@mipmap/people_number"
-                    android:gravity="center_horizontal"
-                    android:text="2人"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@mipmap/hot_water"
-                    android:gravity="center_horizontal"
-                    android:text="热水"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:drawablePadding="5dp"-->
+                    <!--android:drawableTop="@mipmap/hot_water"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:text="热水"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="14sp" />-->
             </LinearLayout>
 
             <LinearLayout

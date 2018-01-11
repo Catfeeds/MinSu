@@ -777,12 +777,12 @@ public class MinSuApi {
     }
 
     //领取优惠券
-    public static void getCoupon(Activity activity, final int what, String token, int quan_id, final CallBack myCallBack) {
+    public static void getCoupon(final int what, String token, int quan_id, final CallBack myCallBack) {
         OkGo.<String>post(Constant.GET_COUPON_URL)
                 .tag(App.getInstance())
                 .params("token", token)
                 .params("quan_id", quan_id)
-                .execute(new StringDialogCallback(activity, "领取中...") {
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -898,4 +898,44 @@ public class MinSuApi {
                 });
     }
 
+    //修改密码
+    public static void changePassword(Activity activity, final int what, String token, String pwd_old, String pwd_new, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.CHANGE_PASSWORD_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("pwd_old", pwd_old)
+                .params("pwd_new", pwd_new)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //修改密码
+    public static void forgetPassword(Activity activity, final int what, String mobile, String verify, String password, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.FORGET_PASSWORD_URL)
+                .tag(App.getInstance())
+                .params("mobile", mobile)
+                .params("verify", verify)
+                .params("password", password)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +25,7 @@ import com.zhuye.minsu.user.CollectActivity;
 import com.zhuye.minsu.user.CouponActivity;
 import com.zhuye.minsu.user.HelpActivity;
 import com.zhuye.minsu.user.IntegralActivity;
+import com.zhuye.minsu.user.LandlordAuthenticationActivity;
 import com.zhuye.minsu.user.OrderActivity;
 import com.zhuye.minsu.user.UserInfoActivity;
 import com.zhuye.minsu.user.setting.SettingActivity;
@@ -66,7 +68,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
     @BindView(R.id.ll_collect)
     LinearLayout llCollect;
     @BindView(R.id.landlord)
-    TextView landlord;
+    Button landlord;
     Unbinder unbinder;
     @BindView(R.id.img_setting)
     ImageView imgSetting;
@@ -98,6 +100,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
         llHelp.setOnClickListener(this);
         userAvatar.setOnClickListener(this);
         llHouseResource.setOnClickListener(this);
+        landlord.setOnClickListener(this);
     }
 
     @Override
@@ -135,6 +138,16 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                             int is_name = userData.getInt("is_name");
                             int is_house = userData.getInt("is_house");
                             int user_id = userData.getInt("user_id");
+                            if (is_house == 1) {
+                                //已经认证通过成为房东
+                                StorageUtil.setKeyValue(getActivity(), "role", "landlord");
+                                llOrder.setVisibility(View.GONE);
+                                llHouseResource.setVisibility(View.VISIBLE);
+                            }else{
+                                StorageUtil.setKeyValue(getActivity(), "role", "user");
+                                llOrder.setVisibility(View.VISIBLE);
+                                llHouseResource.setVisibility(View.GONE);
+                            }
                             username.setText(nickname);
                             if (is_name == 1) {
                                 renzheng.setText("已实名认证");
@@ -191,8 +204,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
             case R.id.user_avatar:
                 startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 break;
-                case R.id.ll_house_resource:
+            case R.id.ll_house_resource:
                 startActivity(new Intent(getActivity(), HouseResourceActivity.class));
+                break;
+            case R.id.landlord:
+                startActivity(new Intent(getActivity(), LandlordAuthenticationActivity.class));
                 break;
         }
     }

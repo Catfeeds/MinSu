@@ -79,6 +79,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         qq.setOnClickListener(this);
         weibo.setOnClickListener(this);
         weixin.setOnClickListener(this);
+        forgetPassword.setOnClickListener(this);
     }
 
     @Override
@@ -146,6 +147,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.weixin:
                 authorization(SHARE_MEDIA.WEIXIN);
+                break;
+                case R.id.login_forget_password:
+                startActivity(new Intent(LoginActivity.this,FindPasswordActivity.class));
                 break;
         }
     }
@@ -281,7 +285,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     try {
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
                         if (code == 200) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            JSONObject loginData = new JSONObject(data.toString());
+                            parseData(loginData);
+                        } else if (code == 210) {
+                            ToastManager.show(msg + "初始密码为666666");
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject loginData = new JSONObject(data.toString());
                             parseData(loginData);

@@ -1,6 +1,7 @@
 package com.zhuye.minsu;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import io.rong.imkit.RongIM;
 import okhttp3.OkHttpClient;
 
 /**
@@ -55,19 +57,15 @@ public class App extends Application {
         instance = this;
         initOkGo();
         UMShareAPI.get(this);
-
+        RongIM.init(this);
         /***
          * 初始化定位sdk，建议在Application中创建
          */
         locationService = new LocationService(instance);
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
-        locationStart();
     }
 
-    private void locationStart() {
-
-    }
 
     //static 代码段可以防止内存泄露
     static {
@@ -227,5 +225,14 @@ public class App extends Application {
         }
         System.exit(0);
     }
-
+    public static String getCurProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
 }
