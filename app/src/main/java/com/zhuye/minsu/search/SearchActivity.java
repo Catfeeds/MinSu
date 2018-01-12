@@ -24,6 +24,7 @@ import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
 import com.zhuye.minsu.search.adapter.AreaAdapter;
 import com.zhuye.minsu.search.adapter.PriceAdapter;
+import com.zhuye.minsu.search.adapter.RoomTypeAdapter;
 import com.zhuye.minsu.search.adapter.SearchAdapter;
 import com.zhuye.minsu.utils.StorageUtil;
 import com.zhuye.minsu.utils.ToastManager;
@@ -75,11 +76,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private String location_city;
     private SearchBean searchBean;
     private int quyuId;
+    private int houseTypeId;
 
 
     @Override
     protected void processLogic() {
-        MinSuApi.roomList(this, 0x001, tokenId, location_city, "", "", "", callBack);
+        MinSuApi.roomList(this, 0x001, tokenId, location_city, "", "", "", "", "", callBack);
     }
 
     @Override
@@ -98,6 +100,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         llArea.setOnClickListener(this);
         llPaixu.setOnClickListener(this);
         llAll.setOnClickListener(this);
+        llShaixuan.setOnClickListener(this);
     }
 
     @Override
@@ -163,12 +166,79 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_paixu:
                 showPopView02();
                 break;
+            case R.id.ll_shaixuan:
+                showPopView03();
+                break;
             case R.id.ll_all:
                 tvArea.setText("区域");
                 tvPaixu.setText("排序");
-                MinSuApi.roomList(this, 0x001, tokenId, location_city, "", "", "", callBack);
+                tvShaixuan.setText("筛选");
+                MinSuApi.roomList(this, 0x001, tokenId, location_city, "", "", "", "", "", callBack);
                 break;
         }
+    }
+
+    private void showPopView03() {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_area, null);
+        //处理popWindow 显示内容
+        final PopupWindow popWindow = new PopupWindow(contentView,
+                RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT,
+                true);
+        RecyclerView recyclerView = contentView.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final RoomTypeAdapter roomTypeAdapter = new RoomTypeAdapter(R.layout.room_type, searchBean.data3);
+        roomTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                tvShaixuan.setText(roomTypeAdapter.getItem(position).name);
+                houseTypeId = roomTypeAdapter.getItem(position).id;
+                String shaixuan = tvShaixuan.getText().toString();
+                if (shaixuan.equals("筛选")) {
+                    if (tvArea.getText().toString().equals("区域")) {
+                        if (tvPaixu.getText().toString().equals("价格从高到低")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "1", "", "", "", callBack);
+                        } else if (tvPaixu.getText().toString().equals("价格从低到高")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "1", "", "", callBack);
+                        }
+
+                    } else {
+                        if (tvPaixu.getText().toString().equals("价格从高到低")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", "", "", callBack);
+                        } else if (tvPaixu.getText().toString().equals("价格从低到高")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", "", "", callBack);
+                        }
+                    }
+                } else {
+                    if (tvArea.getText().toString().equals("区域")) {
+                        if (tvPaixu.getText().toString().equals("价格从高到低")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "1", "", String.valueOf(houseTypeId), "", callBack);
+                        } else if (tvPaixu.getText().toString().equals("价格从低到高")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "1", String.valueOf(houseTypeId), "", callBack);
+                        } else if (tvPaixu.getText().toString().equals("排序")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "", String.valueOf(houseTypeId), "", callBack);
+                        }
+
+                    } else {
+                        if (tvPaixu.getText().toString().equals("价格从高到低")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", String.valueOf(houseTypeId), "", callBack);
+                        } else if (tvPaixu.getText().toString().equals("价格从低到高")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", String.valueOf(houseTypeId), "", callBack);
+                        } else if (tvPaixu.getText().toString().equals("排序")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "", String.valueOf(houseTypeId), "", callBack);
+                        }
+                    }
+                }
+                popWindow.dismiss();
+            }
+        });
+        recyclerView.setAdapter(roomTypeAdapter);
+        //创建并显示popWindow
+        popWindow.setTouchable(true);
+        // 设置允许在外点击消失
+        popWindow.setOutsideTouchable(true);
+        // 设置背景，这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+        popWindow.setBackgroundDrawable(new BitmapDrawable());
+        popWindow.showAsDropDown(llShaixuan);
     }
 
     private void showPopView02() {
@@ -189,16 +259,32 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 String priceContent = areaAdapter.getItem(position);
                 tvPaixu.setText(priceContent);
                 if (priceContent.equals("价格从高到低")) {
-                    if (quyuId == 0) {
-                        MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "1", "", callBack);
+                    if (tvArea.getText().toString().equals("区域")) {
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "1", "", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "1", "", String.valueOf(houseTypeId), "", callBack);
+                        }
                     } else {
-                        MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", callBack);
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", String.valueOf(houseTypeId), "", callBack);
+                        }
                     }
                 } else if (priceContent.equals("价格从低到高")) {
                     if (quyuId == 0) {
-                        MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "1", callBack);
+                        if (houseTypeId == 0) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "1", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "1", String.valueOf(houseTypeId), "", callBack);
+                        }
                     } else {
-                        MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", callBack);
+                        if (houseTypeId == 0) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", String.valueOf(houseTypeId), "", callBack);
+                        }
                     }
                 }
 
@@ -231,11 +317,47 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 quyuId = areaAdapter.getItem(position).id;
                 String paixu = tvPaixu.getText().toString();
                 if (paixu.equals("排序")) {
-                    MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "", callBack);
+                    if (tvArea.getText().toString().equals("区域")) {
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "", String.valueOf(houseTypeId), "", callBack);
+                        }
+                    } else {
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "", String.valueOf(houseTypeId), "", callBack);
+                        }
+                    }
                 } else if (paixu.equals("价格从低到高")) {
-                    MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", callBack);
+                    if (tvArea.getText().toString().equals("区域")) {
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "1", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "", "1", String.valueOf(houseTypeId), "", callBack);
+                        }
+                    } else {
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "", "1", String.valueOf(houseTypeId), "", callBack);
+                        }
+                    }
                 } else if (paixu.equals("价格从高到低")) {
-                    MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", callBack);
+                    if (tvArea.getText().toString().equals("区域")) {
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "1", "", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, "", "1", "", String.valueOf(houseTypeId), "", callBack);
+                        }
+                    } else {
+                        if (tvShaixuan.getText().toString().equals("筛选")) {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", "", "", callBack);
+                        } else {
+                            MinSuApi.roomList(SearchActivity.this, 0x001, tokenId, location_city, String.valueOf(quyuId), "1", "", String.valueOf(houseTypeId), "", callBack);
+                        }
+                    }
                 }
                 popWindow.dismiss();
             }

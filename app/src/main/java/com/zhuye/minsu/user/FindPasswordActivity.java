@@ -18,6 +18,7 @@ import com.zhuye.minsu.R;
 import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
+import com.zhuye.minsu.utils.CheckUtil;
 import com.zhuye.minsu.utils.RegexUtils;
 import com.zhuye.minsu.utils.ToastManager;
 
@@ -109,6 +110,23 @@ public class FindPasswordActivity extends BaseActivity implements View.OnClickLi
                 etMobile = mobile.getText().toString();
                 String mSmsCode = smsCode.getText().toString();
                 String mNewPassword = newPassword.getText().toString();
+                boolean password = CheckUtil.isPassword(mNewPassword);
+                if (!password){
+                    ToastManager.show("密码输入格式有误");
+                    return;
+                }
+                if (etMobile.equals("")){
+                    ToastManager.show("手机号不能为空");
+                    return;
+                }
+                if (mSmsCode.equals("")){
+                    ToastManager.show("验证码不能为空");
+                    return;
+                }
+                if (mNewPassword.equals("")){
+                    ToastManager.show("密码不能为空");
+                    return;
+                }
                 MinSuApi.forgetPassword(FindPasswordActivity.this, 0x001, etMobile, mSmsCode, mNewPassword, callBack);
                 break;
             case R.id.button_yanzhengma:

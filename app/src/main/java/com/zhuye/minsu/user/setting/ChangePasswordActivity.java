@@ -16,6 +16,7 @@ import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
 import com.zhuye.minsu.common.MainActivity;
+import com.zhuye.minsu.utils.CheckUtil;
 import com.zhuye.minsu.utils.StorageUtil;
 import com.zhuye.minsu.utils.ToastManager;
 
@@ -69,6 +70,24 @@ public class ChangePasswordActivity extends BaseActivity {
             public void onClick(View view) {
                 String mOldPassword = originalPassword.getText().toString();
                 String mNewPassword = newPassword.getText().toString();
+                if (mOldPassword.equals("")) {
+                    ToastManager.show("旧密码不能为空");
+                    return;
+                }
+                if (mNewPassword.equals("")) {
+                    ToastManager.show("新密码不能为空");
+                    return;
+                }
+                boolean password = CheckUtil.isPassword(mOldPassword);
+                boolean password1 = CheckUtil.isPassword(mNewPassword);
+                if (!password){
+                    ToastManager.show("旧密码输入格式不对");
+                    return;
+                }
+                if (!password1){
+                    ToastManager.show("新密码输入格式不对");
+                    return;
+                }
                 MinSuApi.changePassword(ChangePasswordActivity.this, 0x001, tokenId, mOldPassword, mNewPassword, callBack);
             }
         });

@@ -24,6 +24,7 @@ import com.zhuye.minsu.api.MinSuApi;
 import com.zhuye.minsu.api.callback.CallBack;
 import com.zhuye.minsu.base.BaseActivity;
 import com.zhuye.minsu.common.MainActivity;
+import com.zhuye.minsu.utils.CheckUtil;
 import com.zhuye.minsu.utils.RegexUtils;
 import com.zhuye.minsu.utils.StorageUtil;
 import com.zhuye.minsu.utils.ToastManager;
@@ -129,11 +130,32 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 edMobile = ed_mobile.getText().toString();
                 edPassword = ed_password.getText().toString();
+                boolean mobile = CheckUtil.isMobile(edMobile);
+                boolean password = CheckUtil.isPassword(edPassword);
+                if (!mobile) {
+                    ToastManager.show("手机号输入不对");
+                    return;
+                }
+                if (edMobile.equals("")) {
+                    ToastManager.show("手机号不能为空");
+                    return;
+                }
                 if (status == 1) {
-                    ToastManager.show(status + "");
+                    if (edPassword.equals("")) {
+                        ToastManager.show("验证码不能为空");
+                        return;
+                    }
                     MinSuApi.codeLogin(this, 0x001, edMobile, "666666", edPassword, callBack);
                 } else if (status == 2) {
-                    ToastManager.show(status + "");
+                    if (edPassword.equals("")) {
+                        ToastManager.show("密码不能为空");
+                        return;
+                    }
+                    if (!password) {
+                        ToastManager.show("密码输入格式有误");
+                        return;
+                    }
+
                     MinSuApi.Login(this, 0x003, edMobile, edPassword, callBack);
                 }
 
@@ -148,8 +170,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.weixin:
                 authorization(SHARE_MEDIA.WEIXIN);
                 break;
-                case R.id.login_forget_password:
-                startActivity(new Intent(LoginActivity.this,FindPasswordActivity.class));
+            case R.id.login_forget_password:
+                startActivity(new Intent(LoginActivity.this, FindPasswordActivity.class));
                 break;
         }
     }

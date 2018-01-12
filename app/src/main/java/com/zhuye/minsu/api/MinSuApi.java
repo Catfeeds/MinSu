@@ -856,7 +856,8 @@ public class MinSuApi {
 
     //房源列表
     public static void roomList(Activity activity, final int what, String token, String city,
-                                String qy_id, String price_desc, String price_asc, final CallBack myCallBack) {
+                                String qy_id, String price_desc, String price_asc,String house_type_id,
+                                String title,final CallBack myCallBack) {
         OkGo.<String>post(Constant.ROMM_RESOURCE_LIST_URL)
                 .tag(App.getInstance())
                 .params("token", token)
@@ -864,6 +865,8 @@ public class MinSuApi {
                 .params("qy_id", qy_id)
                 .params("price_desc", price_desc)
                 .params("price_asc", price_asc)
+                .params("house_type_id", house_type_id)
+                .params("title", title)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {

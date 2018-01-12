@@ -11,6 +11,7 @@ public class SearchBean {
     public int code;
     public List<Data1> data1;
     public List<Data2> data2;
+    public List<Data3> data3;
 
     public class Data1 {
         public int house_id;
@@ -29,6 +30,11 @@ public class SearchBean {
         public int id;
         public String name;
         public int parent_id;
+
+    }
+    public class Data3 {
+        public int id;
+        public String name;
 
     }
 }
