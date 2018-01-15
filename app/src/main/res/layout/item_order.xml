@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         >
 
-        <com.zhuye.minsu.widget.RoundedCornerImageView
+        <com.minsu.minsu.widget.RoundedCornerImageView
             android:id="@+id/order_userImg"
             android:layout_width="30dp"
             android:layout_height="30dp"

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zhuye.minsu.user.AuthenticationActivity">
-<com.zhuye.minsu.widget.TranslucentActionBar
+    tools:context="com.minsu.minsu.user.AuthenticationActivity">
+<com.minsu.minsu.widget.TranslucentActionBar
     android:id="@+id/actionbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zhuye.minsu.common.RoomDetailActivity">
+    tools:context="com.minsu.minsu.common.RoomDetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -126,7 +126,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp">
 
-                    <com.zhuye.minsu.widget.RoundedCornerImageView
+                    <com.minsu.minsu.widget.RoundedCornerImageView
                         android:id="@+id/detail_user_img"
                         android:layout_width="50dp"
                         android:layout_height="50dp"

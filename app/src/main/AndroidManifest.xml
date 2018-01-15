@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.zhuye.minsu">
+    package="com.minsu.minsu">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,24 +19,24 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <!-- &lt;!&ndash; 获取设备网络状态，禁用后无法获取网络状态 &ndash;&gt; -->
-    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
-    <!-- &lt;!&ndash; //网络权限，当禁用后，无法进行检索等相关业务 &ndash;&gt; -->
-    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
-    <!-- &lt;!&ndash; //读取设备硬件信息，统计数据 &ndash;&gt; -->
-    <!-- <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" /> -->
-    <!-- &lt;!&ndash; //读取系统信息，包含系统版本等信息，用作统计 &ndash;&gt; -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
-    <!-- &lt;!&ndash; //获取设备的网络状态，鉴权所需网络代理 &ndash;&gt; -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
-    <!-- &lt;!&ndash; //允许sd卡写权限，需写入地图数据，禁用后无法显示地图 &ndash;&gt; -->
-    <!-- <uses-permission android:name="android.permission.WRITE_SETTINGS" /> -->
-    <!-- &lt;!&ndash; //获取统计数据 &ndash;&gt; -->
-    <!-- <uses-permission android:name="android.permission.GET_TASKS" /> -->
-    <!-- &lt;!&ndash; //鉴权所需该权限获取进程列表 &ndash;&gt; -->
-    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+     <!-- 获取设备网络状态，禁用后无法获取网络状态 -->
+     <uses-permission android:name="android.permission.INTERNET" />
+     <!-- //网络权限，当禁用后，无法进行检索等相关业务 -->
+     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+     <!-- //读取设备硬件信息，统计数据 -->
+     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+     <!-- //读取系统信息，包含系统版本等信息，用作统计 -->
+     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+     <!-- //获取设备的网络状态，鉴权所需网络代理 -->
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+     <!-- //允许sd卡写权限，需写入地图数据，禁用后无法显示地图 -->
+     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+     <!-- //获取统计数据 -->
+     <uses-permission android:name="android.permission.GET_TASKS" />
+     <!-- //鉴权所需该权限获取进程列表 -->
+     <uses-permission android:name="android.permission.CAMERA" />
     <application
-        android:name=".App"
+        android:name="com.minsu.minsu.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -50,10 +50,10 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <!-- //百度定位key -->
+        <!-- //百度定位key umwVrdOQUpmVeENOQigteT29TFDFgegw-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="umwVrdOQUpmVeENOQigteT29TFDFgegw" />
+            android:value="03eiu7T4vdMw8mdAdcspfZqHacpDyC0v" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -65,26 +65,26 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".common.MainActivity" />
-        <activity android:name=".sign.CalendarSignActivity" />
-        <activity android:name=".user.LoginActivity" />
-        <activity android:name=".user.setting.SettingActivity" />
-        <activity android:name=".common.RoomDetailActivity" />
-        <activity android:name=".search.SearchActivity" />
-        <activity android:name=".user.OrderActivity" />
-        <activity android:name=".user.AccountActivity" />
-        <activity android:name=".user.AddressActivity" />
-        <activity android:name=".user.IntegralActivity" />
-        <activity android:name=".user.HelpActivity" />
-        <activity android:name=".user.CollectActivity" />
-        <activity android:name=".user.CouponActivity" />
-        <activity android:name=".user.UserInfoActivity" />
-        <activity android:name=".user.AuthenticationActivity" />
+        <activity android:name="com.minsu.minsu.common.MainActivity" />
+        <activity android:name="com.minsu.minsu.sign.CalendarSignActivity" />
+        <activity android:name="com.minsu.minsu.user.LoginActivity" />
+        <activity android:name="com.minsu.minsu.user.setting.SettingActivity" />
+        <activity android:name="com.minsu.minsu.common.RoomDetailActivity" />
+        <activity android:name="com.minsu.minsu.search.SearchActivity" />
+        <activity android:name="com.minsu.minsu.user.OrderActivity" />
+        <activity android:name="com.minsu.minsu.user.AccountActivity" />
+        <activity android:name="com.minsu.minsu.user.AddressActivity" />
+        <activity android:name="com.minsu.minsu.user.IntegralActivity" />
+        <activity android:name="com.minsu.minsu.user.HelpActivity" />
+        <activity android:name="com.minsu.minsu.user.CollectActivity" />
+        <activity android:name="com.minsu.minsu.user.CouponActivity" />
+        <activity android:name="com.minsu.minsu.user.UserInfoActivity" />
+        <activity android:name="com.minsu.minsu.user.AuthenticationActivity" />
         <activity
-            android:name=".common.lanuch.GuideActivity"
+            android:name="com.minsu.minsu.common.lanuch.GuideActivity"
             android:theme="@style/ThemeGuide" />
         <activity
-            android:name=".common.lanuch.SplashActivity"
+            android:name="com.minsu.minsu.common.lanuch.SplashActivity"
             android:theme="@style/ThemeSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,15 +92,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".user.setting.AboutUsActivity" />
-        <activity android:name=".user.setting.EditAddressActivity" />
-        <activity android:name=".user.NameAuthenticationActivity" />
-        <activity android:name=".houseResource.HouseResourceActivity" />
-        <activity android:name=".user.LandlordAuthenticationActivity" />
-        <activity android:name=".houseResource.AddHouseActivity" />
-        <activity android:name=".houseResource.PublishRommActivity" />
-        <activity android:name=".user.setting.FeedbackActivity" />
-        <activity android:name=".user.FacilitiesActivity" />
+        <activity android:name="com.minsu.minsu.user.setting.AboutUsActivity" />
+        <activity android:name="com.minsu.minsu.user.setting.EditAddressActivity" />
+        <activity android:name="com.minsu.minsu.user.NameAuthenticationActivity" />
+        <activity android:name="com.minsu.minsu.houseResource.HouseResourceActivity" />
+        <activity android:name="com.minsu.minsu.user.LandlordAuthenticationActivity" />
+        <activity android:name="com.minsu.minsu.houseResource.AddHouseActivity" />
+        <activity android:name="com.minsu.minsu.houseResource.PublishRommActivity" />
+        <activity android:name="com.minsu.minsu.user.setting.FeedbackActivity" />
+        <activity android:name="com.minsu.minsu.user.FacilitiesActivity" />
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -110,7 +110,7 @@
 
         <!-- 微信start -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.minsu.minsu.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -118,7 +118,7 @@
         <!-- 微信end -->
         <!-- 新浪微博start -->
         <activity
-            android:name=".WBShareActivity"
+            android:name="com.minsu.minsu.WBShareActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -172,11 +172,12 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="59f69d41a40fa36eb700002b" />
+            android:value="5a4f10f48f4a9d432f00004d" />
 
-        <activity android:name=".user.MyCouponActivity" />
-        <activity android:name=".user.setting.ChangePasswordActivity" />
-        <activity android:name=".user.FindPasswordActivity"></activity>
+        <activity android:name="com.minsu.minsu.user.MyCouponActivity" />
+        <activity android:name="com.minsu.minsu.user.setting.ChangePasswordActivity" />
+        <activity android:name="com.minsu.minsu.user.FindPasswordActivity" />
+        <activity android:name="com.minsu.minsu.houseResource.OrderConfirmActivity"></activity>
     </application>
 
 </manifest>

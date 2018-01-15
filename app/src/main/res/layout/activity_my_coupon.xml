@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zhuye.minsu.user.MyCouponActivity">
+    tools:context="com.minsu.minsu.user.MyCouponActivity">
     <include layout="@layout/toolbar" />
     <View
         android:layout_width="match_parent"

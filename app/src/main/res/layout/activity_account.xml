@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.zhuye.minsu.user.AccountActivity">
+    tools:context="com.minsu.minsu.user.AccountActivity">
 
     <include layout="@layout/toolbar" />
 

@@ -72,7 +72,7 @@
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
-<com.zhuye.minsu.widget.MyScrollview
+<com.minsu.minsu.widget.MyScrollview
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -111,7 +111,7 @@
         </RelativeLayout>
 
     </LinearLayout>
-</com.zhuye.minsu.widget.MyScrollview>
+</com.minsu.minsu.widget.MyScrollview>
 
 
 </LinearLayout>

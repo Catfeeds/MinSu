@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/qianhui"
-    tools:context="com.zhuye.minsu.user.setting.SettingActivity">
+    tools:context="com.minsu.minsu.user.setting.SettingActivity">
 
     <include layout="@layout/toolbar" />
 

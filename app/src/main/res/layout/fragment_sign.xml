@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.zhuye.minsu.sign.SignCalendarView
+    <com.minsu.minsu.sign.SignCalendarView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

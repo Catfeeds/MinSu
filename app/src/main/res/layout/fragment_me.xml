@@ -9,7 +9,7 @@
         android:layout_height="200dp"
         android:background="@mipmap/me_background_1">
 
-        <com.zhuye.minsu.widget.RoundedCornerImageView
+        <com.minsu.minsu.widget.RoundedCornerImageView
             android:id="@+id/user_avatar"
             android:layout_width="70dp"
             android:layout_height="70dp"
