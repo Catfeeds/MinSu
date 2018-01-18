@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.minsu.minsu.App;
+import com.minsu.minsu.utils.StorageUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -16,7 +19,6 @@ public class FragmentController {
     private int containerId;
     private FragmentManager fm;
     private ArrayList<Fragment> fragments;
-
     private static FragmentController controller;
     private Bundle bundle;
 
@@ -39,10 +41,15 @@ public class FragmentController {
 
     public void initFragment() {
         fragments = new ArrayList<Fragment>();
-        fragments.add(new HomeFragment());//0
+        String role = StorageUtil.getValue(App.getInstance(), "role");
+        if (role.equals("landlord")) {
+            fragments.add(new MyOrderFragment());//3
+        } else {
+            fragments.add(new HomeFragment());//0
+        }
         fragments.add(new FindFragment());//1
         fragments.add(new MessageFragment());//2
-        fragments.add(new OrderPromptFragment());//3
+
         fragments.add(new MeFragment());//4
         FragmentTransaction ft = fm.beginTransaction();
         for (Fragment fragment : fragments) {

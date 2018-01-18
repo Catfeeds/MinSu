@@ -20,6 +20,7 @@ import com.minsu.minsu.api.Constant;
 import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
+import com.minsu.minsu.common.CitySelectActivity;
 import com.minsu.minsu.common.RoomDetailActivity;
 import com.minsu.minsu.common.adapter.BGABannerAdapter;
 import com.minsu.minsu.common.adapter.HomeListAdapter;
@@ -63,6 +64,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
+    @BindView(R.id.location_address)
+    ImageView locationAddress;
 
     private View view;
     private String tokenId;
@@ -80,6 +83,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         location_city = StorageUtil.getValue(getActivity(), "location_city");
         toolbarTitle.setOnClickListener(this);
         ivSign.setOnClickListener(this);
+        locationAddress.setOnClickListener(this);
 
     }
 
@@ -202,6 +206,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == 0 && data != null) {
+            //获取Bundle中的数据
+            Bundle bundle = data.getExtras();
+            String address = bundle.getString("address");
+            //修改编辑框的内容
+            ToastManager.show(address);
+            MinSuApi.homeShow(getActivity(), 0x001, tokenId, address, callBack);
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_title:
@@ -209,6 +226,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.iv_sign:
                 startActivity(new Intent(getActivity(), CalendarSignActivity.class));
+                break;
+            case R.id.location_address:
+                Intent intent = new Intent(getActivity(), CitySelectActivity.class);
+                startActivityForResult(intent, 0);
                 break;
         }
     }

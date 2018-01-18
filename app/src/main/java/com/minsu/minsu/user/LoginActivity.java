@@ -218,7 +218,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 //拿到信息去请求登录接口...
                 Log.e("open_id=" + open_id + "name=" + name + ",sex=" + sex + ",iconurl=" + iconurl);
 //                DreamApi.login(RegisterActivity.this, LOGIN_WHAT, "0", "", "", open_id, iconurl, sex, name, callBack);
-                MinSuApi.thirdLogin(LoginActivity.this, 0x004, open_id, name, callBack);
+                MinSuApi.thirdLogin(LoginActivity.this, 0x004, open_id, name,iconurl, callBack);
             }
 
             @Override
@@ -363,7 +363,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject loginData = new JSONObject(data.toString());
                             String youmengToken = loginData.getString("token");
-                            StorageUtil.setKeyValue(LoginActivity.this, "youmengToken", youmengToken);
+//                            StorageUtil.setKeyValue(LoginActivity.this, "youmengToken", youmengToken);
+                            StorageUtil.setKeyValue(LoginActivity.this, "token", youmengToken);
+
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else if (code == 111) {

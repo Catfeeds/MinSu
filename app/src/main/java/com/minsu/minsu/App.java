@@ -11,12 +11,18 @@ import com.baidu.mapapi.SDKInitializer;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.minsu.minsu.api.Constant;
+import com.minsu.minsu.service.LocationService;
+import com.minsu.minsu.utils.DynamicTimeFormat;
+import com.minsu.minsu.utils.StorageUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -27,8 +33,9 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
-import com.minsu.minsu.service.LocationService;
-import com.minsu.minsu.utils.DynamicTimeFormat;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +71,36 @@ public class App extends Application {
         locationService = new LocationService(instance);
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
-    }
+        //检测角色状态
+        String tokenId = StorageUtil.getTokenId(this);
 
+//        if (!tokenId.equals("")) {
+//            OkGo.<String>post(Constant.USER_CENTER_URL)
+//                    .tag(this)
+//                    .params("token", tokenId)
+//                    .execute(new StringCallback() {
+//                        @Override
+//                        public void onSuccess(Response<String> response) {
+//                            try {
+//                                JSONObject jsonObject = new JSONObject(response.body());
+//                                if (jsonObject.getInt("code") == 200) {
+//                                    JSONObject data = jsonObject.getJSONObject("data");
+//                                    JSONObject userData = new JSONObject(data.toString());
+//                                    int is_house = userData.getInt("is_house");
+//                                    StorageUtil.setKeyValue(getApplicationContext(), "type", is_house + "");
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(Response<String> response) {
+//                            super.onError(response);
+//                        }
+//                    });
+//        }
+    }
 
     //static 代码段可以防止内存泄露
     static {
@@ -224,6 +259,7 @@ public class App extends Application {
         }
         System.exit(0);
     }
+
     public static String getCurProcessName(Context context) {
         int pid = android.os.Process.myPid();
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

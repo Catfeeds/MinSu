@@ -87,6 +87,32 @@ public class Constant {
     public static final String CHANGE_PASSWORD_URL = BASE_URL + "user/edit_pwd";
     //忘记密码
     public static final String FORGET_PASSWORD_URL = BASE_URL + "user/wj_pwd";
+    //订单确认提交
+    public static final String ORDER_SUBMIT_URL = BASE_URL + "order/order_sub";
+    //取消订单
+    public static final String ORDER_CANCEL_URL = BASE_URL + "order/qx_order";
+    //提交退款
+    public static final String SUBMIT_TUIKUAN_URL = BASE_URL + "order/tuikuan_cz";
+    //删除订单
+    public static final String ORDER_DELETE_URL = BASE_URL + "order/del_order";
+    //订单支付页面
+    public static final String ORDER_PAY_PAGE_URL = BASE_URL + "order/order_zhifu";
+    //我的全部订单列表
+    public static final String ALL_MY_ORDER_URL = BASE_URL + "order/my_order";
+    //订单列表-入住中
+    public static final String RUZHUZHONG_ORDER_URL = BASE_URL + "order/order_rzz";
+    //订单列表-已退房
+    public static final String YITUIFANG_ORDER_URL = BASE_URL + "order/order_ytf";
+    //订单列表-待入住
+    public static final String DAIRUZHU_ORDER_URL = BASE_URL + "order/order_drz";
+    //城市搜索
+    public static final String CITY_SEARCH_URL = BASE_URL + "index/cs_sousuo";
+    //选择城市
+    public static final String CITY_SELECT_URL = BASE_URL + "index/chengshi";
+    //聊天列表
+    public static final String CHAT_LIST_URL = BASE_URL + "message/chat_msg";
+    //添加聊天列表
+    public static final String ADD_CHAT_LIST_URL = BASE_URL + "Message/add_chat";
 
     /*--------------------------------------------发现模块---------------------------------------------*/
     //文章详情
@@ -113,6 +139,7 @@ public class Constant {
     public static final String FIND_LIST_URL = BASE_URL + "Article/faxian";
 
 
+
     //----------------------房东端------------------------------------------------
     //我的房源
     public static final String MY_HOUSE_LIST_URL = BASE_URL + "Fangdong/my_house";
@@ -126,6 +153,14 @@ public class Constant {
     public static final String AREA_URL = BASE_URL + "fangdong/district";
     //乡镇-信息
     public static final String TOWN_URL = BASE_URL + "fangdong/twon";
+    //(房东)我的订单
+    public static final String LANDLORD_ORDER_URL = BASE_URL + "Fangdong/fd_order";
+    //(房东)待入住
+    public static final String LANDLORD_DAIRUZHU_ORDER_URL = BASE_URL + "Fangdong/fd_order_drz";
+    //(房东)入住中
+    public static final String LANDLORD_RUZHUZHONG_ORDER_URL = BASE_URL + "Fangdong/fd_order_rzz";
+    //(房东)已退房
+    public static final String LANDLORD_YITUIFANG_ORDER_URL = BASE_URL + "Fangdong/fd_order_ytf";
 
 
     //---------------------------前端-------------------------------------------------

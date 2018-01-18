@@ -17,12 +17,21 @@ public class OrderBean {
         public String time;
         public String title;
         public String check_time;
+        public String leave_time ;
         public String days;
         public String total_price;
         public String province;
         public String city;
         public String district;
         public String town;
+        public String h_name;
+        public String head_pic;
         public String fd_mobile;
+        public String house_info;
+        public String house_img;
+        public int order_status;
+        public int pay_status;
+        public int order_id;
+
     }
 }

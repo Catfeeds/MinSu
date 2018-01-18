@@ -9,15 +9,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.minsu.minsu.R;
 import com.minsu.minsu.base.BaseActivity;
-import com.minsu.minsu.common.fragment.ChatRecordFragment;
-import com.minsu.minsu.common.fragment.OrderPromptFragment;
-import com.minsu.minsu.common.fragment.SystemMessageFragment;
+import com.minsu.minsu.user.fragment.AllOrderFragment;
+import com.minsu.minsu.user.fragment.DaiRuZhuFragment;
+import com.minsu.minsu.user.fragment.RuZhuZhongFragment;
+import com.minsu.minsu.user.fragment.YiQuXiaoFragment;
+import com.minsu.minsu.user.fragment.YiTuiFangFragment;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItem;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItemAdapter;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItems;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import butterknife.BindView;
 
@@ -52,10 +54,11 @@ public class OrderActivity extends BaseActivity {
         tab.addView(LayoutInflater.from(this).inflate(R.layout.tab_top_layout, tab, false));
         SmartTabLayout viewPagerTab = findViewById(R.id.viewpagertab);
         FragmentPagerItems pages = new FragmentPagerItems(this);
-        pages.add(FragmentPagerItem.of("全部", OrderPromptFragment.class));
-        pages.add(FragmentPagerItem.of("待入住", ChatRecordFragment.class));
-        pages.add(FragmentPagerItem.of("入住中", SystemMessageFragment.class));
-        pages.add(FragmentPagerItem.of("已退房", SystemMessageFragment.class));
+        pages.add(FragmentPagerItem.of("全部", AllOrderFragment.class));
+        pages.add(FragmentPagerItem.of("待入住", DaiRuZhuFragment.class));
+        pages.add(FragmentPagerItem.of("入住中", RuZhuZhongFragment.class));
+        pages.add(FragmentPagerItem.of("已退房", YiTuiFangFragment.class));
+        pages.add(FragmentPagerItem.of("已取消", YiQuXiaoFragment.class));
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), pages);
         viewpager.setAdapter(adapter);
         viewPagerTab.setViewPager(viewpager);

@@ -54,6 +54,7 @@
             android:id="@+id/order_roomImg"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher"/>
         <TextView
             android:id="@+id/order_room_title"
@@ -113,7 +114,7 @@
             android:text="北京 海淀区 西三旗"/>
         <TextView
             android:id="@+id/total_day"
-           android:layout_marginEnd="50dp"
+           android:layout_marginEnd="40dp"
             android:layout_below="@+id/order_room_description"
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
@@ -153,6 +154,8 @@
             android:layout_toLeftOf="@+id/order_pay"
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:background="@drawable/frame_button_3"
             android:text="取消订单"/>
         <TextView
             android:id="@+id/order_pay"
@@ -160,7 +163,43 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:textColor="@color/orange"
+            android:background="@drawable/frame_button_2"
             android:text="立即支付"/>
+        <TextView
+            android:id="@+id/order_delete"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/yudin_again"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:background="@drawable/frame_button_3"
+            android:text="删除"/>
+        <TextView
+            android:id="@+id/yudin_again"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:textColor="@color/orange"
+            android:background="@drawable/frame_button_2"
+            android:text="再次预定"/>
+        <TextView
+            android:id="@+id/tuikuan_apply"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:textColor="@color/orange"
+            android:background="@drawable/frame_button_2"
+            android:text="申请退款"/>
     </RelativeLayout>
 
 </LinearLayout>

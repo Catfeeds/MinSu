@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.minsu.minsu.App;
 import com.minsu.minsu.R;
 import com.minsu.minsu.base.BaseActivity;
 import com.minsu.minsu.common.fragment.FragmentController;
@@ -120,6 +121,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         switch (checkedId) {
             case R.id.rb_home:
+                String role = StorageUtil.getValue(this, "role");
+                if (role.equals("landlord")){
+                    rbHome.setText("订单");
+                }
                 controller.showFragment(0);
                 break;
             case R.id.rb_find:
@@ -128,11 +133,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             case R.id.rb_message:
                 controller.showFragment(2);
                 break;
-            case R.id.rb_order:
-                controller.showFragment(3);
-                break;
+//            case R.id.rb_order:
+//                controller.showFragment(3);
+//                break;
             case R.id.rb_me:
-                controller.showFragment(4);
+                controller.showFragment(3);
                 break;
             default:
                 break;

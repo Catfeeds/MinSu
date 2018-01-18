@@ -215,10 +215,18 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                             birthday.setText(mBirthday);
                             nickname.setText(mNickname);
                             sex.setText((mSex == 1) ? "男" : "女");
-                            Glide.with(UserInfoActivity.this)
-                                    .load(Constant.BASE2_URL + mHead_pic)
+
+                            if (mHead_pic.contains("http")) {
+                                Glide.with(UserInfoActivity.this)
+                                        .load(mHead_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
-                                    .into(imgAvatar);
+                                        .into(imgAvatar);
+                            } else {
+                                Glide.with(UserInfoActivity.this)
+                                        .load(Constant.BASE2_URL + mHead_pic)
+//                                    .placeholder(R.mipmap.ic_launcher)
+                                        .into(imgAvatar);
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

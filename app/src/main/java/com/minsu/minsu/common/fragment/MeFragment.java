@@ -143,7 +143,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                                 StorageUtil.setKeyValue(getActivity(), "role", "landlord");
                                 llOrder.setVisibility(View.GONE);
                                 llHouseResource.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 StorageUtil.setKeyValue(getActivity(), "role", "user");
                                 llOrder.setVisibility(View.VISIBLE);
                                 llHouseResource.setVisibility(View.GONE);
@@ -154,10 +154,18 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                             } else if (is_name == 2) {
                                 renzheng.setText("审核中...");
                             }
-                            Glide.with(getActivity())
-                                    .load(Constant.BASE2_URL + head_pic)
+                            if (head_pic.contains("http")) {
+                                Glide.with(getActivity())
+                                        .load(head_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
-                                    .into(userAvatar);
+                                        .into(userAvatar);
+                            } else {
+                                Glide.with(getActivity())
+                                        .load(Constant.BASE2_URL + head_pic)
+//                                    .placeholder(R.mipmap.ic_launcher)
+                                        .into(userAvatar);
+                            }
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
