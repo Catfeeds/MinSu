@@ -1108,6 +1108,25 @@ public class MinSuApi {
                     }
                 });
     }
+    //申请退款页面
+    public static void applyTuikuanPage(Activity activity, final int what, String token, int order_id,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.APPLY_TUIKUAN_PAGE_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("order_id", order_id)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
 
     //城市选择
     public static void citySelect(Activity activity, final int what, String token, final CallBack myCallBack) {
@@ -1243,8 +1262,167 @@ public class MinSuApi {
                 });
     }
 
-    //房东已退房
-    public static void lanlordYituifangOrderList(Activity activity, final int what, String token, final CallBack myCallBack) {
+
+    //改变订单状态
+    public static void changeOrderStatus(Activity activity, final int what, String token, String order_id,
+                                         String id, int youhui_price, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.CHANGE_ORDER_STATUS_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("order_id", order_id)
+                .params("id", id)
+                .params("youhui_price", youhui_price)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //获取融云token
+    public static void getRongyunToken(Activity activity, final int what, String token,
+                                         int id, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.GET_RONGYUN_TOKEN_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("id", id)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //房东确认入住
+    public static void sureRuzhu(Activity activity, final int what, String token,
+                                       int order_id, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_SURE_RUZHU_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("order_id", order_id)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //房东确认退房
+    public static void sureTuiFang(Activity activity, final int what, String token,
+                                 int order_id, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_SURE_TUIFANG_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("order_id", order_id)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //(房东)我的订单-退款申请
+    public static void tuikuanApply(Activity activity, final int what, String token, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_TUIKUAN_APPLY_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //(房东)确认退款
+    public static void sureTuiKuan(Activity activity, final int what, String token,int order_id,int is_tuikuan, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_SURE_TUIKUAN_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("order_id", order_id)
+                .params("is_tuikuan", is_tuikuan)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //(房东)我的订单-提前退房
+    public static void tiqianTuiFang(Activity activity, final int what, String token, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_TIQIAN_TUIFANG_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //(房东)确认提前退房
+    public static void sureTiQianTuiFang(Activity activity, final int what, String token,int order_id,int is_tuifang, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_SURE_TIQIAN_TUIFANG_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("order_id", order_id)
+                .params("is_tuifang", is_tuifang)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //(房东)我的订单-已退房
+    public static void landlordYiTuiFang(Activity activity, final int what, String token, final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_YITUIFANG_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)

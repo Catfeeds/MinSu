@@ -214,6 +214,14 @@ public class RoomDetailActivity extends BaseActivity {
                 datePickerDialog.show();
             }
         });
+
+        //查看评价
+        detailRoomCommentNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void getTotalDays(String ruzhu_time, String leave_time) {

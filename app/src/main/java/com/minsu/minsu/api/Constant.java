@@ -93,6 +93,8 @@ public class Constant {
     public static final String ORDER_CANCEL_URL = BASE_URL + "order/qx_order";
     //提交退款
     public static final String SUBMIT_TUIKUAN_URL = BASE_URL + "order/tuikuan_cz";
+    //申请退款页面
+    public static final String APPLY_TUIKUAN_PAGE_URL = BASE_URL + "order/tuikuan_html";
     //删除订单
     public static final String ORDER_DELETE_URL = BASE_URL + "order/del_order";
     //订单支付页面
@@ -113,6 +115,10 @@ public class Constant {
     public static final String CHAT_LIST_URL = BASE_URL + "message/chat_msg";
     //添加聊天列表
     public static final String ADD_CHAT_LIST_URL = BASE_URL + "Message/add_chat";
+    //支付成功-修改订单状态
+    public static final String CHANGE_ORDER_STATUS_URL = BASE_URL + "order/zhifu_cg";
+    //聊天用户token
+    public static final String GET_RONGYUN_TOKEN_URL = BASE_URL + "message/get_token";
 
     /*--------------------------------------------发现模块---------------------------------------------*/
     //文章详情
@@ -139,7 +145,6 @@ public class Constant {
     public static final String FIND_LIST_URL = BASE_URL + "Article/faxian";
 
 
-
     //----------------------房东端------------------------------------------------
     //我的房源
     public static final String MY_HOUSE_LIST_URL = BASE_URL + "Fangdong/my_house";
@@ -161,6 +166,18 @@ public class Constant {
     public static final String LANDLORD_RUZHUZHONG_ORDER_URL = BASE_URL + "Fangdong/fd_order_rzz";
     //(房东)已退房
     public static final String LANDLORD_YITUIFANG_ORDER_URL = BASE_URL + "Fangdong/fd_order_ytf";
+    //(房东)确认入住
+    public static final String LANDLORD_SURE_RUZHU_URL = BASE_URL + "Fangdong/sub_ruzhu";
+    //(房东)确认退房
+    public static final String LANDLORD_SURE_TUIFANG_URL = BASE_URL + "Fangdong/sub_tuifang";
+    //(房东)退款申请
+    public static final String LANDLORD_TUIKUAN_APPLY_URL = BASE_URL + "Fangdong/fd_order_tksq";
+    //(房东)确认退款
+    public static final String LANDLORD_SURE_TUIKUAN_URL = BASE_URL + "Fangdong/sub_tuikuan";
+    //(房东)我的订单-提前退房
+    public static final String LANDLORD_TIQIAN_TUIFANG_URL = BASE_URL + "Fangdong/fd_order_tqtf";
+    //(房东)确认提前退房
+    public static final String LANDLORD_SURE_TIQIAN_TUIFANG_URL = BASE_URL + "Fangdong/sub_tqtf";
 
 
     //---------------------------前端-------------------------------------------------

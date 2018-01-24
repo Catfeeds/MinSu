@@ -15,6 +15,8 @@ import com.minsu.minsu.base.BaseFragment;
 import com.minsu.minsu.common.fragment.landlord.LAllOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LDaiRuZhuOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LRuZhuZhongOrderFragment;
+import com.minsu.minsu.common.fragment.landlord.LTiqianTuiFangOrderFragment;
+import com.minsu.minsu.common.fragment.landlord.LTuiKuanOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LYiTuiFangOrderFragment;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItem;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItemAdapter;
@@ -64,6 +66,8 @@ public class MyOrderFragment extends BaseFragment {
         pages.add(FragmentPagerItem.of("全部", LAllOrderFragment.class));
         pages.add(FragmentPagerItem.of("待入住", LDaiRuZhuOrderFragment.class));
         pages.add(FragmentPagerItem.of("入住中", LRuZhuZhongOrderFragment.class));
+        pages.add(FragmentPagerItem.of("申请退款", LTuiKuanOrderFragment.class));
+        pages.add(FragmentPagerItem.of("提前退房", LTiqianTuiFangOrderFragment.class));
         pages.add(FragmentPagerItem.of("已退房", LYiTuiFangOrderFragment.class));
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getChildFragmentManager(), pages);
         viewpager.setAdapter(adapter);

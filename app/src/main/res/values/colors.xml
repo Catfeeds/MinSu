@@ -169,6 +169,11 @@
     <color name="colorBarText">#F0F5E5</color>
     <color name="aaa">#f12345</color>
     <color name="translate">#00000000</color>
+
+    <color name="seal_bg">#f0f0f6</color>
+    <color name="de_title_bg">#0195ff</color>
+    <color name="press">#e8e8e8</color>
+
     <!-- alpha black -->
     <color name="alpha_05_black">#0D000000</color>
     <color name="alpha_10_black">#1A000000</color>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
@@ -14,7 +15,7 @@ import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
 import com.minsu.minsu.common.bean.OrderBean;
-import com.minsu.minsu.user.adapter.OrderListAdapter;
+import com.minsu.minsu.common.fragment.landlord.adapter.FAllOrderListAdapter;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -66,14 +67,38 @@ public class LAllOrderFragment extends BaseFragment {
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
-                            OrderListAdapter orderListAdapter = new OrderListAdapter(R.layout.item_order, orderBean.data);
+                            final FAllOrderListAdapter orderListAdapter = new FAllOrderListAdapter(R.layout.item_landlord_all_order, orderBean.data);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(orderListAdapter);
                             if (orderBean.data.size() == 0) {
                                 orderListAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
-
+                            orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                                @Override
+                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                    switch (view.getId()) {
+                                        case R.id.confirm_ruzhu:
+                                            MinSuApi.sureRuzhu(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
+                                            break;
+                                    }
+                                }
+                            });
                         } else if (code == 201) {
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x002:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200) {
+                            ToastManager.show(msg);
+                            MinSuApi.lanlordAllOrderList(getActivity(), 0x001, tokenId, callBack);
+                        } else if (code == 211) {
                             ToastManager.show(msg);
                         }
                     } catch (JSONException e) {

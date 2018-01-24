@@ -31,6 +31,7 @@ public class OrderBean {
         public String house_img;
         public int order_status;
         public int pay_status;
+        public int is_tuikuan;
         public int order_id;
 
     }

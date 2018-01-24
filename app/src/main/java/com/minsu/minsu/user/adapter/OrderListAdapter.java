@@ -3,6 +3,7 @@ package com.minsu.minsu.user.adapter;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,6 +25,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, OrderBean.Data item) {
+
         helper.setText(R.id.order_userName, item.h_name);
         helper.setText(R.id.order_room_title, item.title);
         helper.setText(R.id.order_room_description, item.house_info);
@@ -31,6 +33,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
         helper.setText(R.id.order_userName, item.h_name);
         helper.setText(R.id.ruzhu_time, "入住：" + item.check_time);
         helper.setText(R.id.leave_time, "离开：" + item.leave_time);
+        helper.setText(R.id.order_price, "￥：" + item.total_price);
         helper.setText(R.id.location_address, item.city + " " + item.district + " " + item.town);
         if (item.pay_status == 0) {
             helper.setText(R.id.order_state, "待支付");
@@ -42,8 +45,9 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
                 helper.setText(R.id.order_state, "待入住");
                 helper.getView(R.id.order_cancel).setVisibility(View.GONE);
                 helper.getView(R.id.order_pay).setVisibility(View.GONE);
-                helper.getView(R.id.yudin_again).setVisibility(View.VISIBLE);
-                helper.getView(R.id.order_delete).setVisibility(View.VISIBLE);
+
+                helper.getView(R.id.yudin_again).setVisibility(View.GONE);
+                helper.getView(R.id.order_delete).setVisibility(View.GONE);
                 helper.getView(R.id.tuikuan_apply).setVisibility(View.VISIBLE);
                 helper.addOnClickListener(R.id.tuikuan_apply);
             } else if (item.order_status == 1) {

@@ -148,7 +148,7 @@
             android:textColor="@color/orange"
             android:text="￥50"/>
         <TextView
-            android:id="@+id/order_cancel"
+            android:id="@+id/tuikuan_apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -156,7 +156,7 @@
             android:padding="5dp"
             android:textColor="@color/orange"
             android:background="@drawable/frame_button_2"
-            android:text="取消订单"/>
+            android:text="申请退款"/>
     </RelativeLayout>
 
 </LinearLayout>

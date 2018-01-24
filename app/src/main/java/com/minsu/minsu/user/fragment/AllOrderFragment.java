@@ -16,7 +16,7 @@ import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
 import com.minsu.minsu.common.bean.OrderBean;
-import com.minsu.minsu.user.OrderCancelActivity;
+import com.minsu.minsu.user.TuiKuanApplyActivity;
 import com.minsu.minsu.user.adapter.OrderListAdapter;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
@@ -89,7 +89,7 @@ public class AllOrderFragment extends BaseFragment {
                                         case R.id.tuikuan_apply:
                                             //申请退款
                                             ToastManager.show("申请退款");
-                                            Intent intent = new Intent(getActivity(), OrderCancelActivity.class);
+                                            Intent intent = new Intent(getActivity(), TuiKuanApplyActivity.class);
                                             intent.putExtra("order_id", orderListAdapter.getItem(position).order_id + "");
                                             startActivity(intent);
                                             break;

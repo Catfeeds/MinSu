@@ -15,13 +15,14 @@ import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseActivity;
 import com.minsu.minsu.utils.StorageUtil;
+import com.minsu.minsu.utils.ToastManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
 
-public class OrderSubmitActivity extends BaseActivity {
+public class OrderSubmitActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -87,6 +88,7 @@ public class OrderSubmitActivity extends BaseActivity {
                 finish();
             }
         });
+        quickPay.setOnClickListener(this);
     }
 
     @Override
@@ -146,6 +148,20 @@ public class OrderSubmitActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                     break;
+                case 0x002:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code==200){
+                            ToastManager.show(msg);
+                        }else if (code==211){
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
         }
 
@@ -159,4 +175,13 @@ public class OrderSubmitActivity extends BaseActivity {
 
         }
     };
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.quick_pay:
+                MinSuApi.changeOrderStatus(OrderSubmitActivity.this, 0x002, tokenId, order_id, "", 0, callBack);
+                break;
+        }
+    }
 }
