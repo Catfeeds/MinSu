@@ -24,7 +24,6 @@ public class ChatListAdapter extends BaseQuickAdapter<ChatBean.Data, BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, ChatBean.Data item) {
         helper.setText(R.id.chat_name, item.nickname);
-        helper.setText(R.id.chat_content, item.nickname);
         helper.setText(R.id.chat_time, item.add_time);
         if (item.head_pic.contains("http")) {
             Glide.with(mContext)

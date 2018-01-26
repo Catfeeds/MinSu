@@ -14,6 +14,7 @@ import com.minsu.minsu.base.BaseActivity;
 import com.minsu.minsu.user.fragment.AllOrderFragment;
 import com.minsu.minsu.user.fragment.DaiRuZhuFragment;
 import com.minsu.minsu.user.fragment.RuZhuZhongFragment;
+import com.minsu.minsu.user.fragment.TiQianTuiFangFragment;
 import com.minsu.minsu.user.fragment.YiQuXiaoFragment;
 import com.minsu.minsu.user.fragment.YiTuiFangFragment;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItem;
@@ -58,6 +59,7 @@ public class OrderActivity extends BaseActivity {
         pages.add(FragmentPagerItem.of("待入住", DaiRuZhuFragment.class));
         pages.add(FragmentPagerItem.of("入住中", RuZhuZhongFragment.class));
         pages.add(FragmentPagerItem.of("已退房", YiTuiFangFragment.class));
+        pages.add(FragmentPagerItem.of("提前退房", TiQianTuiFangFragment.class));
         pages.add(FragmentPagerItem.of("已取消", YiQuXiaoFragment.class));
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), pages);
         viewpager.setAdapter(adapter);

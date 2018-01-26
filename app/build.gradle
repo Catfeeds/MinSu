@@ -69,4 +69,5 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     compile project(':IMKit')
     compile project(':IMLib')
+    implementation files('libs/alipaySdk-20170922.jar')
 }

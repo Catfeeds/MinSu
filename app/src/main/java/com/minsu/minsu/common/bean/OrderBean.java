@@ -33,6 +33,8 @@ public class OrderBean {
         public int pay_status;
         public int is_tuikuan;
         public int order_id;
+        public int house_id;
+        public int is_tuifang;
 
     }
 }

@@ -15,6 +15,7 @@ import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
 import com.minsu.minsu.common.bean.OrderBean;
 import com.minsu.minsu.user.adapter.OrderListAdapter;
+import com.minsu.minsu.user.adapter.YiTuiFangOrderListAdapter;
 import com.minsu.minsu.utils.StorageUtil;
 
 import org.json.JSONException;
@@ -60,7 +61,7 @@ public class YiTuiFangFragment extends BaseFragment {
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
                             OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
-                            OrderListAdapter orderListAdapter = new OrderListAdapter(R.layout.item_order_tuifang, orderBean.data);
+                            YiTuiFangOrderListAdapter orderListAdapter = new YiTuiFangOrderListAdapter(R.layout.item_order_tuifang, orderBean.data);
                             recyclerView=view.findViewById(R.id.recyclerView);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(orderListAdapter);

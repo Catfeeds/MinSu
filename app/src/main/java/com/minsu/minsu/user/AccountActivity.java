@@ -2,6 +2,7 @@ package com.minsu.minsu.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.minsu.minsu.R;
 import com.minsu.minsu.base.BaseActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AccountActivity extends BaseActivity implements View.OnClickListener {
 
@@ -34,6 +36,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     RelativeLayout rlAddress;
     @BindView(R.id.rl_visitor)
     RelativeLayout rlVisitor;
+    @BindView(R.id.rl_wallet)
+    RelativeLayout rlWallet;
 
     @Override
     protected void processLogic() {
@@ -52,6 +56,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         });
         rlUserData.setOnClickListener(this);
         rlAddress.setOnClickListener(this);
+        rlWallet.setOnClickListener(this);
+        rlVisitor.setOnClickListener(this);
     }
 
     @Override
@@ -75,8 +81,18 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(this, AddressActivity.class));
                 break;
             case R.id.rl_visitor:
-
+                startActivity(new Intent(AccountActivity.this,PassengerListActivity.class));
+                break;
+            case R.id.rl_wallet:
+                startActivity(new Intent(AccountActivity.this, WalletActivity.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

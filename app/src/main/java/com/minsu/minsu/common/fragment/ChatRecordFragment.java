@@ -30,6 +30,7 @@ import butterknife.Unbinder;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by hpc on 2017/12/6.
@@ -140,27 +141,20 @@ public class ChatRecordFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(final String user_id) {
+                    Log.i(TAG, "onSuccess: " + "融云连接成功");
+                    String chat_title = StorageUtil.getValue(getActivity(), "chat_title");
                     if (RongIM.getInstance() != null) {
                         RongIM.getInstance().enableUnreadMessageIcon(true);//显示未读消息数目
-                        RongIM.getInstance().setMessageAttachedUserInfo(true);
-                        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
 
-                            @Override
-
-                            public io.rong.imlib.model.UserInfo getUserInfo(String userId) {
-
-                                if (userId.equals(user_id)) {
-
-                                    return new io.rong.imlib.model.UserInfo(userId, "宋泉柯", Uri.parse(""));
-
-                                }
-
-                                return null;
-
-                            }
-
-                        }, true);
-                        RongIM.getInstance().startPrivateChat(getActivity(), userId, "");
+//                        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+//                            @Override
+//                            public UserInfo getUserInfo(String s) {
+//                                return findUserById(s);
+//                            }
+//                        },true);
+                        UserInfo userInfo = new UserInfo(user_id,StorageUtil.getValue(getActivity(),"nickname"),Uri.parse(StorageUtil.getValue(getActivity(),"head_pic")));
+                        RongIM.getInstance().setCurrentUserInfo(userInfo);
+                        RongIM.getInstance().startPrivateChat(getActivity(), userId, chat_title);
                     }
 
                     RongIM.getInstance().setSendMessageListener(new RongIM.OnSendMessageListener() {

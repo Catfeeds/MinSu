@@ -64,7 +64,13 @@ public class App extends Application {
         instance = this;
         initOkGo();
         UMShareAPI.get(this);
-        RongIM.init(this);
+
+        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
+            RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
+            RongIM.init(this);
+            RongIM.getInstance().setMessageAttachedUserInfo(true);
+        }
+
         /***
          * 初始化定位sdk，建议在Application中创建
          */

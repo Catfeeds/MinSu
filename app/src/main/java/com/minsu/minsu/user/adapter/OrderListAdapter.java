@@ -52,10 +52,43 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
                 helper.addOnClickListener(R.id.tuikuan_apply);
             } else if (item.order_status == 1) {
                 helper.setText(R.id.order_state, "入住中");
+                helper.getView(R.id.order_cancel).setVisibility(View.GONE);
+                helper.getView(R.id.order_pay).setVisibility(View.GONE);
+                helper.getView(R.id.tiqian_tuifang).setVisibility(View.VISIBLE);
+                helper.getView(R.id.yudin_again).setVisibility(View.GONE);
+                helper.getView(R.id.order_delete).setVisibility(View.GONE);
+                helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
+                helper.addOnClickListener(R.id.tiqian_tuifang);
             } else if (item.order_status == 2) {
                 helper.setText(R.id.order_state, "已退房");
+                helper.getView(R.id.order_cancel).setVisibility(View.GONE);
+                helper.getView(R.id.order_pay).setVisibility(View.GONE);
+                helper.getView(R.id.tiqian_tuifang).setVisibility(View.GONE);
+                helper.getView(R.id.yudin_again).setVisibility(View.GONE);
+                helper.getView(R.id.order_delete).setVisibility(View.GONE);
+                helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
             } else if (item.order_status == 3) {
                 helper.setText(R.id.order_state, "已退款");
+                helper.getView(R.id.order_cancel).setVisibility(View.GONE);
+                helper.getView(R.id.order_pay).setVisibility(View.GONE);
+                helper.getView(R.id.tiqian_tuifang).setVisibility(View.GONE);
+                helper.getView(R.id.yudin_again).setVisibility(View.GONE);
+                helper.getView(R.id.order_delete).setVisibility(View.GONE);
+                helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
+            } else if (item.order_status == 4) {
+                if (item.is_tuifang==0){
+                    helper.setText(R.id.order_state, "审核中");
+                }else if (item.is_tuifang==1){
+                    helper.setText(R.id.order_state, "提前退房成功");
+                }else if (item.is_tuifang==-1){
+                    helper.setText(R.id.order_state, "拒绝提前退房");
+                }
+                helper.getView(R.id.order_cancel).setVisibility(View.GONE);
+                helper.getView(R.id.order_pay).setVisibility(View.GONE);
+                helper.getView(R.id.tiqian_tuifang).setVisibility(View.GONE);
+                helper.getView(R.id.yudin_again).setVisibility(View.GONE);
+                helper.getView(R.id.order_delete).setVisibility(View.GONE);
+                helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
             }
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");

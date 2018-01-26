@@ -181,12 +181,11 @@
         <activity android:name=".common.OrderSubmitActivity" />
         <activity android:name=".common.CitySelectActivity" />
         <!-- 融云会话列表 -->
-        <!--会话列表-->
+        <!-- 会话列表 -->
         <activity
             android:name=".rongyun.ConversationListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -198,7 +197,7 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <!--会话界面-->
+        <!-- 会话界面 -->
         <activity
             android:name=".rongyun.ConversationActivity"
             android:screenOrientation="portrait"
@@ -214,9 +213,53 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+
+
+        <!-- alipay sdk begin -->
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!-- alipay sdk end -->
+
+
+        <!-- 微信支付 -->
+        <activity
+            android:name=".weixin.WXPayCallbackActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity-alias
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity=".weixin.WXPayCallbackActivity" />
+
+        <!-- 微信支付 end -->
         <activity android:name=".user.RoomEvaluateActivity" />
         <activity android:name=".user.TuiKuanApplyActivity" />
-        <activity android:name=".common.CommentListActivity"></activity>
+        <activity android:name=".common.CommentListActivity" />
+        <activity android:name=".user.ErRecordActivity" />
+        <activity android:name=".user.WalletActivity" />
+        <activity android:name=".user.TiXianActivity" />
+        <activity android:name=".user.BankCardListActivity" />
+        <activity android:name=".user.AddBankCardActivity" />
+        <activity android:name=".common.CommentActivity" />
+        <activity android:name=".user.CommonPassengerActivity" />
+        <activity android:name=".common.CommentReplyActivity" />
+        <activity android:name=".user.PassengerListActivity" />
+        <activity android:name=".user.AddPassengerActivity"></activity>
+        <activity android:name=".user.TuiFangApplyActivity"/>
     </application>
 
 </manifest>

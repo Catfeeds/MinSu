@@ -219,7 +219,9 @@ public class RoomDetailActivity extends BaseActivity {
         detailRoomCommentNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(RoomDetailActivity.this, CommentActivity.class);
+                intent.putExtra("house_id", house_id);
+                startActivity(intent);
             }
         });
     }

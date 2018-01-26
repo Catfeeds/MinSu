@@ -134,7 +134,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject userData = new JSONObject(data.toString());
                             String nickname = userData.getString("nickname");
+                            StorageUtil.setKeyValue(getActivity(), "nickname", nickname);
                             String head_pic = userData.getString("head_pic");
+
                             int is_name = userData.getInt("is_name");
                             int is_house = userData.getInt("is_house");
                             int user_id = userData.getInt("user_id");
@@ -155,11 +157,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                                 renzheng.setText("审核中...");
                             }
                             if (head_pic.contains("http")) {
+                                StorageUtil.setKeyValue(getActivity(), "head_pic", head_pic);
                                 Glide.with(getActivity())
                                         .load(head_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
                                         .into(userAvatar);
                             } else {
+                                StorageUtil.setKeyValue(getActivity(), "head_pic", Constant.BASE2_URL + head_pic);
                                 Glide.with(getActivity())
                                         .load(Constant.BASE2_URL + head_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
@@ -198,7 +202,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                 startActivity(new Intent(getActivity(), IntegralActivity.class));
                 break;
             case R.id.ll_coupon:
-                startActivity(new Intent(getActivity(), CouponActivity.class));
+                Intent intent = new Intent(getActivity(), CouponActivity.class);
+                intent.putExtra("type","");
+                startActivity(intent);
                 break;
             case R.id.ll_collect:
                 startActivity(new Intent(getActivity(), CollectActivity.class));

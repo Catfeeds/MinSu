@@ -132,7 +132,7 @@ public class FindPasswordActivity extends BaseActivity implements View.OnClickLi
             case R.id.button_yanzhengma:
                 etMobile = mobile.getText().toString();
                 if (RegexUtils.isMobileExact(etMobile)) {
-                    MinSuApi.getSmsCode(0x002, etMobile, 1, callBack);
+                    MinSuApi.getSmsCode(0x002, etMobile, 2, callBack);
                     myCountDownTimer = new MyCountDownTimer(60000, 1000);
                     myCountDownTimer.start();
                 } else {

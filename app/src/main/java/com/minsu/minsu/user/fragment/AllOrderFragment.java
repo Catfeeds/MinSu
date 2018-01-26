@@ -15,7 +15,9 @@ import com.minsu.minsu.R;
 import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
+import com.minsu.minsu.common.RoomDetailActivity;
 import com.minsu.minsu.common.bean.OrderBean;
+import com.minsu.minsu.user.TuiFangApplyActivity;
 import com.minsu.minsu.user.TuiKuanApplyActivity;
 import com.minsu.minsu.user.adapter.OrderListAdapter;
 import com.minsu.minsu.utils.StorageUtil;
@@ -77,6 +79,11 @@ public class AllOrderFragment extends BaseFragment {
                                         case R.id.order_pay:
 
                                             break;
+                                        case R.id.tiqian_tuifang:
+                                            Intent intent1 = new Intent(getActivity(), TuiFangApplyActivity.class);
+                                            intent1.putExtra("order_id", orderListAdapter.getItem(position).order_id + "");
+                                            startActivity(intent1);
+                                            break;
                                         case R.id.order_cancel:
                                             MinSuApi.cancelOrder(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
                                             break;
@@ -84,14 +91,16 @@ public class AllOrderFragment extends BaseFragment {
                                             MinSuApi.deleteOrder(getActivity(), 0x003, tokenId, orderListAdapter.getItem(position).order_id, callBack);
                                             break;
                                         case R.id.yudin_again:
-//                                            MinSuApi.cancelOrder(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
+                                            Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
+                                            intent.putExtra("house_id",orderListAdapter.getItem(position).house_id+"");
+                                            startActivity(intent);
                                             break;
                                         case R.id.tuikuan_apply:
                                             //申请退款
                                             ToastManager.show("申请退款");
-                                            Intent intent = new Intent(getActivity(), TuiKuanApplyActivity.class);
-                                            intent.putExtra("order_id", orderListAdapter.getItem(position).order_id + "");
-                                            startActivity(intent);
+                                            Intent intent2 = new Intent(getActivity(), TuiKuanApplyActivity.class);
+                                            intent2.putExtra("order_id", orderListAdapter.getItem(position).order_id + "");
+                                            startActivity(intent2);
                                             break;
                                     }
                                 }

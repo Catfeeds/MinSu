@@ -139,6 +139,7 @@
         android:background="@color/part_line" />
 
     <RelativeLayout
+        android:id="@+id/rl_coupon"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/white">
@@ -152,11 +153,13 @@
             android:text="优惠券" />
 
         <TextView
+            android:id="@+id/tv_coupon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/tag01"
+            android:textColor="@color/orange"
             android:drawableStart="@mipmap/me_renzheng"
             android:text="100" />
 
@@ -188,6 +191,7 @@
             android:text="合计" />
 
         <TextView
+            android:id="@+id/total_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -223,7 +227,8 @@
             android:layout_toEndOf="@+id/tag03"
             android:text="支付宝" />
 
-        <CheckBox
+        <RadioButton
+            android:id="@+id/rb_ali"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -259,7 +264,8 @@
             android:layout_toEndOf="@+id/tag04"
             android:text="微信支付" />
 
-        <CheckBox
+        <RadioButton
+            android:id="@+id/rb_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

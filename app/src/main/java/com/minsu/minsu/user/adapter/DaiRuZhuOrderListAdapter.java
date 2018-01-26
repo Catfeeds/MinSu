@@ -50,13 +50,6 @@ public class DaiRuZhuOrderListAdapter extends BaseQuickAdapter<OrderBean.Data, B
             }
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");
-            helper.getView(R.id.order_cancel).setVisibility(View.GONE);
-            helper.getView(R.id.order_pay).setVisibility(View.GONE);
-            helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
-            helper.getView(R.id.yudin_again).setVisibility(View.VISIBLE);
-            helper.getView(R.id.order_delete).setVisibility(View.VISIBLE);
-            helper.addOnClickListener(R.id.order_delete);
-            helper.addOnClickListener(R.id.yudin_again);
         }
 
 
