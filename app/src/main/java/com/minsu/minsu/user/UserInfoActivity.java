@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -46,6 +45,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -328,7 +328,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         ButterKnife.bind(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -359,17 +358,36 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 });
                 break;
             case R.id.rl_birthday:
-                DatePickerDialog datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                        ToastManager.show("您选择了：" + year + "年" + monthOfYear
-                                + "月" + dayOfMonth + "日");
-                        MinSuApi.birthdayChange(0x003, token, year + "-" + (monthOfYear + 1) + "-" + dayOfMonth, callBack);
-                    }
+                DatePickerDialog datePickerDialog = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                    datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                            ToastManager.show("您选择了：" + year + "年" + monthOfYear
+                                    + "月" + dayOfMonth + "日");
+                            MinSuApi.birthdayChange(0x003, token, year + "-" + (monthOfYear + 1) + "-" + dayOfMonth, callBack);
+                        }
 
-                });
-                datePickerDialog.show();
+                    });
+                    datePickerDialog.show();
+                } else {
+                    //初始化Calendar日历对象
+                    Calendar mycalendar = Calendar.getInstance();
+
+                    int year = mycalendar.get(Calendar.YEAR); //获取Calendar对象中的年
+                    int month = mycalendar.get(Calendar.MONTH);//获取Calendar对象中的月
+                    int day = mycalendar.get(Calendar.DAY_OF_MONTH);//获取这个月的第几天
+                    new DatePickerDialog(UserInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                            ToastManager.show("您选择了：" + year + "年" + month
+//                                    + "月" + dayOfMonth + "日");
+                            MinSuApi.birthdayChange(0x003, token, year + "-" + (month + 1) + "-" + dayOfMonth, callBack);
+                        }
+                    }, year, month, day).show();
+                }
+
                 break;
             case R.id.rl_nickname:
                 LayoutInflater li = LayoutInflater.from(this);

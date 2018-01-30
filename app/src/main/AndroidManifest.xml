@@ -248,7 +248,7 @@
         <!-- 微信支付 end -->
         <activity android:name=".user.RoomEvaluateActivity" />
         <activity android:name=".user.TuiKuanApplyActivity" />
-        <activity android:name=".common.CommentListActivity" />
+        <activity android:name=".common.CommentSubmitActivity" />
         <activity android:name=".user.ErRecordActivity" />
         <activity android:name=".user.WalletActivity" />
         <activity android:name=".user.TiXianActivity" />

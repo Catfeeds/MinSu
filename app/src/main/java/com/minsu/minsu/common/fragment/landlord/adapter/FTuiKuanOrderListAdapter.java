@@ -1,6 +1,7 @@
 package com.minsu.minsu.common.fragment.landlord.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,17 +45,35 @@ public class FTuiKuanOrderListAdapter extends BaseQuickAdapter<OrderBean.Data, B
             } else if (item.order_status == 1) {
                 if (item.is_tuikuan == 0) {
                     helper.setText(R.id.order_state, "审核中");
+                    helper.addOnClickListener(R.id.agree_tuikuan);
+                    helper.addOnClickListener(R.id.refuse_tuikuan);
                 } else if (item.is_tuikuan == 1) {
                     helper.setText(R.id.order_state, "退款成功");
+                    helper.getView(R.id.refuse_tuikuan).setVisibility(View.GONE);
+                    helper.getView(R.id.agree_tuikuan).setVisibility(View.GONE);
                 } else if (item.is_tuikuan == -1) {
                     helper.setText(R.id.order_state, "拒绝退款");
+                    helper.getView(R.id.refuse_tuikuan).setVisibility(View.GONE);
+                    helper.getView(R.id.agree_tuikuan).setVisibility(View.GONE);
                 }
 
-                helper.addOnClickListener(R.id.confirm_tuifang);
             } else if (item.order_status == 2) {
                 helper.setText(R.id.order_state, "已退房");
+
             } else if (item.order_status == 3) {
-                helper.setText(R.id.order_state, "已退款");
+                if (item.is_tuikuan == 0) {
+                    helper.getView(R.id.order_state).setVisibility(View.GONE);
+                    helper.addOnClickListener(R.id.agree_tuikuan);
+                    helper.addOnClickListener(R.id.refuse_tuikuan);
+                } else if (item.is_tuikuan == 1) {
+                    helper.setText(R.id.order_state, "退款成功");
+                    helper.getView(R.id.agree_tuikuan).setVisibility(View.GONE);
+                    helper.getView(R.id.refuse_tuikuan).setVisibility(View.GONE);
+                } else if (item.is_tuikuan == -1) {
+                    helper.setText(R.id.order_state, "已拒绝退款");
+                    helper.getView(R.id.agree_tuikuan).setVisibility(View.GONE);
+                    helper.getView(R.id.refuse_tuikuan).setVisibility(View.GONE);
+                }
             } else if (item.order_status == 4) {
                 helper.setText(R.id.order_state, "提前退房");
             }

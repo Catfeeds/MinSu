@@ -160,8 +160,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/tag01"
             android:textColor="@color/orange"
-            android:drawableStart="@mipmap/me_renzheng"
-            android:text="100" />
+            android:drawableStart="@mipmap/me_renzheng" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -217,7 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/zhifubao01" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -254,7 +253,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/weixin01" />
 
         <TextView
             android:layout_width="wrap_content"

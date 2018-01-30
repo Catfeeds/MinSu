@@ -1,5 +1,6 @@
 package com.minsu.minsu.user.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
@@ -14,7 +16,7 @@ import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
 import com.minsu.minsu.common.bean.OrderBean;
-import com.minsu.minsu.user.adapter.OrderListAdapter;
+import com.minsu.minsu.user.TuiFangApplyActivity;
 import com.minsu.minsu.user.adapter.RuZhuZhongOrderListAdapter;
 import com.minsu.minsu.utils.StorageUtil;
 
@@ -34,7 +36,7 @@ public class RuZhuZhongFragment extends BaseFragment {
     RecyclerView recyclerView;
     Unbinder unbinder;
     private String tokenId;
-    private  View view;
+    private View view;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -64,14 +66,25 @@ public class RuZhuZhongFragment extends BaseFragment {
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
                             OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
-                            RuZhuZhongOrderListAdapter orderListAdapter = new RuZhuZhongOrderListAdapter(R.layout.item_order_ruzhu, orderBean.data);
-                            recyclerView=view.findViewById(R.id.recyclerView);
+                            final RuZhuZhongOrderListAdapter orderListAdapter = new RuZhuZhongOrderListAdapter(R.layout.item_order_ruzhu, orderBean.data);
+                            recyclerView = view.findViewById(R.id.recyclerView);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(orderListAdapter);
-                            if (orderBean.data.size()==0){
+                            if (orderBean.data.size() == 0) {
                                 orderListAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
-
+                            orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                                @Override
+                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                    switch (view.getId()) {
+                                        case R.id.tuifang_tiqian:
+                                            Intent intent1 = new Intent(getActivity(), TuiFangApplyActivity.class);
+                                            intent1.putExtra("order_id", orderListAdapter.getItem(position).order_id + "");
+                                            startActivity(intent1);
+                                            break;
+                                    }
+                                }
+                            });
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

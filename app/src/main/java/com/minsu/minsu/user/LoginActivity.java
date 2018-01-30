@@ -93,7 +93,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected Context getActivityContext() {
-        return this;
+        return null;
     }
 
     @Override

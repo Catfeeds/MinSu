@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -68,8 +69,21 @@ public class TuiKuanApplyActivity extends BaseActivity implements View.OnClickLi
     EditText etContent;
     @BindView(R.id.submit)
     TextView submit;
+    @BindView(R.id.radiobutton01)
+    CheckBox radiobutton01;
+    @BindView(R.id.rl_order_info)
+    RelativeLayout rlOrderInfo;
+    @BindView(R.id.radiobutton02)
+    CheckBox radiobutton02;
+    @BindView(R.id.rl_xingcheng)
+    RelativeLayout rlXingcheng;
+    @BindView(R.id.radiobutton03)
+    CheckBox radiobutton03;
+    @BindView(R.id.rl_other_reason)
+    RelativeLayout rlOtherReason;
     private String tokenId;
     private String order_id;
+    private String applyText;
 
     @Override
     protected void processLogic() {
@@ -90,6 +104,9 @@ public class TuiKuanApplyActivity extends BaseActivity implements View.OnClickLi
             }
         });
         submit.setOnClickListener(this);
+        radiobutton01.setOnClickListener(this);
+        radiobutton02.setOnClickListener(this);
+        radiobutton03.setOnClickListener(this);
     }
 
     @Override
@@ -141,6 +158,7 @@ public class TuiKuanApplyActivity extends BaseActivity implements View.OnClickLi
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             ToastManager.show(msg);
+                            finish();
                         } else if (code == 211) {
                             ToastManager.show(msg);
                         }
@@ -178,8 +196,32 @@ public class TuiKuanApplyActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                MinSuApi.submitTuikuan(TuiKuanApplyActivity.this, 0x002, tokenId, Integer.parseInt(order_id), "不想订了", "行程有变", callBack);
+                if (radiobutton01.isChecked()) {
+                    applyText = "订单信息有误";
+                } else if (radiobutton02.isChecked()) {
+                    applyText = "行程有变";
+                } else if (radiobutton03.isChecked()) {
+                    applyText = "其他原因";
+                }
+                String s = etContent.getText().toString();
+                MinSuApi.submitTuikuan(TuiKuanApplyActivity.this, 0x002, tokenId, Integer.parseInt(order_id), s, applyText, callBack);
                 break;
+            case R.id.radiobutton02:
+                radiobutton01.setChecked(false);
+                radiobutton02.setChecked(true);
+                radiobutton03.setChecked(false);
+                break;
+            case R.id.radiobutton01:
+                radiobutton01.setChecked(true);
+                radiobutton02.setChecked(false);
+                radiobutton03.setChecked(false);
+                break;
+            case R.id.radiobutton03:
+                radiobutton01.setChecked(false);
+                radiobutton02.setChecked(false);
+                radiobutton03.setChecked(true);
+                break;
+
         }
     }
 }

@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#E4E4E7"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,7 +18,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="visible">
+           >
 
             <ImageView
                 android:layout_width="20dp"
@@ -47,15 +48,15 @@
 
     <TextView
         android:id="@+id/tv_now"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dip"
-        android:background="#f1f1f1"
+        android:layout_marginStart="5dp"
+        android:padding="5dp"
+        android:background="@drawable/frame_button_6"
         android:gravity="center_vertical"
         android:paddingBottom="10dip"
         android:paddingTop="10dip"
-        android:textColor="#000"
         tools:text="郑州" />
 
     <TextView

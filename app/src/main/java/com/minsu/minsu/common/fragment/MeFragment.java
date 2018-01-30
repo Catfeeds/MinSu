@@ -1,6 +1,7 @@
 package com.minsu.minsu.common.fragment;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -78,6 +79,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
     LinearLayout llHouseResource;
     private View view;
     private String token;
+    private int is_house;
+    private int type = 1;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -89,7 +92,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
 
     @Override
     protected void initListener() {
-
+        llOrder.setVisibility(View.VISIBLE);
+        llHouseResource.setVisibility(View.GONE);
         token = StorageUtil.getTokenId(getActivity());
         llOrder.setOnClickListener(this);
         llAccount.setOnClickListener(this);
@@ -138,17 +142,18 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                             String head_pic = userData.getString("head_pic");
 
                             int is_name = userData.getInt("is_name");
-                            int is_house = userData.getInt("is_house");
+
+                            is_house = userData.getInt("is_house");
                             int user_id = userData.getInt("user_id");
                             if (is_house == 1) {
                                 //已经认证通过成为房东
                                 StorageUtil.setKeyValue(getActivity(), "role", "landlord");
-                                llOrder.setVisibility(View.GONE);
-                                llHouseResource.setVisibility(View.VISIBLE);
+//                                llOrder.setVisibility(View.GONE);
+//                                llHouseResource.setVisibility(View.VISIBLE);
                             } else {
                                 StorageUtil.setKeyValue(getActivity(), "role", "user");
-                                llOrder.setVisibility(View.VISIBLE);
-                                llHouseResource.setVisibility(View.GONE);
+//                                llOrder.setVisibility(View.VISIBLE);
+//                                llHouseResource.setVisibility(View.GONE);
                             }
                             username.setText(nickname);
                             if (is_name == 1) {
@@ -203,7 +208,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                 break;
             case R.id.ll_coupon:
                 Intent intent = new Intent(getActivity(), CouponActivity.class);
-                intent.putExtra("type","");
+                intent.putExtra("type", "");
                 startActivity(intent);
                 break;
             case R.id.ll_collect:
@@ -222,7 +227,25 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
                 startActivity(new Intent(getActivity(), HouseResourceActivity.class));
                 break;
             case R.id.landlord:
-                startActivity(new Intent(getActivity(), LandlordAuthenticationActivity.class));
+
+                if (is_house == 1) {
+                    if (type == 1) {
+                        roleInterface.changeRole(1);
+                        type = 2;
+                        landlord.setText("成为房客");
+                        llOrder.setVisibility(View.GONE);
+                        llHouseResource.setVisibility(View.VISIBLE);
+                    } else if (type == 2) {
+                        roleInterface.changeRole(2);
+                        type = 1;
+                        landlord.setText("成为房东");
+                        llOrder.setVisibility(View.VISIBLE);
+                        llHouseResource.setVisibility(View.GONE);
+                    }
+
+                } else {
+                    startActivity(new Intent(getActivity(), LandlordAuthenticationActivity.class));
+                }
                 break;
         }
     }
@@ -245,5 +268,22 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, Tr
     public void onResume() {
         super.onResume();
 //        MinSuApi.userCenter(getActivity(), 0x001, token, callBack);
+    }
+
+    public interface RoleInterface {
+
+        void changeRole(int role);
+
+
+    }
+
+    private RoleInterface roleInterface;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof RoleInterface) {
+            roleInterface = (RoleInterface) activity;
+        }
     }
 }

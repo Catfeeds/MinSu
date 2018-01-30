@@ -15,6 +15,8 @@ import com.minsu.minsu.R;
 import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
+import com.minsu.minsu.common.CommentSubmitActivity;
+import com.minsu.minsu.common.OrderSubmitActivity;
 import com.minsu.minsu.common.RoomDetailActivity;
 import com.minsu.minsu.common.bean.OrderBean;
 import com.minsu.minsu.user.TuiFangApplyActivity;
@@ -77,7 +79,9 @@ public class AllOrderFragment extends BaseFragment {
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                     switch (view.getId()) {
                                         case R.id.order_pay:
-
+                                            Intent intent4 = new Intent(getActivity(), OrderSubmitActivity.class);
+                                            intent4.putExtra("order_id",orderListAdapter.getItem(position).order_id+"");
+                                            startActivity(intent4);
                                             break;
                                         case R.id.tiqian_tuifang:
                                             Intent intent1 = new Intent(getActivity(), TuiFangApplyActivity.class);
@@ -92,8 +96,14 @@ public class AllOrderFragment extends BaseFragment {
                                             break;
                                         case R.id.yudin_again:
                                             Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
-                                            intent.putExtra("house_id",orderListAdapter.getItem(position).house_id+"");
+                                            intent.putExtra("house_id", orderListAdapter.getItem(position).house_id + "");
                                             startActivity(intent);
+                                            break;
+                                        case R.id.pingjia:
+                                            ToastManager.show("评价");
+                                            Intent intent3 = new Intent(getActivity(), CommentSubmitActivity.class);
+                                            intent3.putExtra("houseId", orderListAdapter.getItem(position).house_id + "");
+                                            startActivity(intent3);
                                             break;
                                         case R.id.tuikuan_apply:
                                             //申请退款
@@ -153,6 +163,12 @@ public class AllOrderFragment extends BaseFragment {
 
         }
     };
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        MinSuApi.allMyOrder(getActivity(), 0x001, tokenId, callBack);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

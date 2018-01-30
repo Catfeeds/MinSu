@@ -80,6 +80,22 @@ public class LAllOrderFragment extends BaseFragment {
                                         case R.id.confirm_ruzhu:
                                             MinSuApi.sureRuzhu(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
                                             break;
+                                        case R.id.confirm_tuifang:
+                                            ToastManager.show("确认退房");
+                                            MinSuApi.sureTuiFang(getActivity(), 0x003, tokenId, orderListAdapter.getItem(position).order_id, callBack);
+                                            break;
+                                        case R.id.refuse_tuikuan:
+                                            MinSuApi.sureTuiKuan(getActivity(), 0x004, tokenId, orderListAdapter.getItem(position).order_id, -1, callBack);
+                                            break;
+                                        case R.id.agree_tuikuan:
+                                            MinSuApi.sureTuiKuan(getActivity(), 0x005, tokenId, orderListAdapter.getItem(position).order_id, 1, callBack);
+                                            break;
+                                        case R.id.agree_tuifang:
+                                            MinSuApi.sureTiQianTuiFang(getActivity(), 0x006, tokenId, orderListAdapter.getItem(position).order_id,1, callBack);
+                                            break;
+                                        case R.id.refuse_tuifang:
+                                            MinSuApi.sureTiQianTuiFang(getActivity(), 0x007, tokenId, orderListAdapter.getItem(position).order_id,-1, callBack);
+                                            break;
                                     }
                                 }
                             });
@@ -91,6 +107,81 @@ public class LAllOrderFragment extends BaseFragment {
                     }
                     break;
                 case 0x002:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200) {
+                            ToastManager.show(msg);
+                            MinSuApi.lanlordAllOrderList(getActivity(), 0x001, tokenId, callBack);
+                        } else if (code == 211) {
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x003:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200) {
+                            ToastManager.show(msg);
+                            MinSuApi.lanlordAllOrderList(getActivity(), 0x001, tokenId, callBack);
+                        } else if (code == 211) {
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x004:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200) {
+                            ToastManager.show(msg);
+                            MinSuApi.lanlordAllOrderList(getActivity(), 0x001, tokenId, callBack);
+                        } else if (code == 211) {
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x005:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200) {
+                            ToastManager.show(msg);
+                            MinSuApi.lanlordAllOrderList(getActivity(), 0x001, tokenId, callBack);
+                        } else if (code == 211) {
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x006:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200) {
+                            ToastManager.show(msg);
+                            MinSuApi.lanlordAllOrderList(getActivity(), 0x001, tokenId, callBack);
+                        } else if (code == 211) {
+                            ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x007:
                     try {
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");

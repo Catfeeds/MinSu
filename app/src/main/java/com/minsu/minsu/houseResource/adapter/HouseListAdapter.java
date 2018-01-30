@@ -17,8 +17,11 @@ import java.util.List;
  */
 
 public class HouseListAdapter extends BaseQuickAdapter<HouseListBean.Data, BaseViewHolder> {
-    public HouseListAdapter(int layoutResId, @Nullable List<HouseListBean.Data> data) {
+    private String type;
+
+    public HouseListAdapter(int layoutResId, @Nullable List<HouseListBean.Data> data, String type) {
         super(layoutResId, data);
+        this.type = type;
     }
 
     @Override
@@ -26,20 +29,24 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean.Data, BaseV
         helper.setText(R.id.room_name, item.title);
         helper.setText(R.id.room_description, item.house_info);
         helper.setText(R.id.room_price, "￥" + item.house_price + "/天");
-        helper.setText(R.id.room_address, item.city + " "+item.district + " "+item.town);
+        helper.setText(R.id.room_address, item.city + " " + item.district + " " + item.town);
         Glide.with(mContext)
                 .load(Constant.BASE2_URL + item.house_img)
                 .into((ImageView) helper.getView(R.id.room_img));
-        int collect = item.collect;
+
         helper.addOnClickListener(R.id.focus_room);
-        if (collect == 1) {
-            Glide.with(mContext)
-                    .load(R.mipmap.collected)
-                    .into((ImageView) helper.getView(R.id.focus_room));
-        } else if (collect == 0) {
-            Glide.with(mContext)
-                    .load(R.mipmap.collect)
-                    .into((ImageView) helper.getView(R.id.focus_room));
+        if (type.equals("home")) {
+            int collect = item.collect;
+            if (collect == 1) {
+                Glide.with(mContext)
+                        .load(R.mipmap.collected)
+                        .into((ImageView) helper.getView(R.id.focus_room));
+            } else if (collect == 0) {
+                Glide.with(mContext)
+                        .load(R.mipmap.collect)
+                        .into((ImageView) helper.getView(R.id.focus_room));
+            }
         }
+
     }
 }

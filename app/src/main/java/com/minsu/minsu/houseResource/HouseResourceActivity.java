@@ -56,7 +56,7 @@ public class HouseResourceActivity extends BaseActivity implements View.OnClickL
         toolbarTitle.setText("我的房源");
         ivLeft.setVisibility(View.VISIBLE);
         ivRight.setVisibility(View.VISIBLE);
-        ivRight.setImageResource(R.mipmap.anim_heart);
+        ivRight.setImageResource(R.mipmap.add_01);
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +92,7 @@ public class HouseResourceActivity extends BaseActivity implements View.OnClickL
                             ToastManager.show(msg);
                         } else if (code == 200) {
                             HouseListBean houseListBean = new Gson().fromJson(result.body(), HouseListBean.class);
-                            HouseListAdapter houseListAdapter = new HouseListAdapter(R.layout.item_home_list, houseListBean.data);
+                            HouseListAdapter houseListAdapter = new HouseListAdapter(R.layout.item_home_list, houseListBean.data,"home");
                             recyclerView.setAdapter(houseListAdapter);
                         }
                     } catch (JSONException e) {

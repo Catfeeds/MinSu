@@ -1,6 +1,7 @@
 package com.minsu.minsu.common.fragment.landlord.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,16 +48,24 @@ public class FTiqianTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.D
                 helper.setText(R.id.order_state, "已退房");
             } else if (item.order_status == 3) {
                 helper.setText(R.id.order_state, "已退款");
+            }else if (item.order_status == 4) {
+                if (item.is_tuifang==0){
+                    helper.setText(R.id.order_state, "审核中");
+                    helper.addOnClickListener(R.id.agree_tuifang);
+                    helper.addOnClickListener(R.id.refuse_tuifang);
+                }else if (item.is_tuifang==1){
+                    helper.setText(R.id.order_state, "提前退房成功");
+                    helper.getView(R.id.agree_tuifang).setVisibility(View.GONE);
+                    helper.getView(R.id.refuse_tuifang).setVisibility(View.GONE);
+                } else if (item.is_tuifang==-1){
+                    helper.setText(R.id.order_state, "拒绝提前退房");
+                    helper.getView(R.id.agree_tuifang).setVisibility(View.GONE);
+                    helper.getView(R.id.refuse_tuifang).setVisibility(View.GONE);
+                }
+
             }
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");
-//            helper.getView(R.id.order_cancel).setVisibility(View.GONE);
-//            helper.getView(R.id.order_pay).setVisibility(View.GONE);
-//            helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
-//            helper.getView(R.id.yudin_again).setVisibility(View.VISIBLE);
-//            helper.getView(R.id.order_delete).setVisibility(View.VISIBLE);
-//            helper.addOnClickListener(R.id.order_delete);
-//            helper.addOnClickListener(R.id.yudin_again);
         }
 
 

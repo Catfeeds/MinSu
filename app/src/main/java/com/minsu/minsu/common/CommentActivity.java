@@ -2,6 +2,7 @@ package com.minsu.minsu.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,7 +90,7 @@ public class CommentActivity extends BaseActivity {
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             CommentBean commentBean = new Gson().fromJson(result.body(), CommentBean.class);
-                            final CommentListAdapter commentListAdapter = new CommentListAdapter(R.layout.item_comment, commentBean.data);
+                            final CommentListAdapter commentListAdapter = new CommentListAdapter(R.layout.item_comment, commentBean.data,CommentActivity.this);
                             recyclerView.setAdapter(commentListAdapter);
                             commentListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                 @Override
@@ -99,6 +100,7 @@ public class CommentActivity extends BaseActivity {
                                             if (commentListAdapter.getItem(position).u_coll == 1) {
                                                 //已点赞
                                                 MinSuApi.roomCancelDianzan(0x002, tokenId, commentListAdapter.getItem(position).comment_id, callBack);
+
                                             } else {
                                                 //未点赞
                                                 MinSuApi.roomDianzan(0x003, tokenId, commentListAdapter.getItem(position).comment_id, callBack);

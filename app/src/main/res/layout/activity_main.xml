@@ -36,7 +36,11 @@
                 android:drawableTop="@drawable/tab_0_back"
                 android:checked="true"
                 android:text="@string/app_home" />
-
+            <RadioButton
+                android:id="@+id/rb_order"
+                style="@style/RadioButtonBottomTab"
+                android:drawableTop="@drawable/tab_4_back"
+                android:text="@string/app_order" />
             <RadioButton
                 android:id="@+id/rb_find"
                 style="@style/RadioButtonBottomTab"
@@ -49,15 +53,11 @@
                 android:drawableTop="@drawable/tab_2_back"
                 android:text="@string/app_message" />
 
-            <RadioButton
-                android:id="@+id/rb_order"
-                style="@style/RadioButtonBottomTab"
-                android:drawableTop="@drawable/tab_3_back"
-                android:text="@string/app_order" />
+
             <RadioButton
                 android:id="@+id/rb_me"
                 style="@style/RadioButtonBottomTab"
-                android:drawableTop="@drawable/tab_4_back"
+                android:drawableTop="@drawable/tab_3_back"
                 android:text="@string/app_me" />
         </RadioGroup>
     </RelativeLayout>

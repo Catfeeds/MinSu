@@ -46,7 +46,7 @@ public class CouponActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private String tokenId;
-    private String type;
+
 
     @Override
     protected void processLogic() {
@@ -56,7 +56,7 @@ public class CouponActivity extends BaseActivity {
     @Override
     protected void setListener() {
 
-        type = getIntent().getStringExtra("type");
+
         tokenId = StorageUtil.getTokenId(this);
         toolbarTitle.setText("优惠券");
         ivLeft.setVisibility(View.VISIBLE);
@@ -110,20 +110,6 @@ public class CouponActivity extends BaseActivity {
                                         case R.id.coupon_status:
                                             MinSuApi.getCoupon(0x002, tokenId, couponListAdapter.getItem(position).quan_id, callBack);
                                             break;
-                                    }
-                                }
-                            });
-                            couponListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    if (type.equals("order")){
-                                        Intent intent = new Intent();
-                                        //把返回数据存入Intent
-                                        intent.putExtra("discount_amount", couponListAdapter.getItem(position).price + "");
-                                        intent.putExtra("coupon_id", couponListAdapter.getItem(position).quan_id + "");
-                                        CouponActivity.this.setResult(RESULT_OK, intent);
-                                        //关闭Activity
-                                        CouponActivity.this.finish();
                                     }
                                 }
                             });

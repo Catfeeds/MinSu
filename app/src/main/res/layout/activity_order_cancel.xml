@@ -157,6 +157,7 @@
         android:background="@color/part_line" />
 
     <RelativeLayout
+        android:id="@+id/rl_order_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
@@ -167,7 +168,7 @@
             android:layout_centerVertical="true"
             android:text="订单信息有误" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radiobutton01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -176,6 +177,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_xingcheng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
@@ -186,7 +188,7 @@
             android:layout_centerVertical="true"
             android:text="行程有变" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radiobutton02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -195,6 +197,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_other_reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
@@ -205,7 +208,7 @@
             android:layout_centerVertical="true"
             android:text="其他理由" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/radiobutton03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

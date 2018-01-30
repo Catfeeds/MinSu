@@ -25,6 +25,7 @@ import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseActivity;
 import com.minsu.minsu.user.CouponActivity;
+import com.minsu.minsu.user.MyCouponActivity;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
 import com.minsu.minsu.weixin.WXPay;
@@ -129,26 +130,22 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(OrderSubmitActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                        if (coupon_id==null){
-                            MinSuApi.changeOrderStatus(OrderSubmitActivity.this, 0x002, tokenId, order_id, "", callBack);
-                        }else{
+                        if (coupon_id == null) {
+                            MinSuApi.changeOrderStatus(0x002, tokenId, order_id, "", callBack);
+                        } else {
 
                             //需要优惠券id
-                            MinSuApi.changeOrderStatus(OrderSubmitActivity.this, 0x002, tokenId, order_id, coupon_id, callBack);
+                            MinSuApi.changeOrderStatus(0x002, tokenId, order_id, coupon_id, callBack);
                         }
-//                        Intent intent = new Intent(PayActivity.this, PaySuccessActivity.class);
-//                        intent.putExtra("total_amount", total_amount);
-//                        intent.putExtra("out_trade_no", out_trade_no);
-//                        intent.putExtra("timestamp", timestamp);
-//                        intent.putExtra("tag", "ali");
-//                        startActivity(intent);
+                        Intent intent = new Intent(OrderSubmitActivity.this, MainActivity.class);
+                        startActivity(intent);
                         finish();
                     } else {
                         Toast.makeText(OrderSubmitActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
                         //                 该笔订单真实的支付结果，需要依赖服务端的异步通知。
 //                        Intent intent = new Intent(PayActivity.this, PayFailActivity.class);
 //                        startActivity(intent);
-                        finish();
+//                        finish();
                     }
                     break;
                 }
@@ -157,6 +154,7 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
             }
         }
     };
+
     @Override
     protected void processLogic() {
         MinSuApi.orderPayPage(this, 0x001, tokenId, order_id, callBack);
@@ -221,7 +219,7 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                             String nickname = jsonObject1.getString("nickname");
                             String mobile = jsonObject1.getString("mobile");
                             int is_name = jsonObject1.getInt("is_name");
-                            totalMoney.setText("￥"+total_price);
+                            totalMoney.setText("￥" + total_price);
                             landlord.setText(nickname);
                             phone.setText(mobile);
                             orderRoomTitle.setText(title);
@@ -263,7 +261,7 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                     try {
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
-                        if (code==200){
+                        if (code == 200) {
                             JSONObject data = jsonObject.getJSONObject("data");
                             doWXPay(data);
                         }
@@ -275,7 +273,7 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                     try {
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
-                        if (code==200){
+                        if (code == 2101003) {
                             JSONObject data = jsonObject.getJSONObject("data");
                             final String payinfo = data.getString("payinfo");
                             Runnable payRunnable = new Runnable() {
@@ -318,12 +316,12 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onSuccess() {
                 Toast.makeText(getApplication(), "支付成功", Toast.LENGTH_SHORT).show();
-                if (coupon_id==null){
-                    MinSuApi.changeOrderStatus(OrderSubmitActivity.this, 0x002, tokenId, order_id, "", callBack);
-                }else{
+                if (coupon_id == null) {
+                    MinSuApi.changeOrderStatus(0x002, tokenId, order_id, "", callBack);
+                } else {
 
                     //需要优惠券id
-                    MinSuApi.changeOrderStatus(OrderSubmitActivity.this, 0x002, tokenId, order_id, coupon_id, callBack);
+                    MinSuApi.changeOrderStatus(0x002, tokenId, order_id, coupon_id, callBack);
                 }
 
                 Intent intent = new Intent(OrderSubmitActivity.this, MainActivity.class);
@@ -362,22 +360,21 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.quick_pay:
                 //支付操作
-                if (byAli){
+                if (byAli) {
                     ToastManager.show("阿里支付");
-                    if (discount_amount==null){
-                        MinSuApi.aliPay(OrderSubmitActivity.this,0x004,tokenId,order_id,0,callBack);
-                    }else{
-                        MinSuApi.aliPay(OrderSubmitActivity.this,0x004,tokenId,order_id,Integer.parseInt(discount_amount),callBack);
+                    if (discount_amount == null) {
+                        MinSuApi.aliPay(OrderSubmitActivity.this, 0x004, tokenId, order_id, 0, callBack);
+                    } else {
+                        MinSuApi.aliPay(OrderSubmitActivity.this, 0x004, tokenId, order_id, Integer.parseInt(discount_amount), callBack);
                     }
-                }else{
+                } else {
                     ToastManager.show("微信支付");
-                    if (discount_amount==null){
-                        MinSuApi.weixinPay(OrderSubmitActivity.this,0x003,tokenId,order_id,0,callBack);
-                    }else{
-                        MinSuApi.weixinPay(OrderSubmitActivity.this,0x003,tokenId,order_id,Integer.parseInt(discount_amount),callBack);
+                    if (discount_amount == null) {
+                        MinSuApi.weixinPay(OrderSubmitActivity.this, 0x003, tokenId, order_id, 0, callBack);
+                    } else {
+                        MinSuApi.weixinPay(OrderSubmitActivity.this, 0x003, tokenId, order_id, Integer.parseInt(discount_amount), callBack);
                     }
                 }
-
 
 
                 break;
@@ -392,8 +389,9 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                 byAli = false;
                 break;
             case R.id.rl_coupon:
-                Intent intent = new Intent(OrderSubmitActivity.this, CouponActivity.class);
-                intent.putExtra("type","order");
+                Intent intent = new Intent(OrderSubmitActivity.this, MyCouponActivity.class);
+                intent.putExtra("type", "order");
+                intent.putExtra("money", total_price);
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
         }
@@ -405,11 +403,11 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
         if (data != null && REQUEST_CODE == requestCode) {
             discount_amount = data.getExtras().getString("discount_amount");
             coupon_id = data.getExtras().getString("coupon_id");
-            tvCoupon.setText("￥"+discount_amount);
+            tvCoupon.setText("￥" + discount_amount);
             Double obj1 = new Double(total_price);
             Double obj2 = new Double(discount_amount);
 //            int retval =  obj1.compareTo(obj2);
-            totalMoney.setText("￥"+(obj1-obj2));
+            totalMoney.setText("￥" + (obj1 - obj2));
         }
     }
 

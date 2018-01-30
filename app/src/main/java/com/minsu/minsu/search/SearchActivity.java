@@ -1,6 +1,7 @@
 package com.minsu.minsu.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
+import com.minsu.minsu.common.RoomDetailActivity;
+import com.minsu.minsu.user.CollectActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.minsu.minsu.R;
 import com.minsu.minsu.api.MinSuApi;
@@ -125,9 +128,17 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                         if (code == 200) {
 
                             searchBean = new Gson().fromJson(result.body(), SearchBean.class);
-                            SearchAdapter searchAdapter = new SearchAdapter(R.layout.item_home_list, searchBean.data1);
+                            final SearchAdapter searchAdapter = new SearchAdapter(R.layout.item_home_list, searchBean.data1);
                             recyclerView.setAdapter(searchAdapter);
                             searchAdapter.setEmptyView(R.layout.empty, recyclerView);
+                            searchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = new Intent(SearchActivity.this, RoomDetailActivity.class);
+                                    intent.putExtra("house_id", searchAdapter.getItem(position).house_id);
+                                    startActivity(intent);
+                                }
+                            });
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }

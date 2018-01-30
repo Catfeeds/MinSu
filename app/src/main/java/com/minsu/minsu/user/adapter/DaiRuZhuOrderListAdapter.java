@@ -38,16 +38,8 @@ public class DaiRuZhuOrderListAdapter extends BaseQuickAdapter<OrderBean.Data, B
         helper.setText(R.id.order_price, "￥：" + item.total_price);
         helper.setText(R.id.location_address, item.city + " " + item.district + " " + item.town);
        if (item.pay_status == 1) {
-            if (item.order_status == 0) {
-                helper.setText(R.id.order_state, "待入住");
-                helper.addOnClickListener(R.id.tuikuan_apply);
-            } else if (item.order_status == 1) {
-                helper.setText(R.id.order_state, "入住中");
-            } else if (item.order_status == 2) {
-                helper.setText(R.id.order_state, "已退房");
-            } else if (item.order_status == 3) {
-                helper.setText(R.id.order_state, "已退款");
-            }
+           helper.setText(R.id.order_state, "待入住");
+           helper.addOnClickListener(R.id.tuikuan_apply);
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");
         }

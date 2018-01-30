@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
@@ -45,6 +46,7 @@ public class BankCardListActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private String tokenId;
+    private String type;
 
     @Override
     protected void processLogic() {
@@ -54,6 +56,7 @@ public class BankCardListActivity extends BaseActivity {
     @Override
     protected void setListener() {
 
+        type = getIntent().getStringExtra("type");
         tokenId = StorageUtil.getTokenId(this);
         toolbarTitle.setText("银行卡");
         ivLeft.setVisibility(View.VISIBLE);
@@ -95,11 +98,25 @@ public class BankCardListActivity extends BaseActivity {
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             BankListBean bankListBean = new Gson().fromJson(result.body(), BankListBean.class);
-                            BankListAdapter bankListAdapter = new BankListAdapter(R.layout.item_bankcard, bankListBean.data);
+                            final BankListAdapter bankListAdapter = new BankListAdapter(R.layout.item_bankcard, bankListBean.data);
                             recyclerView.setAdapter(bankListAdapter);
                             if (bankListBean.data.size() == 0) {
                                 bankListAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
+                            bankListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    if (type.equals("tixian")){
+                                        Intent intent = new Intent();
+                                        //把返回数据存入Intent
+                                        intent.putExtra("bank_name", bankListAdapter.getItem(position).bank_name);
+                                        intent.putExtra("bank_code", bankListAdapter.getItem(position).bank_code);
+                                        BankCardListActivity.this.setResult(RESULT_OK, intent);
+                                        //关闭Activity
+                                        BankCardListActivity.this.finish();
+                                    }
+                                }
+                            });
                         } else if (code == 289) {
                             ToastManager.show(msg);
                         }

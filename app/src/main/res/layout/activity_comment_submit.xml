@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.minsu.minsu.common.CommentSubmitActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/part_line" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@null"
+        android:gravity="left|top"
+        android:hint="输入内容..."
+        android:inputType="textMultiLine"
+        android:maxLines="6"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="16dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/submit"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/frame_button_1"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white" />
+</LinearLayout>

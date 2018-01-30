@@ -28,15 +28,17 @@
             android:text="提现账号" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tixian_account"
+            android:layout_toStartOf="@+id/tag01"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/tag"
+            android:layout_marginEnd="5dp"
             android:hint="输入银行卡号"
             android:textSize="12sp" />
 
         <ImageView
+            android:id="@+id/tag01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -56,13 +58,14 @@
         android:layout_margin="10dp"
         android:text="提现金额" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/tixian_jine"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:text="999"
+        android:background="@null"
         android:textColor="@color/orange"
         android:textSize="20sp" />
 
@@ -82,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:text="可提现金额" />
+            android:text="可提现余额:" />
 
         <TextView
             android:id="@+id/ketixian"
@@ -110,6 +113,14 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/part_line" />
+    <TextView
+        android:id="@+id/shouxufei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

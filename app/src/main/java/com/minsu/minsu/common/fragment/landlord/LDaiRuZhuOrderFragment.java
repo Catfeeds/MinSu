@@ -78,9 +78,9 @@ public class LDaiRuZhuOrderFragment extends BaseFragment {
                                 @Override
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                     switch (view.getId()) {
-                                        case R.id.confirm_tuifang:
+                                        case R.id.confirm_ruzhu:
                                             ToastManager.show("待入住");
-//                                            MinSuApi.sureRuzhu(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
+                                            MinSuApi.sureRuzhu(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
                                             break;
                                     }
                                 }

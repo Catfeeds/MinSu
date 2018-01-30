@@ -175,43 +175,86 @@ public class RoomDetailActivity extends BaseActivity {
 
 //        checkDate();
         clickRuzhuTime.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(RoomDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                        ToastManager.show("您选择了：" + year + "年" + monthOfYear
-                                + "月" + dayOfMonth + "日");
-                        ruzhuTime.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                        String ruzhu_time = ruzhuTime.getText().toString();
-                        String leave_time = leaveTime.getText().toString();
-                        getTotalDays(ruzhu_time, leave_time);
-                    }
+                DatePickerDialog datePickerDialog = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    datePickerDialog = new DatePickerDialog(RoomDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                    datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+//                            ToastManager.show("您选择了：" + year + "年" + monthOfYear
+//                                    + "月" + dayOfMonth + "日");
+                            ruzhuTime.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                            String ruzhu_time = ruzhuTime.getText().toString();
+                            String leave_time = leaveTime.getText().toString();
+                            getTotalDays(ruzhu_time, leave_time);
+                        }
 
-                });
-                datePickerDialog.show();
+                    });
+                    datePickerDialog.show();
+                } else {
+                    //初始化Calendar日历对象
+                    Calendar mycalendar = Calendar.getInstance();
+
+                    int year = mycalendar.get(Calendar.YEAR); //获取Calendar对象中的年
+                    int month = mycalendar.get(Calendar.MONTH);//获取Calendar对象中的月
+                    int day = mycalendar.get(Calendar.DAY_OF_MONTH);//获取这个月的第几天
+                    new DatePickerDialog(RoomDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                            ToastManager.show("您选择了：" + year + "年" + month
+//                                    + "月" + dayOfMonth + "日");
+                            ruzhuTime.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                            String ruzhu_time = ruzhuTime.getText().toString();
+                            String leave_time = leaveTime.getText().toString();
+                            getTotalDays(ruzhu_time, leave_time);
+                        }
+                    }, year, month, day).show();
+                }
+
             }
         });
         clickLeaveTime.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(RoomDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                        ToastManager.show("您选择了：" + year + "年" + monthOfYear
-                                + "月" + dayOfMonth + "日");
-                        leaveTime.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                        String ruzhu_time = ruzhuTime.getText().toString();
-                        String leave_time = leaveTime.getText().toString();
-                        getTotalDays(ruzhu_time, leave_time);
-                    }
+                DatePickerDialog datePickerDialog = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    datePickerDialog = new DatePickerDialog(RoomDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                    datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                            ToastManager.show("您选择了：" + year + "年" + monthOfYear
+                                    + "月" + dayOfMonth + "日");
+                            leaveTime.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                            String ruzhu_time = ruzhuTime.getText().toString();
+                            String leave_time = leaveTime.getText().toString();
+                            getTotalDays(ruzhu_time, leave_time);
+                        }
 
-                });
-                datePickerDialog.show();
+                    });
+                    datePickerDialog.show();
+                }else{
+                    //初始化Calendar日历对象
+                    Calendar mycalendar = Calendar.getInstance();
+
+                    int year = mycalendar.get(Calendar.YEAR); //获取Calendar对象中的年
+                    int month = mycalendar.get(Calendar.MONTH);//获取Calendar对象中的月
+                    int day = mycalendar.get(Calendar.DAY_OF_MONTH);//获取这个月的第几天
+                    new DatePickerDialog(RoomDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                            ToastManager.show("您选择了：" + year + "年" + month
+//                                    + "月" + dayOfMonth + "日");
+                            ruzhuTime.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                            String ruzhu_time = ruzhuTime.getText().toString();
+                            String leave_time = leaveTime.getText().toString();
+                            getTotalDays(ruzhu_time, leave_time);
+                        }
+                    }, year, month, day).show();
+                }
+
             }
         });
 

@@ -1,6 +1,7 @@
 package com.minsu.minsu.user;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
@@ -44,6 +46,8 @@ public class MyCouponActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private String tokenId;
+    private String type;
+    private String money;
 
     @Override
     protected void processLogic() {
@@ -52,6 +56,8 @@ public class MyCouponActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+        type = getIntent().getStringExtra("type");
+        money = getIntent().getStringExtra("money");
         tokenId = StorageUtil.getTokenId(this);
         toolbarTitle.setText("我的优惠券");
         ivLeft.setVisibility(View.VISIBLE);
@@ -90,7 +96,31 @@ public class MyCouponActivity extends BaseActivity {
                                 couponListAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
                             recyclerView.setAdapter(couponListAdapter);
-
+                            couponListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    if (type.equals("order")) {
+                                        int price = couponListAdapter.getItem(position).price;
+                                        float floatMoney = Float.parseFloat(money);
+                                        float floatPrice = (float) price;
+                                        if (couponListAdapter.getItem(position).is_type == 1) {
+                                            ToastManager.show("优惠券已过期");
+                                            return;
+                                        }
+                                        if (floatPrice > floatMoney) {
+                                            ToastManager.show("优惠金额大于需支付金额");
+                                            return;
+                                        }
+                                        Intent intent = new Intent();
+                                        //把返回数据存入Intent
+                                        intent.putExtra("discount_amount", couponListAdapter.getItem(position).price + "");
+                                        intent.putExtra("coupon_id", couponListAdapter.getItem(position).quan_id + "");
+                                        MyCouponActivity.this.setResult(RESULT_OK, intent);
+                                        //关闭Activity
+                                        MyCouponActivity.this.finish();
+                                    }
+                                }
+                            });
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }

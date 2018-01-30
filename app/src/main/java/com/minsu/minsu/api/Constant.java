@@ -7,8 +7,10 @@ package com.minsu.minsu.api;
 public class Constant {
     //基本URL
 //    public static final String BASE_URL = "http://www.minsu.com/api/";
-    public static final String BASE_URL = "http://192.168.1.30/api/";
-    public static final String BASE2_URL = "http://192.168.1.30";
+//    public static final String BASE_URL = "http://192.168.1.30/api/";
+//    public static final String BASE2_URL = "http://192.168.1.30";
+    public static final String BASE_URL = "http://minsu.zyeo.net/api/";
+    public static final String BASE2_URL = "http://minsu.zyeo.net/";
     //手机发送验证码
     public static final String SEND_SMSCODE_URL = BASE_URL + "user/MobileVerify";
     //动态码登录
@@ -137,6 +139,8 @@ public class Constant {
     public static final String COMMENT_REPLY_PAGE_URL = BASE_URL + "house/com_hf_list";
     //订单（房源）评价回复
     public static final String COMMENT_REPLY_URL = BASE_URL + "order/order_com_hf";
+    //订单（房源）评价
+    public static final String COMMENT_ORDER_URL = BASE_URL + "order/order_com";
     //常用旅客列表
     public static final String PASSENGER_LIST_URL = BASE_URL + "user/lk_list";
     //新增常用旅客
@@ -151,6 +155,7 @@ public class Constant {
     public static final String WEXIN_PAY_URL = BASE_URL + "payment/weixin_payment";
     //支付宝支付
     public static final String ALI_PAY_URL = BASE_URL + "payment/alipay_payment";
+
     public static final String WX_APP_ID = "wxa372aef05ce3769b";
 
 
@@ -220,11 +225,14 @@ public class Constant {
     public static final String MY_YUE_URL = BASE_URL + "fangdong/my_yue";
     //提现申请确认
     public static final String TIXIAN_APPLY_URL = BASE_URL + "fangdong/tx_sub";
+    //提现页面
+    public static final String TIXIAN_PAGE_URL = BASE_URL + "fangdong/tx_html";
     //房东收支记录
     public static final String LANDLORD_SHOUZHI_URL = BASE_URL + "fangdong/shouzhi";
 
     //---------------------------前端-------------------------------------------------
     //积分
-    public static final String INTEGRAL_URL = "http://192.168.1.36:8020/%E6%B0%91%E5%AE%BF_reg/integral.html?__hbt=1515133178500";
+    public static final String INTEGRAL_URL = BASE_URL+"faxian/jf_list/token/";
+    public static final String HELP_WEB_URL = BASE_URL+"faxian/bangzhu/token/";//帮助
 
 }

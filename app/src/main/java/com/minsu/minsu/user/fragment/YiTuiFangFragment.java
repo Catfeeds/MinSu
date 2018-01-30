@@ -1,5 +1,6 @@
 package com.minsu.minsu.user.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,16 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
 import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
+import com.minsu.minsu.common.CommentSubmitActivity;
+import com.minsu.minsu.common.RoomDetailActivity;
 import com.minsu.minsu.common.bean.OrderBean;
-import com.minsu.minsu.user.adapter.OrderListAdapter;
 import com.minsu.minsu.user.adapter.YiTuiFangOrderListAdapter;
 import com.minsu.minsu.utils.StorageUtil;
+import com.minsu.minsu.utils.ToastManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +39,7 @@ public class YiTuiFangFragment extends BaseFragment {
     Unbinder unbinder;
     private String tokenId;
     private View view;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_all_order, container, false);
@@ -51,6 +56,7 @@ public class YiTuiFangFragment extends BaseFragment {
     protected void initData() {
         MinSuApi.yituifaangOrder(getActivity(), 0x001, tokenId, callBack);
     }
+
     private CallBack callBack = new CallBack() {
         @Override
         public void onSuccess(int what, Response<String> result) {
@@ -61,14 +67,31 @@ public class YiTuiFangFragment extends BaseFragment {
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
                             OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
-                            YiTuiFangOrderListAdapter orderListAdapter = new YiTuiFangOrderListAdapter(R.layout.item_order_tuifang, orderBean.data);
-                            recyclerView=view.findViewById(R.id.recyclerView);
+                            final YiTuiFangOrderListAdapter orderListAdapter = new YiTuiFangOrderListAdapter(R.layout.item_order_tuifang, orderBean.data);
+                            recyclerView = view.findViewById(R.id.recyclerView);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(orderListAdapter);
-                            if (orderBean.data.size()==0){
+                            if (orderBean.data.size() == 0) {
                                 orderListAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
-
+                            orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                                @Override
+                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                    switch (view.getId()) {
+                                        case R.id.pinjia:
+                                            ToastManager.show("评价");
+                                            Intent intent3 = new Intent(getActivity(), CommentSubmitActivity.class);
+                                            intent3.putExtra("houseId", orderListAdapter.getItem(position).house_id + "");
+                                            startActivity(intent3);
+                                            break;
+                                        case R.id.yudin_again:
+                                            Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
+                                            intent.putExtra("house_id", orderListAdapter.getItem(position).house_id + "");
+                                            startActivity(intent);
+                                            break;
+                                    }
+                                }
+                            });
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -87,6 +110,7 @@ public class YiTuiFangFragment extends BaseFragment {
 
         }
     };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view

@@ -84,7 +84,9 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(WalletActivity.this, ErRecordActivity.class));
                 break;
             case R.id.tixian:
-                startActivity(new Intent(WalletActivity.this, TiXianActivity.class));
+                Intent intent = new Intent(WalletActivity.this, TiXianActivity.class);
+                intent.putExtra("type", "");
+                startActivity(intent);
                 break;
         }
     }

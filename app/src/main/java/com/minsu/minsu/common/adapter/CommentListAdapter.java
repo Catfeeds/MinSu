@@ -1,7 +1,12 @@
 package com.minsu.minsu.common.adapter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,8 +22,10 @@ import java.util.List;
  */
 
 public class CommentListAdapter extends BaseQuickAdapter<CommentBean.Data, BaseViewHolder> {
-    public CommentListAdapter(int layoutResId, @Nullable List<CommentBean.Data> data) {
+    private Context context;
+    public CommentListAdapter(int layoutResId, @Nullable List<CommentBean.Data> data,Activity activity) {
         super(layoutResId, data);
+        this.context=activity;
     }
 
     @Override
@@ -31,6 +38,18 @@ public class CommentListAdapter extends BaseQuickAdapter<CommentBean.Data, BaseV
         helper.setText(R.id.comment_reply_count, item.hf_count + "回复");
         helper.addOnClickListener(R.id.comment_zan);
         helper.addOnClickListener(R.id.comment_reply_count);
+        TextView zan = helper.getView(R.id.comment_zan);
+        if (item.u_coll==1){
+            Drawable drawable= context.getResources().getDrawable(R.mipmap.zan02);
+            /// 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            zan.setCompoundDrawables(drawable,null,null,null);
+        }else{
+            Drawable drawable= context.getResources().getDrawable(R.mipmap.zan01);
+            /// 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            zan.setCompoundDrawables(drawable,null,null,null);
+        }
 
 
         if (item.head_pic.contains("http")) {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.minsu.minsu.R;
 import com.minsu.minsu.base.BaseActivity;
+import com.minsu.minsu.utils.StorageUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +49,12 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     protected void setListener() {
         toolbarTitle.setText("账户");
         ivLeft.setVisibility(View.VISIBLE);
+        String role = StorageUtil.getValue(this, "role");
+        if (role.equals("landlord")) {
+            rlWallet.setVisibility(View.VISIBLE);
+        } else if (role.equals("user")) {
+            rlWallet.setVisibility(View.GONE);
+        }
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +88,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(this, AddressActivity.class));
                 break;
             case R.id.rl_visitor:
-                startActivity(new Intent(AccountActivity.this,PassengerListActivity.class));
+                startActivity(new Intent(AccountActivity.this, PassengerListActivity.class));
                 break;
             case R.id.rl_wallet:
                 startActivity(new Intent(AccountActivity.this, WalletActivity.class));

@@ -78,7 +78,7 @@ public class LTiqianTuiFangOrderFragment extends BaseFragment {
                                 @Override
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                     switch (view.getId()) {
-                                        case R.id.confirm_tuifang:
+                                        case R.id.agree_tuifang:
                                             MinSuApi.sureTiQianTuiFang(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id,1, callBack);
                                             break;
                                             case R.id.refuse_tuifang:

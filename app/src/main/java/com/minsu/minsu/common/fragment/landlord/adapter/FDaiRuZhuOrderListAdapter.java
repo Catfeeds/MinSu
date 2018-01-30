@@ -39,7 +39,7 @@ public class FDaiRuZhuOrderListAdapter extends BaseQuickAdapter<OrderBean.Data, 
        if (item.pay_status == 1) {
             if (item.order_status == 0) {
                 helper.setText(R.id.order_state, "待入住");
-
+                helper.addOnClickListener(R.id.confirm_ruzhu);
             } else if (item.order_status == 1) {
                 helper.setText(R.id.order_state, "入住中");
                 helper.addOnClickListener(R.id.confirm_tuifang);

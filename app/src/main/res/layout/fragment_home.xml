@@ -23,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/location_ad"/>
+                android:src="@mipmap/location02"/>
 
             <TextView
                 android:id="@+id/toolbar_title"

@@ -229,6 +229,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.location_address:
                 Intent intent = new Intent(getActivity(), CitySelectActivity.class);
+                intent.putExtra("location_city",location_city);
                 startActivityForResult(intent, 0);
                 break;
         }

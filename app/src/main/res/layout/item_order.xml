@@ -158,6 +158,17 @@
             android:background="@drawable/frame_button_3"
             android:text="取消订单"/>
         <TextView
+            android:id="@+id/pingjia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="75dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:background="@drawable/frame_button_3"
+            android:text="评价"/>
+        <TextView
             android:id="@+id/order_pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

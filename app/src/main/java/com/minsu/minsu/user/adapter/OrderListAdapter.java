@@ -45,7 +45,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
                 helper.setText(R.id.order_state, "待入住");
                 helper.getView(R.id.order_cancel).setVisibility(View.GONE);
                 helper.getView(R.id.order_pay).setVisibility(View.GONE);
-
+                helper.getView(R.id.pingjia).setVisibility(View.GONE);
                 helper.getView(R.id.yudin_again).setVisibility(View.GONE);
                 helper.getView(R.id.order_delete).setVisibility(View.GONE);
                 helper.getView(R.id.tuikuan_apply).setVisibility(View.VISIBLE);
@@ -57,6 +57,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
                 helper.getView(R.id.tiqian_tuifang).setVisibility(View.VISIBLE);
                 helper.getView(R.id.yudin_again).setVisibility(View.GONE);
                 helper.getView(R.id.order_delete).setVisibility(View.GONE);
+                helper.getView(R.id.pingjia).setVisibility(View.GONE);
                 helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
                 helper.addOnClickListener(R.id.tiqian_tuifang);
             } else if (item.order_status == 2) {
@@ -64,13 +65,17 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
                 helper.getView(R.id.order_cancel).setVisibility(View.GONE);
                 helper.getView(R.id.order_pay).setVisibility(View.GONE);
                 helper.getView(R.id.tiqian_tuifang).setVisibility(View.GONE);
-                helper.getView(R.id.yudin_again).setVisibility(View.GONE);
+                helper.getView(R.id.yudin_again).setVisibility(View.VISIBLE);
+                helper.getView(R.id.pingjia).setVisibility(View.VISIBLE);
                 helper.getView(R.id.order_delete).setVisibility(View.GONE);
                 helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
+                helper.addOnClickListener(R.id.pingjia);
+                helper.addOnClickListener(R.id.yudin_again);
             } else if (item.order_status == 3) {
                 helper.setText(R.id.order_state, "已退款");
                 helper.getView(R.id.order_cancel).setVisibility(View.GONE);
                 helper.getView(R.id.order_pay).setVisibility(View.GONE);
+                helper.getView(R.id.pingjia).setVisibility(View.GONE);
                 helper.getView(R.id.tiqian_tuifang).setVisibility(View.GONE);
                 helper.getView(R.id.yudin_again).setVisibility(View.GONE);
                 helper.getView(R.id.order_delete).setVisibility(View.GONE);
@@ -89,6 +94,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean.Data, BaseViewH
                 helper.getView(R.id.yudin_again).setVisibility(View.GONE);
                 helper.getView(R.id.order_delete).setVisibility(View.GONE);
                 helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
+                helper.getView(R.id.pingjia).setVisibility(View.GONE);
             }
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");

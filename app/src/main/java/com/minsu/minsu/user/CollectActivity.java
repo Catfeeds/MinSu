@@ -1,6 +1,7 @@
 package com.minsu.minsu.user;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
+import com.minsu.minsu.common.RoomDetailActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.minsu.minsu.R;
 import com.minsu.minsu.api.MinSuApi;
@@ -87,8 +90,16 @@ public class CollectActivity extends BaseActivity {
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
                             HouseListBean houseListBean = new Gson().fromJson(result.body(), HouseListBean.class);
-                            HouseListAdapter houseListAdapter = new HouseListAdapter(R.layout.item_home_list, houseListBean.data);
+                            final HouseListAdapter houseListAdapter = new HouseListAdapter(R.layout.item_home_list, houseListBean.data,"collect");
                             recyclerView.setAdapter(houseListAdapter);
+                            houseListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = new Intent(CollectActivity.this, RoomDetailActivity.class);
+                                    intent.putExtra("house_id", houseListAdapter.getItem(position).house_id);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -9,8 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.minsu.minsu.App;
 import com.minsu.minsu.R;
 import com.minsu.minsu.base.BaseActivity;
+import com.minsu.minsu.user.LoginActivity;
+import com.minsu.minsu.utils.StorageUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,6 +111,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.rl_change_password:
                 startActivity(new Intent(this, ChangePasswordActivity.class));
+                break;
+            case R.id.logout:
+                StorageUtil.setKeyValue(SettingActivity.this, "token", "");
+                startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+                App.getInstance().exit();
                 break;
         }
     }
