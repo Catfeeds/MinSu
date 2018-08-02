@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
 import com.minsu.minsu.api.Constant;
@@ -26,6 +27,7 @@ import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseActivity;
 import com.minsu.minsu.user.CouponActivity;
 import com.minsu.minsu.user.MyCouponActivity;
+import com.minsu.minsu.user.bean.CouponListBean;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
 import com.minsu.minsu.weixin.WXPay;
@@ -102,6 +104,8 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
     private String coupon_id;
     private String total_price;
     private static final int SDK_PAY_FLAG = 1;
+    private int price=0;
+    private int quan_id;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -130,6 +134,7 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(OrderSubmitActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        StorageUtil.setKeyValue(OrderSubmitActivity.this,"issuccess","yes");
                         if (coupon_id == null) {
                             MinSuApi.changeOrderStatus(0x002, tokenId, order_id, "", callBack);
                         } else {
@@ -137,8 +142,8 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                             //需要优惠券id
                             MinSuApi.changeOrderStatus(0x002, tokenId, order_id, coupon_id, callBack);
                         }
-                        Intent intent = new Intent(OrderSubmitActivity.this, MainActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(OrderSubmitActivity.this, MainActivity.class);
+//                        startActivity(intent);
                         finish();
                     } else {
                         Toast.makeText(OrderSubmitActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
@@ -229,15 +234,16 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                             totalDay.setText("共" + days + "天");
                             locationAddress.setText(city + " " + district + " " + town);
                             if (is_name == 2) {
-                                renzhengStatus.setText("审核中");
+                                renzhengStatus.setText("实名认证审核中...");
                             } else if (is_name == 1) {
-                                renzhengStatus.setText("认证通过");
+                                renzhengStatus.setText("实名认证通过");
                             } else if (is_name == 0) {
                                 renzhengStatus.setText("没有认证");
                             }
                             Glide.with(OrderSubmitActivity.this)
                                     .load(Constant.BASE2_URL + house_img)
                                     .into(orderRoomImg);
+                            MinSuApi.myCoupon(OrderSubmitActivity.this, 0x005, tokenId, callBack);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -250,6 +256,7 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             ToastManager.show(msg);
+                            StorageUtil.setKeyValue(OrderSubmitActivity.this,"issuccess","yes");
                         } else if (code == 211) {
                             ToastManager.show(msg);
                         }
@@ -296,6 +303,61 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                         e.printStackTrace();
                     }
                     break;
+                case 0x005:
+                    JSONObject jsonObject = null;
+                    try
+                    {
+                        jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (code == 200)
+                        {
+                            CouponListBean couponListBean = new Gson().fromJson(result.body(), CouponListBean.class);
+                            for (int i=0;i<couponListBean.data.size();i++)
+                            {
+                                if (couponListBean.data.get(i).is_type==0)
+                                {
+                                    int a=couponListBean.data.get(i).price;
+                                    if (a>price)
+                                    {
+                                        quan_id=couponListBean.data.get(i).quan_id;
+                                        price=a;
+                                    }
+                                }
+                            }
+                            if (price==0)
+                            {
+                                discount_amount=null;
+                                coupon_id=null;
+                                return;
+                            }else {
+                                discount_amount=price+"";
+                                coupon_id=quan_id+"";
+                            }
+                            Double obj1 = new Double(total_price);
+                            Double obj2= new Double(price);
+                            if (obj1<=obj2)
+                            {
+                                totalMoney.setText("￥"+(obj1)+"");
+                                tvCoupon.setVisibility(View.GONE);
+                                discount_amount=null;
+                                coupon_id=null;
+                            }else {
+                                totalMoney.setText("￥"+(obj1-obj2)+"");
+                                tvCoupon.setText("￥"+discount_amount);
+                                tvCoupon.setVisibility(View.VISIBLE);
+
+                            }
+
+
+
+                        }
+                    } catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    break;
             }
         }
 
@@ -324,8 +386,8 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
                     MinSuApi.changeOrderStatus(0x002, tokenId, order_id, coupon_id, callBack);
                 }
 
-                Intent intent = new Intent(OrderSubmitActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(OrderSubmitActivity.this, MainActivity.class);
+//                startActivity(intent);
                 finish();
             }
 
@@ -359,16 +421,23 @@ public class OrderSubmitActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.quick_pay:
+                total_price=totalMoney.getText().toString();
+                 total_price=total_price.substring(1,total_price.length());
+                if (total_price.equals("0")||total_price.equals("0.0")||total_price.equals("0.00")||total_price.equals("00"))
+                {
+                    ToastManager.show("支付金额必须大于0元");
+                    return;
+                }
                 //支付操作
                 if (byAli) {
-                    ToastManager.show("阿里支付");
+                   // ToastManager.show("阿里支付");
                     if (discount_amount == null) {
                         MinSuApi.aliPay(OrderSubmitActivity.this, 0x004, tokenId, order_id, 0, callBack);
                     } else {
                         MinSuApi.aliPay(OrderSubmitActivity.this, 0x004, tokenId, order_id, Integer.parseInt(discount_amount), callBack);
                     }
                 } else {
-                    ToastManager.show("微信支付");
+                   // ToastManager.show("微信支付");
                     if (discount_amount == null) {
                         MinSuApi.weixinPay(OrderSubmitActivity.this, 0x003, tokenId, order_id, 0, callBack);
                     } else {

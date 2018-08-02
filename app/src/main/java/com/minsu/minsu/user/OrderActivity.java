@@ -53,7 +53,7 @@ public class OrderActivity extends BaseActivity {
     protected void setListener() {
         setTitle();
         tab.addView(LayoutInflater.from(this).inflate(R.layout.tab_top_layout, tab, false));
-        SmartTabLayout viewPagerTab = findViewById(R.id.viewpagertab);
+        SmartTabLayout viewPagerTab = findViewById(R.id.viewpagertab);//取消，退房，提前退房可删除订单
         FragmentPagerItems pages = new FragmentPagerItems(this);
         pages.add(FragmentPagerItem.of("全部", AllOrderFragment.class));
         pages.add(FragmentPagerItem.of("待入住", DaiRuZhuFragment.class));

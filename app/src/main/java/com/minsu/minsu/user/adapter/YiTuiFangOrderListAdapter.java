@@ -36,16 +36,35 @@ public class YiTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.Data, 
         helper.setText(R.id.ruzhu_time, "入住：" + item.check_time);
         helper.setText(R.id.leave_time, "离开：" + item.leave_time);
         helper.setText(R.id.order_price, "￥：" + item.total_price);
+        helper.addOnClickListener(R.id.delete_orderytf);
         helper.setText(R.id.location_address, item.city + " " + item.district + " " + item.town);
        if (item.pay_status == 1) {
+           if (item.comment==1)
+           {
+               helper.getView(R.id.pinjia).setVisibility(View.VISIBLE);
+               helper.addOnClickListener(R.id.pinjia);
+               helper.setText(R.id.pinjia,"查看评价");
+           }else {
+               helper.getView(R.id.pinjia).setVisibility(View.VISIBLE);
+               helper.addOnClickListener(R.id.pinjia);
+               helper.setText(R.id.pinjia,"评价");
+           }
            helper.setText(R.id.order_state, "已退房");
-           helper.addOnClickListener(R.id.pinjia);
            helper.addOnClickListener(R.id.yudin_again);
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");
         }
 
-
+        Glide.with(mContext)
+                .load(Constant.BASE2_URL + item.house_img)
+                .into((ImageView) helper.getView(R.id.order_roomImg));
+        if (item.head_pic==null)
+        {
+            Glide.with(mContext)
+                    .load("http://minsu.zyeo.net/Public/img/user.png")
+                    .into((ImageView) helper.getView(R.id.order_userImg));
+            return;
+        }
         if (item.head_pic.contains("http")) {
             Glide.with(mContext)
                     .load(item.head_pic)
@@ -55,9 +74,7 @@ public class YiTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.Data, 
                     .load(Constant.BASE2_URL + item.head_pic)
                     .into((ImageView) helper.getView(R.id.order_userImg));
         }
-        Glide.with(mContext)
-                .load(Constant.BASE2_URL + item.house_img)
-                .into((ImageView) helper.getView(R.id.order_roomImg));
+
 
 
     }

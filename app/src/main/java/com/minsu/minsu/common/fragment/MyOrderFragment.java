@@ -10,18 +10,26 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.minsu.minsu.App;
 import com.minsu.minsu.R;
 import com.minsu.minsu.base.BaseFragment;
+import com.minsu.minsu.common.FragmentBackHandler;
+import com.minsu.minsu.common.bean.OrderBean;
 import com.minsu.minsu.common.fragment.landlord.LAllOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LDaiRuZhuOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LRuZhuZhongOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LTiqianTuiFangOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LTuiKuanOrderFragment;
 import com.minsu.minsu.common.fragment.landlord.LYiTuiFangOrderFragment;
+import com.minsu.minsu.utils.ToastManager;
+import com.minsu.minsu.utils.UIThread;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItem;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItemAdapter;
 import com.minsu.minsu.widget.SmartTab.UtilsV4.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +39,7 @@ import butterknife.Unbinder;
  * Created by hpc on 2018/1/17.
  */
 
-public class MyOrderFragment extends BaseFragment {
+public class MyOrderFragment extends BaseFragment implements FragmentBackHandler{
     @BindView(R.id.tab)
     FrameLayout tab;
     @BindView(R.id.viewpager)
@@ -91,5 +99,24 @@ public class MyOrderFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+    private boolean isDoubleClick = false;
+    @Override
+    public boolean onBackPressed() {
+        if (isDoubleClick) {
+
+            App.getInstance().exit(2);
+        } else {
+            ToastManager.show("再次点击一次退出程序");
+            isDoubleClick = true;
+            UIThread.getInstance().postDelay(new Runnable() {
+                @Override
+                public void run() {
+                    isDoubleClick = false;
+                }
+            }, 1000);
+        }
+        return true;
+
     }
 }

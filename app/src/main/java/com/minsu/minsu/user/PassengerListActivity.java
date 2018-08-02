@@ -55,7 +55,7 @@ public class PassengerListActivity extends BaseActivity {
     protected void setListener() {
 
         tokenId = StorageUtil.getTokenId(this);
-        toolbarTitle.setText("常用旅客");
+        toolbarTitle.setText("常用旅客信息");
         ivLeft.setVisibility(View.VISIBLE);
         tvRight.setVisibility(View.VISIBLE);
         tvRight.setText("新增");
@@ -70,6 +70,7 @@ public class PassengerListActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(PassengerListActivity.this, AddPassengerActivity.class);
                 intent.putExtra("passenger_id","");
+                intent.putExtra("type","1");
                 startActivity(intent);
             }
         });
@@ -104,6 +105,7 @@ public class PassengerListActivity extends BaseActivity {
                                     case R.id.passenger_edit:
                                         Intent intent = new Intent(PassengerListActivity.this, AddPassengerActivity.class);
                                         intent.putExtra("passenger_id",passengerAdapter.getItem(position).id+"");
+                                        intent.putExtra("type","2");
                                         startActivity(intent);
                                         break;
                                     case R.id.passenger_delete:

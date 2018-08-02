@@ -103,14 +103,20 @@ public class CouponActivity extends BaseActivity {
                                 couponListAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
                             recyclerView.setAdapter(couponListAdapter);
-                            couponListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//                            couponListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//                                @Override
+//                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                                    switch (view.getId()) {
+//                                        case R.id.coupon_status:
+//                                            MinSuApi.getCoupon(0x002, tokenId, couponListAdapter.getItem(position).quan_id, callBack);
+//                                            break;
+//                                    }
+//                                }
+//                            });
+                            couponListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
-                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                    switch (view.getId()) {
-                                        case R.id.coupon_status:
-                                            MinSuApi.getCoupon(0x002, tokenId, couponListAdapter.getItem(position).quan_id, callBack);
-                                            break;
-                                    }
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    MinSuApi.getCoupon(0x002, tokenId, couponListAdapter.getItem(position).quan_id, callBack);
                                 }
                             });
                         } else if (code == 111) {

@@ -8,6 +8,9 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:maxEms="4"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="2dp"
             android:singleLine="true"
             android:background="@drawable/frame_button_6"
             android:text="郑州市"/>

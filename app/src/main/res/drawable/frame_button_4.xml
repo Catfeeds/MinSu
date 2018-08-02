@@ -6,10 +6,10 @@
         android:color="#3e5a66" />
     <!-- 圆角 -->
     <corners
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp" />
+        android:bottomLeftRadius="3dp"
+        android:bottomRightRadius="3dp"
+        android:topLeftRadius="3dp"
+        android:topRightRadius="3dp" />
     <!-- 边距 -->
     <!--<padding-->
     <!--android:bottom="10dp"-->

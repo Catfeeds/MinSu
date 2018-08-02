@@ -84,6 +84,7 @@
             android:layout_marginStart="29dp"
             android:background="@null"
             android:hint="您的邮箱 "
+            android:inputType="textEmailAddress"
             android:textColor="#cccccc"
             android:textSize="14sp" />
     </LinearLayout>

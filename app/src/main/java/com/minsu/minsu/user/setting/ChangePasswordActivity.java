@@ -114,7 +114,8 @@ public class ChangePasswordActivity extends BaseActivity {
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             ToastManager.show(msg);
-                            startActivity(new Intent(ChangePasswordActivity.this, MainActivity.class));
+                            finish();
+                           // startActivity(new Intent(ChangePasswordActivity.this, MainActivity.class));
                         } else if (code == 201) {
                             ToastManager.show(msg);
                         }

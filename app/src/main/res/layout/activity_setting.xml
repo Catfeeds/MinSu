@@ -70,6 +70,7 @@
         android:layout_height="1dp"
         android:background="@color/part_line"/>
     <RelativeLayout
+        android:visibility="gone"
         android:background="@color/white"
         android:id="@+id/rl_privacy_setting"
         android:layout_width="match_parent"
@@ -93,6 +94,7 @@
 
     </RelativeLayout>
     <View
+        android:visibility="gone"
         android:id="@+id/set_tag3"
         android:layout_below="@+id/rl_privacy_setting"
         android:layout_width="match_parent"

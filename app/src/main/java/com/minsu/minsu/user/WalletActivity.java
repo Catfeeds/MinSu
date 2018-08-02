@@ -86,9 +86,16 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
             case R.id.tixian:
                 Intent intent = new Intent(WalletActivity.this, TiXianActivity.class);
                 intent.putExtra("type", "");
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        MinSuApi.myYue(this, 0x001, tokenId, callBack);
     }
 
     private CallBack callBack = new CallBack() {

@@ -1,41 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="wrap_content"
     android:layout_margin="20dp">
 
+<TextView
+    android:text="订单编号:"
+    android:textSize="12sp"
+    android:id="@+id/xx"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="10dp"
+    android:textColor="@color/color_888888"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/dingdan_number"
+        android:layout_toRightOf="@id/xx"
+        android:layout_marginLeft="4dp"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color_888888"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/dingdan_time"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginLeft="4dp"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color_888888"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <RelativeLayout
+        android:id="@+id/rl_x"
         android:layout_width="match_parent"
+        android:layout_below="@id/dingdan_number"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
-
         <ImageView
-            android:id="@+id/order_img"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@mipmap/ic_launcher" />
+            android:id="@+id/dingdan_iv"
+            android:layout_width="80dp"
+            android:layout_marginLeft="5dp"
+            android:scaleType="center"
+            android:layout_height="80dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/dingdan_iv"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_name_fz"
+                android:textSize="18sp"
+                android:textColor="@color/color_333"
+                android:text="反反复复发"
+                android:layout_toLeftOf="@id/dingdan_state"
+                android:maxLength="15"
+                android:gravity="left"
+                android:singleLine="true"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/dingdan_state"
+                android:layout_alignTop="@id/tv_name_fz"
+                android:layout_width="wrap_content"
+                android:textColor="@color/darkorange"
+                android:textSize="14sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="18dp"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/order_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/order_img"
-            android:text="订单名称"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/dingdan_info"
+                android:textColor="@color/color_888888"
+                android:textSize="14sp"
+                android:layout_toLeftOf="@id/money"
+                android:singleLine="true"
+                android:layout_below="@id/tv_name_fz"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/order_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/order_name"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/order_img"
-            android:text="hello,hehehhe"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+
+
+            <TextView
+                android:layout_below="@id/dingdan_info"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/red"
+                android:text="￥100"
+                android:id="@+id/money"
+                android:layout_alignTop="@id/dingdan_info"
+                android:layout_alignRight="@id/dingdan_state"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_below="@id/money"
+                android:layout_width="wrap_content"
+                android:singleLine="true"
+                android:id="@+id/xa"
+                android:background="@mipmap/dizhi"
+                android:layout_alignLeft="@id/tv_name_fz"
+                android:layout_marginTop="6dp"
+                android:layout_height="15dp" />
+            <TextView
+                android:layout_below="@id/money"
+                android:layout_width="wrap_content"
+                android:singleLine="true"
+                android:layout_marginRight="18dp"
+                android:layout_toRightOf="@id/xa"
+                android:id="@+id/dizhi"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="6dp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
-</android.support.v7.widget.CardView>
+    <TextView
+        android:textColor="@color/color_888888"
+        android:textSize="12sp"
+        android:text="入住时间:"
+        android:id="@+id/xxx"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/rl_x"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textColor="@color/color_888888"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ruzhu_shijian"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/rl_x"
+        android:text="1024"
+        android:layout_toRightOf="@id/xxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/all_tian"
+        android:textColor="@color/color_888888"
+        android:textSize="12sp"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/rl_x"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <RelativeLayout
+        android:layout_below="@id/all_tian"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center_vertical"
+        android:layout_height="30dp">
+        <com.minsu.minsu.widget.RoundedCornerImageView
+            android:id="@+id/iv_touxiang"
+            android:layout_width="25dp"
+            android:layout_centerVertical="true"
+            android:scaleType="center"
+            android:layout_height="25dp" />
+        <TextView
+            android:id="@+id/tv_name_fd"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_888888"
+            android:layout_toRightOf="@id/iv_touxiang"
+            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_number_fd"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:layout_toRightOf="@id/tv_name_fd"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:text="删除提示"
+            android:visibility="gone"
+            android:background="@drawable/frame_button_3"
+            android:padding="3dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</RelativeLayout>

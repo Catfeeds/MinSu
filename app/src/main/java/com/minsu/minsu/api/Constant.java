@@ -1,5 +1,7 @@
 package com.minsu.minsu.api;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+
 /**
  * Created by hpc on 2017/12/1.
  */
@@ -9,8 +11,28 @@ public class Constant {
 //    public static final String BASE_URL = "http://www.minsu.com/api/";
 //    public static final String BASE_URL = "http://192.168.1.30/api/";
 //    public static final String BASE2_URL = "http://192.168.1.30";
-    public static final String BASE_URL = "http://minsu.zyeo.net/api/";
-    public static final String BASE2_URL = "http://minsu.zyeo.net/";
+    public static final String BASE_URL = "http://www.renbentech.com/api/index.php/api/";
+    public static final String BASE2_URL = "http://www.renbentech.com/api";
+    public static final String BASE3_URL = BASE2_URL;
+
+//版本更新
+    public static final String VERSION_UPDATA=BASE_URL+"index/version";
+    //认证通过后更换手机号
+    public static final String RZMOBIILE=BASE_URL+"user/rz_mobile";
+//提交新手机号
+    public static final String SUBMOBILE=BASE_URL+"user/edit_account";
+    public static final String GETMOBILE=BASE_URL+"user/account";
+   //验证原来手机号
+    public static final String YANZHENG=BASE_URL+"user/veriy";
+    public static final String SHARE = BASE_URL + "Article/fenxiang";
+    public static final String FABU=BASE_URL+"Article/add_article";
+
+
+public static final String ISYOUFANG=BASE_URL+"order/judge";
+    public static final String DELETE_CHAR=BASE_URL+"Message/del_chat";//删除列表
+
+public static final String XIUGAIHOUSE=BASE_URL+"fangdong/view_house";//房间说明
+public static final String GET_TOKEN=BASE_URL+"index/token";
     //手机发送验证码
     public static final String SEND_SMSCODE_URL = BASE_URL + "user/MobileVerify";
     //动态码登录
@@ -81,6 +103,11 @@ public class Constant {
     public static final String MY_COUPON_LIST_URL = BASE_URL + "quan/my_quan";
     //订单提示
     public static final String ORDER_PROMPT_URL = BASE_URL + "Message/order_msg";
+
+    //房东端订单提示
+    public static final String ORDER_FANGDONG=BASE_URL+"Message/fd_ts";
+    //订单提示删除
+    public static final String DELETE_OREDR_TISHI=BASE_URL+"message/del_ordermsg";
     //房源详情
     public static final String HOUSE_DETAIL_URL = BASE_URL + "House/house_detail";
     //房源列表
@@ -157,8 +184,11 @@ public class Constant {
     public static final String ALI_PAY_URL = BASE_URL + "payment/alipay_payment";
 
     public static final String WX_APP_ID = "wxa372aef05ce3769b";
+    public static final String WX_APP_SERZCT="67e84a335b5fe291ba2bebef2aa0efec";
+    public static final String sign_wexin="d2690089032b7ee13d3e8cc5e4357b93";
 
 
+    public static IWXAPI wx_api; //全局的微信api对象
     /*--------------------------------------------发现模块---------------------------------------------*/
     //文章详情
     public static final String ARTICLE_DETAIL_URL = BASE_URL + "Article/article_detail";
@@ -183,12 +213,18 @@ public class Constant {
     //发现列表
     public static final String FIND_LIST_URL = BASE_URL + "Article/faxian";
 
-
+   public static final String DELITE_PAY=BASE_URL+"order/order_detail";
     //----------------------房东端------------------------------------------------
+
+
+    //上传图片
+    public static final String UPIMG=BASE_URL+"fangdong/Upload_imgg";
     //我的房源
     public static final String MY_HOUSE_LIST_URL = BASE_URL + "Fangdong/my_house";
     //添加房源页面
     public static final String ADD_HOUSE_URL = BASE_URL + "Fangdong/add_house";
+    //编辑房源提交
+    public static final String BIANJIFANF=BASE_URL+"fangdong/edit_house";
     //添加房源提交
     public static final String ADD_HOUSE_SUBMIT_URL = BASE_URL + "Fangdong/add_house_cz";
     //市-信息
@@ -234,5 +270,6 @@ public class Constant {
     //积分
     public static final String INTEGRAL_URL = BASE_URL+"faxian/jf_list/token/";
     public static final String HELP_WEB_URL = BASE_URL+"faxian/bangzhu/token/";//帮助
+    public static final String FIND_WEB_URL = BASE_URL+"faxian/fx_html/token/";//发现列表
 
 }

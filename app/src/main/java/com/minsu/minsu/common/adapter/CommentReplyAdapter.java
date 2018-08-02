@@ -29,6 +29,10 @@ public class CommentReplyAdapter extends BaseQuickAdapter<CommentReplyBean.Data2
         helper.setText(R.id.comment_time, item.add_time);
         helper.getView(R.id.comment_reply_count).setVisibility(View.GONE);
         helper.getView(R.id.comment_zan).setVisibility(View.GONE);
+        if (item.head_pic==null){
+            Glide.with(mContext).load(R.mipmap.avatar_default).into((ImageView) helper.getView(R.id.comment_user_img));
+            return;
+        }
         if (item.head_pic.contains("http")) {
             Glide.with(mContext).load(item.head_pic).into((ImageView) helper.getView(R.id.comment_user_img));
         } else {

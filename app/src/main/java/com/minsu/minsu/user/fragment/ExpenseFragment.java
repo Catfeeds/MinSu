@@ -62,7 +62,7 @@ public class ExpenseFragment extends BaseFragment {
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
                             ShouZhiBean shouZhiBean = new Gson().fromJson(result.body(), ShouZhiBean.class);
-                            ShouZhiAdapter shouZhiAdapter = new ShouZhiAdapter(R.layout.item_wallet, shouZhiBean.data);
+                            ShouZhiAdapter shouZhiAdapter = new ShouZhiAdapter(R.layout.item_wallet, shouZhiBean.data,"expense");
                             recyclerView.setAdapter(shouZhiAdapter);
                             if (shouZhiBean.data == null) {
                                 shouZhiAdapter.setEmptyView(R.layout.empty, recyclerView);

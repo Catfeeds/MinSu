@@ -30,9 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/coupon_tag"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:text="30"
                 android:textColor="@color/white"
-                android:textSize="25sp" />
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,61 +45,59 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/coupon_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/coupon_img"
-            android:text="30元全场通用券"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:gravity="center_vertical"
+          android:layout_toRightOf="@+id/coupon_img"
+          android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/coupon_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:text="已领取"
-            android:textColor="@color/green"
-            android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/coupon_threshold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/coupon_name"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/coupon_img"
-            android:text="无门槛使用"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+          <TextView
+              android:id="@+id/coupon_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="18dp"
+              android:layout_marginStart="10dp"
+              android:text="30元全场通用券"
+              android:textColor="@color/black"
+              android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/coupon_term_validity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/coupon_threshold"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/coupon_img"
-            android:text="有效期: 2016-6-20至2016-7-20"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+          <TextView
+              android:id="@+id/coupon_status"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+              android:layout_marginEnd="10dp"
+              android:layout_marginTop="10dp"
+              android:text="已领取"
+              android:textColor="@color/green"
+              android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/coupon_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/coupon_term_validity"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/coupon_img"
-            android:text="共100张，已领取3张"
-            android:textColor="@color/black" />
+          <TextView
+              android:id="@+id/coupon_threshold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/coupon_name"
+              android:layout_marginStart="10dp"
+              android:layout_marginTop="5dp"
+
+              android:text="无门槛使用"
+              android:textColor="@color/black"
+              android:textSize="14sp" />
+
+          <TextView
+              android:id="@+id/coupon_term_validity"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/coupon_threshold"
+              android:layout_marginStart="10dp"
+              android:layout_marginTop="5dp"
+              android:text="有效期: 2016-6-20至2016-7-20"
+              android:textColor="@color/black"
+              android:textSize="14sp" />
+
+      </RelativeLayout>
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

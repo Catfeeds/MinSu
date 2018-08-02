@@ -1,6 +1,8 @@
 package com.minsu.minsu.user.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,7 +29,6 @@ public class CouponListAdapter extends BaseQuickAdapter<CouponListBean.Data, Bas
         helper.setText(R.id.coupon_price, item.price + "");
         if (type.equals("mo_person")) {
             helper.addOnClickListener(R.id.coupon_status);
-            helper.setText(R.id.coupon_number, "共" + item.sum + "张,已领取" + item.get_num + "张");
             if (item.is_type == 1) {
                 helper.setText(R.id.coupon_status, "已领取");
             } else if (item.is_type == 0) {

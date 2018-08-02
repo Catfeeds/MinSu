@@ -11,17 +11,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
 import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseActivity;
+import com.minsu.minsu.utils.BankCOde;
+import com.minsu.minsu.utils.CheckUtil;
 import com.minsu.minsu.utils.RegexUtils;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +66,9 @@ public class AddBankCardActivity extends BaseActivity {
     TextView quickBind;
     private String tokenId;
     private MyCountDownTimer myCountDownTimer;
+    private static String card="https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=";
+    private boolean validated;
+
     @Override
     protected void processLogic() {
 
@@ -66,6 +76,61 @@ public class AddBankCardActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+      etCardNumber.addTextChangedListener(new TextWatcher()
+      {
+          @Override
+          public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+          {
+
+          }
+
+          @Override
+          public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+          {
+
+          }
+
+          @Override
+          public void afterTextChanged(Editable editable)
+          {
+              if (editable.toString().length()<19)
+              {
+                  etCardName.setText("");
+              }
+              int carlenth=editable.toString().length();
+                   if (carlenth==19||carlenth==16||carlenth==17)
+                   {
+                       OkGo.<String>post(card+editable.toString()+"&cardBinCheck=true")
+                               .tag(AddBankCardActivity.this)
+                               .execute(new StringCallback()
+                               {
+                                   @Override
+                                   public void onSuccess(Response<String> response)
+                                   {
+                                       String body=response.body();
+                                       try
+                                       {
+                                           JSONObject jsonObject=new JSONObject(body);
+                                           String stat=jsonObject.getString("stat");
+                                           validated = jsonObject.getBoolean("validated");
+                                           if (stat.equals("ok"))
+                                           {
+                                               String bank=jsonObject.getString("bank");
+                                               JSONObject object=new JSONObject(BankCOde.bankCode);
+                                               String bankname=object.getString(bank);
+                                               etCardName.setText(bankname);
+                                           }
+                                       } catch (JSONException e)
+                                       {
+                                           //ToastManager.show("请检查银行卡号是否正确");
+                                           e.printStackTrace();
+                                       }
+                                   }
+                               });
+                   }
+          }
+      });
+
 
         tokenId = StorageUtil.getTokenId(this);
         toolbarTitle.setText("添加银行卡");
@@ -98,7 +163,37 @@ public class AddBankCardActivity extends BaseActivity {
                 String mIdCard = etIdcard.getText().toString();
                 String mPhone = etPhone.getText().toString();
                 String mYanzhengma = etYanzhengma.getText().toString();
-                MinSuApi.addbankCard(AddBankCardActivity.this, 0x001, tokenId, mYanzhengma, mCardNumber, mCardName, mName, mIdCard, mPhone, callBack);
+                boolean isBankCard = CheckUtil.checkBankCard(mCardNumber);
+
+                if (mName.equals("")||mName==null) {
+                    ToastManager.show("请输入姓名");
+                    return;
+                }else {
+                    Pattern p = Pattern.compile(".*\\d+.*");
+                    Matcher m = p.matcher(mName);
+                    if (m.matches())
+                    {
+                        ToastManager.show("请输入合法的名字");
+                        return;
+                    }
+                }
+
+                if (mYanzhengma.equals("")||mYanzhengma.equals("输入验证码")||mYanzhengma==null)
+                {
+                    ToastManager.show("请输入验证码");
+                    return;
+                }
+                if (isBankCard){
+                    if (mIdCard.length()==18)
+                    {
+                        MinSuApi.addbankCard(AddBankCardActivity.this, 0x001, tokenId, mYanzhengma, mCardNumber, mCardName, mName, mIdCard, mPhone, callBack);
+                    }else {
+                        ToastManager.show("请输入正确身份证号");
+                    }
+                }else {
+                    ToastManager.show("请填写正确的银行卡");
+                }
+
             }
         });
     }

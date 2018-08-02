@@ -28,14 +28,14 @@ public class FTiqianTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.D
     protected void convert(BaseViewHolder helper, OrderBean.Data item) {
 
         order_pay = helper.getView(R.id.order_pay);
-        helper.setText(R.id.order_userName, item.h_name);
+        helper.setText(R.id.order_userName, item.user_name);
         helper.setText(R.id.order_room_title, item.title);
         helper.setText(R.id.order_room_description, item.house_info);
         helper.setText(R.id.total_day, "共" + item.days + "晚");
-        helper.setText(R.id.order_userName, item.h_name);
         helper.setText(R.id.ruzhu_time, "入住：" + item.check_time);
         helper.setText(R.id.leave_time, "离开：" + item.leave_time);
         helper.setText(R.id.order_price, "￥：" + item.total_price);
+        helper.getView(R.id.order_delite_tqtf).setVisibility(View.GONE);
         helper.setText(R.id.location_address, item.city + " " + item.district + " " + item.town);
        if (item.pay_status == 1) {
             if (item.order_status == 0) {
@@ -50,15 +50,20 @@ public class FTiqianTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.D
                 helper.setText(R.id.order_state, "已退款");
             }else if (item.order_status == 4) {
                 if (item.is_tuifang==0){
-                    helper.setText(R.id.order_state, "审核中");
+                    helper.setText(R.id.order_state, "提前退房审核中");
+                    helper.getView(R.id.agree_tuifang).setVisibility(View.VISIBLE);
+                    helper.getView(R.id.refuse_tuifang).setVisibility(View.VISIBLE);
                     helper.addOnClickListener(R.id.agree_tuifang);
                     helper.addOnClickListener(R.id.refuse_tuifang);
                 }else if (item.is_tuifang==1){
                     helper.setText(R.id.order_state, "提前退房成功");
                     helper.getView(R.id.agree_tuifang).setVisibility(View.GONE);
                     helper.getView(R.id.refuse_tuifang).setVisibility(View.GONE);
+                    helper.getView(R.id.order_delite_tqtf).setVisibility(View.VISIBLE);
+                    helper.addOnClickListener(R.id.order_delite_tqtf);
                 } else if (item.is_tuifang==-1){
                     helper.setText(R.id.order_state, "拒绝提前退房");
+                   // helper.getView(R.id.order_delite_tqtf).setVisibility(View.VISIBLE);
                     helper.getView(R.id.agree_tuifang).setVisibility(View.GONE);
                     helper.getView(R.id.refuse_tuifang).setVisibility(View.GONE);
                 }
@@ -67,20 +72,26 @@ public class FTiqianTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.D
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");
         }
-
-
-        if (item.head_pic.contains("http")) {
-            Glide.with(mContext)
-                    .load(item.head_pic)
-                    .into((ImageView) helper.getView(R.id.order_userImg));
-        } else {
-            Glide.with(mContext)
-                    .load(Constant.BASE2_URL + item.head_pic)
-                    .into((ImageView) helper.getView(R.id.order_userImg));
-        }
         Glide.with(mContext)
                 .load(Constant.BASE2_URL + item.house_img)
                 .into((ImageView) helper.getView(R.id.order_roomImg));
+         if (item.head_n==null)
+         {
+             Glide.with(mContext)
+                     .load("http://minsu.zyeo.net/Public/img/user.png")
+                     .into((ImageView) helper.getView(R.id.order_userImg));
+             return;
+         }
+        if (item.head_n.contains("http")) {
+            Glide.with(mContext)
+                    .load(item.head_n)
+                    .into((ImageView) helper.getView(R.id.order_userImg));
+        } else {
+            Glide.with(mContext)
+                    .load(Constant.BASE2_URL + item.head_n)
+                    .into((ImageView) helper.getView(R.id.order_userImg));
+        }
+
 
 
     }

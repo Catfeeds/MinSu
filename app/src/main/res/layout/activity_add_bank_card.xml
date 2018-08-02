@@ -21,13 +21,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:layout_centerVertical="true"
             android:text="卡号" />
 
         <EditText
             android:id="@+id/et_card_number"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="280dp"
+            android:textSize="13sp"
+            android:maxLength="19"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@null"
@@ -47,14 +50,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:layout_centerVertical="true"
             android:text="银行" />
 
         <EditText
             android:id="@+id/et_card_name"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:textSize="13sp"
             android:layout_centerVertical="true"
             android:background="@null"
             android:hint="输入银行名称" />
@@ -72,15 +77,17 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:textSize="12sp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="姓名" />
 
         <EditText
             android:id="@+id/et_name"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:textSize="13sp"
             android:layout_centerVertical="true"
             android:background="@null"
             android:hint="输入姓名" />
@@ -99,13 +106,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:layout_centerVertical="true"
             android:text="身份证号" />
 
         <EditText
             android:id="@+id/et_idcard"
             android:layout_width="280dp"
-            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:digits="0123456789Xx"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@null"
@@ -125,13 +135,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:layout_centerVertical="true"
             android:text="手机号" />
 
         <EditText
             android:id="@+id/et_phone"
             android:layout_width="280dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="13sp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@null"
@@ -151,6 +163,7 @@
         <TextView
             android:id="@+id/tag"
             android:layout_width="wrap_content"
+            android:textSize="12sp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="验证码" />
@@ -158,8 +171,10 @@
         <EditText
             android:id="@+id/et_yanzhengma"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:inputType="number"
+            android:textSize="15sp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/tag"
             android:background="@null"
@@ -187,7 +202,10 @@
 
         <TextView
             android:id="@+id/quick_bind"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:background="@drawable/frame_button_1"

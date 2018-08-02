@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.minsu.minsu.R;
+import com.minsu.minsu.api.Constant;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -18,7 +19,6 @@ public class WXPayCallbackActivity extends Activity implements IWXAPIEventHandle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxpay_call_back);
-
         if(WXPay.getInstance() != null) {
             WXPay.getInstance().getWXApi().handleIntent(getIntent(), this);
         } else {

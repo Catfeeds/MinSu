@@ -1,10 +1,15 @@
 package com.minsu.minsu.user;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,6 +22,9 @@ import com.minsu.minsu.api.Constant;
 import com.minsu.minsu.api.MinSuApi;
 import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseActivity;
+import com.minsu.minsu.common.fragment.FaBuActivity;
+import com.minsu.minsu.common.fragment.FindFragment;
+import com.minsu.minsu.utils.NetWorkStateReceiver;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
 
@@ -28,35 +36,18 @@ import butterknife.ButterKnife;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
-public class HelpActivity extends BaseActivity {
+public class HelpActivity extends AppCompatActivity
+{
 
 
     @BindView(R.id.webView)
     WebView webView;
     private String tokenId;
+   private ImageView imageView;
+   private boolean isone=false;
+    private NetWorkStateReceiver netWorkStateReceiver;
 
-    @Override
-    protected void processLogic() {
-//        MinSuApi.help(this, 0x001, tokenId, callBack);
-    }
 
-    @Override
-    protected void setListener() {
-        tokenId = StorageUtil.getTokenId(this);
-        WebSettings webSettings = webView.getSettings();
-        // 设置与Js交互的权限
-        webSettings.setJavaScriptEnabled(true);
-        // 设置允许JS弹窗
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.loadUrl(Constant.HELP_WEB_URL + tokenId);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KEYCODE_BACK) && webView.canGoBack()) {
@@ -66,15 +57,7 @@ public class HelpActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
 
     }
-    @Override
-    protected void loadViewLayout() {
-        setContentView(R.layout.activity_help);
-    }
 
-    @Override
-    protected Context getActivityContext() {
-        return this;
-    }
 
 //    private CallBack callBack = new CallBack() {
 //        @Override
@@ -113,9 +96,77 @@ public class HelpActivity extends BaseActivity {
 //    };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
+        setContentView(R.layout.activity_help);
         ButterKnife.bind(this);
+        imageView = findViewById(R.id.imagee);
+        tokenId = StorageUtil.getTokenId(this);
+        WebSettings webSettings = webView.getSettings();
+        // 设置与Js交互的权限
+        webSettings.setJavaScriptEnabled(true);
+        // 设置允许JS弹窗
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.loadUrl(Constant.HELP_WEB_URL + tokenId);
+        webView.setWebViewClient(new WebViewClient()
+        {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url)
+            {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        Jsinterface jsinterface = new Jsinterface();
+        webView.addJavascriptInterface(jsinterface, "jsInterface");
+    }
+
+    public class Jsinterface {
+        @JavascriptInterface
+        public void js_back() {
+          finish();
+        }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if (netWorkStateReceiver == null) {
+            netWorkStateReceiver = new NetWorkStateReceiver();
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkStateReceiver, filter);
+
+        netWorkStateReceiver.setINew(new NetWorkStateReceiver.INewWork()
+        {
+            @Override
+            public void yes()//有网
+            {
+                imageView.setVisibility(View.GONE);
+                if (webView!=null)
+                {
+                    webView.setVisibility(View.VISIBLE);
+                    if (isone)
+                    {
+                        webView.loadUrl(Constant.HELP_WEB_URL + tokenId);
+                    }
+                }
+            }
+
+            @Override
+            public void no()//没网
+            {
+                imageView.setVisibility(View.VISIBLE);
+                if (webView!=null)
+                {
+                    webView.setVisibility(View.GONE);
+                    isone=true;
+                }
+            }
+        });
     }
 }

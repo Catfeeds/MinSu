@@ -17,6 +17,7 @@ public class DateUtil {
         return d;
     }
 
+
     public static String nowTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());

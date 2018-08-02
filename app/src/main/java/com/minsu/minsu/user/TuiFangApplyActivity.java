@@ -84,6 +84,7 @@ public class TuiFangApplyActivity extends BaseActivity implements View.OnClickLi
     private String tokenId;
     private String order_id;
     private String applyText;
+    private String type="";
 
     @Override
     protected void processLogic() {
@@ -93,7 +94,7 @@ public class TuiFangApplyActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void setListener() {
         tokenId = StorageUtil.getTokenId(this);
-
+        type=getIntent().getStringExtra("type");//1提前退房
         order_id = getIntent().getStringExtra("order_id");
         toolbarTitle.setText("退房申请");
         ivLeft.setVisibility(View.VISIBLE);
@@ -136,7 +137,7 @@ public class TuiFangApplyActivity extends BaseActivity implements View.OnClickLi
                             String district = jsonObject1.getString("district");
                             String town = jsonObject1.getString("town");
                             String order_sn = jsonObject1.getString("order_sn");
-                            orderNumber.setText(order_sn);
+                            orderNumber.setText("订单编号" + order_sn);
                             orderRoomTitle.setText(title);
                             ruzhuTime.setText(check_time);
                             leaveTime.setText(leave_time);
@@ -146,6 +147,27 @@ public class TuiFangApplyActivity extends BaseActivity implements View.OnClickLi
                             Glide.with(TuiFangApplyActivity.this)
                                     .load(Constant.BASE2_URL + house_img)
                                     .into(orderRoomImg);
+                            String n_name=jsonObject1.getString("n_name");
+                            orderUserName.setText(n_name);
+                            String head_n=jsonObject1.getString("head_n");
+                            if (head_n==null)
+                            {
+                                Glide.with(mContext)
+                                        .load("http://minsu.zyeo.net/Public/img/user.png")
+                                        .into(orderUserImg);
+                                return;
+                            }
+                            if (head_n.contains("http")) {
+                                Glide.with(mContext)
+                                        .load(Constant.BASE2_URL+head_n)
+                                        .into(orderUserImg);
+                            } else {
+                                Glide.with(mContext)
+                                        .load(Constant.BASE2_URL + head_n)
+                                        .into(orderUserImg);
+                            }
+
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

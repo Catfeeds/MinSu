@@ -11,13 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.minsu.minsu.App;
 import com.minsu.minsu.R;
 import com.minsu.minsu.common.MainActivity;
 import com.minsu.minsu.common.lanuch.timer.BaseTimerTask;
@@ -42,7 +36,6 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     private TextView tv_launcher_timer;
 
     private ILauncherListener mILauncherListener = null;
-    private LocationClient mLocationClick = null;
     private String city;
 
     @Override
@@ -50,8 +43,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_launcher);
 
-        mLocationClick = new LocationClient(App.getInstance());
-        mLocationClick.registerLocationListener(new MyLocationListener());
+        tv_launcher_timer=findViewById(R.id.tv_launcher_timer);
 //        StatusBarUtils.setColor(this,R.color.colorPrimary);
         List<String> permission = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(this,
@@ -71,62 +63,36 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
             //@onRequestPermissionsResult会接受次函数传的数据
             ActivityCompat.requestPermissions(this, permissions, 1);
         } else {
-            initLoaction();
-        }
-
-    }
-
-    public class MyLocationListener implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            //获取城市
-            city = location.getCity();
-            //初始化倒计时控件
-            tv_launcher_timer = (TextView) findViewById(R.id.tv_launcher_timer);
-            tv_launcher_timer.setOnClickListener(SplashActivity.this);
-            //开始倒计时
-            initTimer();
-//            MinSuApi.homeShow(this, 0x001, tokenId, city, callBack);
-            StorageUtil.setKeyValue(SplashActivity.this, "location_city", city);
-//            ToastManager.show(city);
 
         }
+        initTimer();
+        //checkIsShowScroll();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0) {
-                    for (int result : grantResults) {
-                        if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(this, "" +
-                                    "必须统一授权才能使用本程序", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    initLoaction();
-                } else {
-                    Toast.makeText(this, "" +
-                            "发生未知错误", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
+//            case 1:
+//                if (grantResults.length > 0) {
+//                    for (int result : grantResults) {
+//                        if (result != PackageManager.PERMISSION_GRANTED) {
+//                            Toast.makeText(this, "" +
+//                                    "必须统一授权才能使用本程序", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                    }
+//                    initLoaction();
+//                } else {
+//                    Toast.makeText(this, "" +
+//                            "发生未知错误", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            default:
         }
     }
 
-    private void initLoaction() {
-        LocationClientOption option = new LocationClientOption();
-        option.setScanSpan(2000);//设置实时更新当前数据，
-        // 但是活动被销毁的时候要调用mLocationClick.stop
-        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);//将定位模式指定
-        //成传感器模式也就是说只能使用GPS进行定位
-        option.setIsNeedAddress(true);//是否获取详细信息
-        mLocationClick.setLocOption(option);
-        mLocationClick.start();
-    }
 
     private void initTimer() {
         mTimer = new Timer();
@@ -140,7 +106,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
             mTimer.cancel();
             mTimer = null;
             //检查是否第一次进入APP，如果是显示轮播图，不是进入首页
-            checkIsShowScroll();
+           // checkIsShowScroll();
         }
     }
 
@@ -191,6 +157,5 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLocationClick.stop();
     }
 }

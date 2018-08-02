@@ -37,7 +37,7 @@
                     app:banner_pointAutoPlayAble="true"
                     app:banner_pointContainerBackground="@android:color/transparent"
                     app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
-                    app:banner_pointTopBottomMargin="15dp"
+                    app:banner_pointTopBottomMargin="5dp"
                     app:banner_transitionEffect="rotate" />
             </RelativeLayout>
 
@@ -48,7 +48,7 @@
                 android:layout_margin="10dp"
                 android:text="房源详细"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -68,16 +68,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="房源描述"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/room_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLength="20"
                     android:layout_below="@+id/tag1"
                     android:layout_marginTop="5dp"
                     android:text="请输入房源描述"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -107,16 +108,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="房源信息"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/room_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tag2"
+                    android:maxLength="50"
                     android:layout_marginTop="5dp"
-                    android:text="请输入房屋信息"
-                    android:textSize="18sp" />
+                    android:text="请输入房源信息"
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -146,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="价格设定"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/room_price"
@@ -155,7 +157,7 @@
                     android:layout_below="@+id/tag3"
                     android:layout_marginTop="5dp"
                     android:text="请输入价格"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -184,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="配套设施"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/support_facilities"
@@ -193,7 +195,7 @@
                     android:layout_below="@+id/tag4"
                     android:layout_marginTop="5dp"
                     android:text="请填写配套设施"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -223,7 +225,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="退订政策"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/unsubscribe_policy"
@@ -232,7 +234,7 @@
                     android:layout_below="@+id/tag5"
                     android:layout_marginTop="5dp"
                     android:text="退订政策描述"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -262,7 +264,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="其他服务"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/other_service"
@@ -271,7 +273,7 @@
                     android:layout_below="@+id/tag6"
                     android:layout_marginTop="5dp"
                     android:text="其他服务描述"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -296,20 +298,20 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tag7"
+                    android:id="@+id/tag8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="房源地址"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/room_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tag7"
+                    android:layout_below="@+id/tag8"
                     android:layout_marginTop="5dp"
                     android:text="请输入地址"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -325,6 +327,87 @@
                     android:layout_centerVertical="true"
                     android:src="@mipmap/arrow_right_0" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_room_delte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tag00"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详细地址"
+                    android:textSize="15sp" />
+                <EditText
+                    android:id="@+id/ed_delit_address"
+                    android:hint="不能大于30个字符"
+                    android:textSize="12sp"
+                    android:gravity="bottom"
+                    android:maxLength="30"
+                    android:layout_below="@id/tag00"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/ed_delit_address"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/part_line" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/arrow_right_0" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_room_nummer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tag9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="房间数目"
+                    android:textSize="15sp" />
+                <EditText
+                    android:id="@+id/ed_room_number"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:background="@null"
+                    android:gravity="bottom"
+                    android:hint="请输入房间数目"
+                    android:textSize="12sp"
+                    android:layout_below="@+id/tag9"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="30dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/ed_room_number"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/part_line" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/arrow_right_0" />
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -336,6 +419,6 @@
         android:gravity="center"
         android:text="发布房源"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

@@ -73,9 +73,18 @@
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
-<com.minsu.minsu.widget.MyScrollview
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/smart_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:id="@+id/nestscollView"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,8 +97,8 @@
             app:banner_pointAutoPlayAble="true"
             app:banner_pointContainerBackground="@android:color/transparent"
             app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
-            app:banner_pointTopBottomMargin="15dp"
-            app:banner_transitionEffect="rotate" />
+            app:banner_pointTopBottomMargin="5dp"
+            app:banner_transitionEffect="fade" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -100,19 +109,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/refreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </RelativeLayout>
 
     </LinearLayout>
-</com.minsu.minsu.widget.MyScrollview>
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
 </LinearLayout>

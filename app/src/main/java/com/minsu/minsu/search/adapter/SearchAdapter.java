@@ -41,6 +41,7 @@ public class SearchAdapter extends BaseQuickAdapter<SearchBean.Data1,BaseViewHol
             Glide.with(mContext)
                     .load(R.mipmap.collect)
                     .into((ImageView) helper.getView(R.id.focus_room));
+            helper.setImageResource(R.id.focus_room,R.mipmap.collect);
         }
     }
 }

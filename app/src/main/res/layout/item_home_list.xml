@@ -7,22 +7,27 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/rl_delete"
         android:layout_margin="10dp">
 
         <ImageView
             android:id="@+id/room_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_marginRight="5dp"
+            android:scaleType="center"
+            android:src="@mipmap/default_back" />
 
         <TextView
             android:id="@+id/room_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/room_img"
-            android:text="国贸地铁温馨单间"
+            android:maxLines="2"
+            android:textColor="#333333"
+            android:layout_toLeftOf="@id/focus_room"
+            android:layout_toRightOf="@id/room_img"
+            android:text=""
             android:textSize="18sp" />
 
         <TextView
@@ -31,9 +36,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/room_name"
             android:layout_marginStart="5dp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_marginTop="5dp"
+            android:singleLine="true"
             android:layout_toEndOf="@+id/room_img"
-            android:text="单人间一张床可住两人"
+            android:text=""
             android:textColor="@color/gray"
             android:textSize="14sp" />
 
@@ -43,9 +51,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/room_description"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/room_img"
-            android:text="￥50/天"
+            android:text=""
             android:textColor="@color/orange"
             android:textSize="18sp" />
 
@@ -59,7 +67,7 @@
             android:drawableLeft="@mipmap/location_ad"
             android:drawablePadding="5dp"
             android:layout_toEndOf="@+id/room_img"
-            android:text="北京 海淀区 西三旗"
+            android:text=""
             android:textColor="@color/gray"
             android:textSize="14sp" />
 
@@ -67,8 +75,9 @@
             android:id="@+id/focus_room"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_marginEnd="5dp" />
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

@@ -12,6 +12,7 @@ public class BankListBean {
     public List<Data> data;
 
     public class Data {
+        public String id;
         public String bank_name;
         public String bank_code;
     }

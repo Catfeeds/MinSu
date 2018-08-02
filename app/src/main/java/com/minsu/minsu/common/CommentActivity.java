@@ -48,6 +48,9 @@ public class CommentActivity extends BaseActivity {
     RecyclerView recyclerView;
     private String tokenId;
     private String house_id;
+    private int item;
+    private CommentBean commentBean;
+    private CommentListAdapter commentListAdapter;
 
     @Override
     protected void processLogic() {
@@ -89,12 +92,13 @@ public class CommentActivity extends BaseActivity {
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
-                            CommentBean commentBean = new Gson().fromJson(result.body(), CommentBean.class);
-                            final CommentListAdapter commentListAdapter = new CommentListAdapter(R.layout.item_comment, commentBean.data,CommentActivity.this);
+                            commentBean = new Gson().fromJson(result.body(), CommentBean.class);
+                            commentListAdapter = new CommentListAdapter(R.layout.item_comment, commentBean.data,CommentActivity.this);
                             recyclerView.setAdapter(commentListAdapter);
                             commentListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                 @Override
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                    item = position;
                                     switch (view.getId()) {
                                         case R.id.comment_zan:
                                             if (commentListAdapter.getItem(position).u_coll == 1) {
@@ -130,8 +134,11 @@ public class CommentActivity extends BaseActivity {
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
-                            ToastManager.show(msg);
-                            MinSuApi.roomCommentList(CommentActivity.this, 0x001, tokenId, house_id, callBack);
+                            //ToastManager.show(msg);
+                            commentBean.data.get(item).u_coll=0;
+                            commentBean.data.get(item).c_count-=1;
+                            commentListAdapter.notifyDataSetChanged();
+                           // MinSuApi.roomCommentList(CommentActivity.this, 0x001, tokenId, house_id, callBack);
                         } else if (code == 211) {
                             ToastManager.show(msg);
                         }
@@ -145,8 +152,11 @@ public class CommentActivity extends BaseActivity {
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
-                            ToastManager.show(msg);
-                            MinSuApi.roomCommentList(CommentActivity.this, 0x001, tokenId, house_id, callBack);
+                            //ToastManager.show(msg);
+                            commentBean.data.get(item).u_coll=1;
+                            commentBean.data.get(item).c_count+=1;
+                           // MinSuApi.roomCommentList(CommentActivity.this, 0x001, tokenId, house_id, callBack);
+                            commentListAdapter.notifyDataSetChanged();
                         } else if (code == 211) {
                             ToastManager.show(msg);
                         }
@@ -171,6 +181,6 @@ public class CommentActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MinSuApi.roomCommentList(this, 0x001, tokenId, house_id, callBack);
+        MinSuApi.roomCommentListq(this, 0x001, tokenId, house_id, callBack);
     }
 }

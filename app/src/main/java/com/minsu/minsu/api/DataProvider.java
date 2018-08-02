@@ -16,20 +16,88 @@ public class DataProvider {
     //
     public static List<FacilitiesBean> getFacilitiesList() {
         ArrayList<FacilitiesBean> arr = new ArrayList<>();
-        arr.add(new FacilitiesBean(1, "标准间", R.mipmap.pc_01));
-        arr.add(new FacilitiesBean(2, "大床房", R.mipmap.pc_02));
-        arr.add(new FacilitiesBean(3, "家庭房", R.mipmap.pc_03));
-        arr.add(new FacilitiesBean(4, "24小时热水", R.mipmap.pc_04));
-        arr.add(new FacilitiesBean(5, "电视", R.mipmap.pc_05));
-        arr.add(new FacilitiesBean(6, "空调", R.mipmap.pc_06));
-        arr.add(new FacilitiesBean(7, "整租", R.mipmap.pc_07));
-        arr.add(new FacilitiesBean(8, "单间", R.mipmap.pc_08));
-        arr.add(new FacilitiesBean(9, "wifi", R.mipmap.pc_09));
-        arr.add(new FacilitiesBean(10, "三人行礼包", R.mipmap.pc_10));
-        arr.add(new FacilitiesBean(11, "娱乐设施", R.mipmap.pc_12));
-        arr.add(new FacilitiesBean(12, "周边景点", R.mipmap.pc_13));
-        arr.add(new FacilitiesBean(13, "停车场", R.mipmap.pc_11));
+        arr.add(new FacilitiesBean(1, "标准间", R.mipmap.pc_01,0));
+        arr.add(new FacilitiesBean(2, "大床房", R.mipmap.pc_02,0));
+        arr.add(new FacilitiesBean(3, "家庭房", R.mipmap.pc_03,0));
+        arr.add(new FacilitiesBean(4, "24小时热水", R.mipmap.pc_04,0));
+        arr.add(new FacilitiesBean(5, "电视", R.mipmap.pc_05,0));
+        arr.add(new FacilitiesBean(6, "空调", R.mipmap.pc_06,0));
+        arr.add(new FacilitiesBean(7, "整租", R.mipmap.pc_07,0));
+        arr.add(new FacilitiesBean(8, "单间", R.mipmap.pc_08,0));
+        arr.add(new FacilitiesBean(9, "wifi", R.mipmap.pc_09,0));
+        arr.add(new FacilitiesBean(10, "三人行礼包", R.mipmap.pc_10,0));
+        arr.add(new FacilitiesBean(11, "停车场", R.mipmap.pc_11,0));
+        arr.add(new FacilitiesBean(12, "娱乐设施", R.mipmap.pc_12,0));
+        arr.add(new FacilitiesBean(13, "周边景点", R.mipmap.pc_13,0));
         return arr;
+    }
+
+    public static List<FacilitiesBean> getFacilitiesList(String[] s) {
+        ArrayList<FacilitiesBean> arr = new ArrayList<>();
+        arr.add(new FacilitiesBean(1, "标准间", R.mipmap.pc_01,0));
+        arr.add(new FacilitiesBean(2, "大床房", R.mipmap.pc_02,0));
+        arr.add(new FacilitiesBean(3, "家庭房", R.mipmap.pc_03,0));
+        arr.add(new FacilitiesBean(4, "24小时热水", R.mipmap.pc_04,0));
+        arr.add(new FacilitiesBean(5, "电视", R.mipmap.pc_05,0));
+        arr.add(new FacilitiesBean(6, "空调", R.mipmap.pc_06,0));
+        arr.add(new FacilitiesBean(7, "整租", R.mipmap.pc_07,0));
+        arr.add(new FacilitiesBean(8, "单间", R.mipmap.pc_08,0));
+        arr.add(new FacilitiesBean(9, "wifi", R.mipmap.pc_09,0));
+        arr.add(new FacilitiesBean(10, "三人行礼包", R.mipmap.pc_10,0));
+        arr.add(new FacilitiesBean(11, "停车场", R.mipmap.pc_11,0));
+        arr.add(new FacilitiesBean(12, "娱乐设施", R.mipmap.pc_12,0));
+        arr.add(new FacilitiesBean(13, "周边景点", R.mipmap.pc_13,0));
+        for (int i=0;i<s.length;i++)
+        {
+            arr.set(Integer.parseInt(s[i])-1,new FacilitiesBean(i+1,getname(Integer.parseInt(s[i])),FacilitiesSecImage[Integer.parseInt(s[i])-1],1));
+        }
+        return arr;
+    }
+    public static String getname(int i)
+    {
+        if (i==1)
+        {
+            return "标准件";
+        }else if (i==2)
+        {
+            return "大床房";
+        }else if (i==3)
+        {
+            return "家庭房";
+        }else if (i==4)
+        {
+            return "24小时热水";
+        }else if (i==5)
+        {
+            return "电视";
+        }else if (i==6)
+        {
+            return "空调";
+        }else if (i==7)
+        {
+            return "整租";
+        }else if (i==8)
+        {
+            return "单间";
+        }else if (i==9)
+        {
+            return "wifi";
+        }else if (i==10)
+        {
+            return "三人行礼包";
+
+        }else if (i==11)
+        {
+            return "停车场";
+        }else if (i==12)
+        {
+            return "娱乐设施";
+        }else if (i==13)
+        {
+            return "周边景点";
+        }else {
+            return null;
+        }
     }
 //
 //    public static List<Numbers> getNumberList(int page) {
@@ -82,9 +150,9 @@ public class DataProvider {
 
 
     static final int[] BannerImage = {
-            R.mipmap.banner_0,
-            R.mipmap.banner_1,
-            R.mipmap.banner_2,
+            R.mipmap.default_banner,
+            R.mipmap.default_banner,
+            R.mipmap.default_banner,
     };
 
     public static ArrayList<Integer> getBannerImage() {

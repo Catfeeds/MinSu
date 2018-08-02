@@ -18,7 +18,7 @@
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:background="@drawable/selector_btn_back"
-            android:drawableLeft="@drawable/ac_back_icon"
+            android:drawableLeft="@drawable/main_bu_normal"
             android:gravity="center_vertical"
             android:onClick="onHeadLeftButtonClick"
             android:textColor="@drawable/selector_btn_top" />

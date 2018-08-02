@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="alphabet_size">12dip</dimen>
+    <dimen name="dp_70">70dp</dimen>
     <dimen name="umeng_socialize_pad_window_height">350dip</dimen>
     <dimen name="umeng_socialize_pad_window_width">580dip</dimen>
     <!-- 平台名称 -->

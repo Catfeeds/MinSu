@@ -199,6 +199,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(netWorkStateReceiver, filter);
+        netWorkStateReceiver.setINew(new NetWorkStateReceiver.INewWork()
+        {
+            @Override
+            public void yes()
+            {
+
+            }
+
+            @Override
+            public void no()
+            {
+
+            }
+        });
         System.out.println("注册");
         super.onResume();
 //		StatService.onPause(mContext);
@@ -219,4 +233,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         App.getInstance().finishActivity(this);
     }
+
 }

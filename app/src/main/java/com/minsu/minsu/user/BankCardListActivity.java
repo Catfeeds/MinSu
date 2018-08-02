@@ -97,7 +97,7 @@ public class BankCardListActivity extends BaseActivity {
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
-                            BankListBean bankListBean = new Gson().fromJson(result.body(), BankListBean.class);
+                            final BankListBean bankListBean = new Gson().fromJson(result.body(), BankListBean.class);
                             final BankListAdapter bankListAdapter = new BankListAdapter(R.layout.item_bankcard, bankListBean.data);
                             recyclerView.setAdapter(bankListAdapter);
                             if (bankListBean.data.size() == 0) {
@@ -106,11 +106,16 @@ public class BankCardListActivity extends BaseActivity {
                             bankListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    if (type==null)
+                                    {
+                                        return;
+                                    }
                                     if (type.equals("tixian")){
                                         Intent intent = new Intent();
                                         //把返回数据存入Intent
                                         intent.putExtra("bank_name", bankListAdapter.getItem(position).bank_name);
                                         intent.putExtra("bank_code", bankListAdapter.getItem(position).bank_code);
+                                        intent.putExtra("bank_id",bankListAdapter.getItem(position).id);
                                         BankCardListActivity.this.setResult(RESULT_OK, intent);
                                         //关闭Activity
                                         BankCardListActivity.this.finish();

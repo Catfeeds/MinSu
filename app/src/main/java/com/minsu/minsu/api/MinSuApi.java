@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.App;
@@ -12,6 +13,7 @@ import com.minsu.minsu.api.callback.StringDialogCallback;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hpc on 2017/12/25.
@@ -85,7 +87,7 @@ public class MinSuApi {
     public static void SystemMessage(Activity activity, final int what, final CallBack myCallBack) {
         OkGo.<String>post(Constant.SYSTEM_MESSAGE_URL)
                 .tag(App.getInstance())
-                .execute(new StringDialogCallback(activity, "加载中...") {
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -161,6 +163,27 @@ public class MinSuApi {
                 });
     }
 
+    public static void set_default_address(Activity activity, final int what, String token, int address_id,
+                                          final CallBack myCallBack) {
+        OkGo.<String>post(Constant.SET_DEFAULT_ADDRESS_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("address_id", address_id)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+
     //编辑收货地址页面
     public static void editAddressSubmit(Activity activity, final int what, String token, int address_id,
                                          String name, String mobile, String address, final CallBack myCallBack) {
@@ -208,11 +231,12 @@ public class MinSuApi {
 
     //首页数据展示
     public static void homeShow(Activity activity, final int what, String token, String city,
-                                final CallBack myCallBack) {
+                                int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.HOME_PAGE_URL)
                 .tag(App.getInstance())
                 .params("token", token)
                 .params("city_name", city)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -232,7 +256,25 @@ public class MinSuApi {
         OkGo.<String>post(Constant.USER_CENTER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
-                .execute(new StringDialogCallback(activity, "加载中...") {
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+    //个人中心
+    public static void userCenterq(Activity activity, final int what, String token, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.USER_CENTER_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -252,6 +294,27 @@ public class MinSuApi {
                 .tag(App.getInstance())
                 .params("token", token)
                 .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+
+
+
+    public static void userInfoq(Activity activity, final int what, String token, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.USER_INFO_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -305,6 +368,88 @@ public class MinSuApi {
                 });
     }
 
+
+
+
+
+    public static void ezsubmble(final int what, String token, int type,String mobile,String verify,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.RZMOBIILE)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("type",type)
+                .params("mobile",mobile)
+                .params("verify",verify)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+
+    public static void submble(final int what, String token, String verify,String mobile,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.SUBMOBILE)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("verify",verify)
+                .params("mobile",mobile)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+    public static void yanzhengphone(final int what, String token,String verify, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.YANZHENG)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+    //获取手机号
+    public static void getmobile(final int what, String token, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.GETMOBILE)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
     //昵称修改
     public static void nicknameChange(final int what, String token, String nickname, final CallBack myCallBack) {
         OkGo.<String>post(Constant.USER_NICKNAME_URL)
@@ -440,10 +585,11 @@ public class MinSuApi {
     }
 
     //我的房源
-    public static void myHouseResource(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void myHouseResource(Activity activity, final int what, String token,int page, final CallBack myCallBack) {
         OkGo.<String>post(Constant.MY_HOUSE_LIST_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -560,12 +706,70 @@ public class MinSuApi {
                 });
     }
 
+    //上传图片
+    public static void upimg(final int what, List<File> files, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.UPIMG)
+                .tag(App.getInstance())
+                .addFileParams("file[]", files)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                        Log.i(TAG, "onSuccess: " + response.body());
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                        Log.i(TAG, "onSuccess: " + response.body());
+                    }
+                });
+    }
+     //编辑房源提交
+    public static void bianHouseSubmit(Activity activity, final int what,int house_id, String token,
+                                      int house_type_id, int space_type_id, String title,
+                                      String house_info, String house_price, String status,
+                                      String province, String city, String district, String town,String address_detail,
+                                      String house_img,int num, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.BIANJIFANF)
+                .tag(App.getInstance())
+                .params("house_id",house_id)
+                .params("token", token)
+                .params("house_type_id", house_type_id)
+                .params("space_type_id", space_type_id)
+                .params("title", title)
+                .params("house_info", house_info)
+                .params("house_price", house_price)
+                .params("status", status)
+                .params("province", province)
+                .params("city", city)
+                .params("district", district)
+                .params("town", town)
+                .params("address_detail",address_detail)
+                .params("house_img", house_img)
+                .params("num",num)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+
     //添加房源提交
     public static void addHouseSubmit(Activity activity, final int what, String token,
                                       int house_type_id, int space_type_id, String title,
                                       String house_info, String house_price, String status,
-                                      int province, int city, int district, int town,
-                                      ArrayList<File> house_img, final CallBack myCallBack) {
+                                      int province, int city, int district, int town,String address_detail,
+                                      ArrayList<File> house_img,int num, final CallBack myCallBack) {
         OkGo.<String>post(Constant.ADD_HOUSE_SUBMIT_URL)
                 .tag(App.getInstance())
                 .params("token", token)
@@ -579,6 +783,8 @@ public class MinSuApi {
                 .params("city", city)
                 .params("district", district)
                 .params("town", town)
+                .params("num",num)
+                .params("address_detail",address_detail)
                 .addFileParams("house_img[]", house_img)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
@@ -701,10 +907,11 @@ public class MinSuApi {
     }
 
     //我的收藏
-    public static void myCollect(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void myCollect(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.MY_COLLECT_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -776,6 +983,29 @@ public class MinSuApi {
                 });
     }
 
+
+    public static void myCoupon(Activity activity, final int what, String token, final CallBack myCallBack)
+    {
+        OkGo.<String>post(Constant.MY_COUPON_LIST_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .execute(new StringCallback()
+                {
+                    @Override
+                    public void onSuccess(Response<String> response)
+                    {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response)
+                    {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
     //领取优惠券
     public static void getCoupon(final int what, String token, int quan_id, final CallBack myCallBack) {
         OkGo.<String>post(Constant.GET_COUPON_URL)
@@ -815,11 +1045,14 @@ public class MinSuApi {
                 });
     }
 
-    //订单提示
-    public static void orderPrompt(Activity activity, final int what, String token, final CallBack myCallBack) {
-        OkGo.<String>post(Constant.ORDER_PROMPT_URL)
+
+
+
+    public static void deleteorderprompt(Activity activity, final int what, String token, int log_id,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.DELETE_OREDR_TISHI)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("log_id",log_id)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -833,6 +1066,70 @@ public class MinSuApi {
                     }
                 });
     }
+
+    //订单提示
+    public static void orderPrompt(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.ORDER_PROMPT_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+    //订单提示房东
+
+    public static void orderfangdong(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.ORDER_FANGDONG)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+
+    public static void orderPrompts(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.ORDER_PROMPT_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+
+
 
     //房源详情
     public static void houseDetail(Activity activity, final int what, String token, String house_id, final CallBack myCallBack) {
@@ -857,7 +1154,7 @@ public class MinSuApi {
     //房源列表
     public static void roomList(Activity activity, final int what, String token, String city,
                                 String qy_id, String price_desc, String price_asc, String house_type_id,
-                                String title, final CallBack myCallBack) {
+                                String title,int page, final CallBack myCallBack) {
         OkGo.<String>post(Constant.ROMM_RESOURCE_LIST_URL)
                 .tag(App.getInstance())
                 .params("token", token)
@@ -867,6 +1164,7 @@ public class MinSuApi {
                 .params("price_asc", price_asc)
                 .params("house_type_id", house_type_id)
                 .params("title", title)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -990,10 +1288,11 @@ public class MinSuApi {
     }
 
     //我的全部订单列表
-    public static void allMyOrder(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void allMyOrder(Activity activity, final int what, String token,int page, final CallBack myCallBack) {
         OkGo.<String>post(Constant.ALL_MY_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1009,10 +1308,11 @@ public class MinSuApi {
     }
 
     //订单列表-入住中
-    public static void ruzhuzhongOrder(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void ruzhuzhongOrder(Activity activity, final int what, String token,int page, final CallBack myCallBack) {
         OkGo.<String>post(Constant.RUZHUZHONG_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1028,10 +1328,11 @@ public class MinSuApi {
     }
 
     //订单列表-已退房
-    public static void yituifaangOrder(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void yituifaangOrder(Activity activity, final int what, String token,int page, final CallBack myCallBack) {
         OkGo.<String>post(Constant.YITUIFANG_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1112,7 +1413,7 @@ public class MinSuApi {
     //提交退款
     public static void submitTuifang(Activity activity, final int what, String token, int order_id, String tuikuan_txt,
                                      String tuikuan_type, final CallBack myCallBack) {
-        OkGo.<String>post(Constant.SUBMIT_TUIKUAN_URL)
+        OkGo.<String>post(Constant.SUBMIT_TUIFANG_URL)
                 .tag(App.getInstance())
                 .params("token", token)
                 .params("order_id", order_id)
@@ -1133,7 +1434,7 @@ public class MinSuApi {
     }
 
     //申请退款页面
-    public static void applyTuikuanPage(Activity activity, final int what, String token, int order_id, final CallBack myCallBack) {
+    public static void applyTuikuanPage(Activity activity, final int what, String token, String order_id, final CallBack myCallBack) {
         OkGo.<String>post(Constant.APPLY_TUIKUAN_PAGE_URL)
                 .tag(App.getInstance())
                 .params("token", token)
@@ -1192,10 +1493,11 @@ public class MinSuApi {
     }
 
     //订单列表-待入住
-    public static void dairuzhuOrder(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void dairuzhuOrder(Activity activity, final int what, String token,int page, final CallBack myCallBack) {
         OkGo.<String>post(Constant.DAIRUZHU_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1215,7 +1517,7 @@ public class MinSuApi {
         OkGo.<String>post(Constant.CHAT_LIST_URL)
                 .tag(App.getInstance())
                 .params("token", token)
-                .execute(new StringDialogCallback(activity, "加载中...") {
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -1228,6 +1530,8 @@ public class MinSuApi {
                     }
                 });
     }
+
+
 
     //添加聊天列表
     public static void addChatList(Activity activity, final int what, String token, int js_user_id, final CallBack myCallBack) {
@@ -1249,11 +1553,30 @@ public class MinSuApi {
                 });
     }
 
+
+    public static void orderdelite(Activity activity, String order_id, final Callback callback)
+    {
+        OkGo.<String>post(Constant.DELITE_PAY)
+                .params("order_id",order_id)
+                .execute(new StringDialogCallback(activity,"正在加载...")
+                {
+                    @Override
+                    public void onSuccess(Response<String> response)
+                    {
+                        callback.onSuccess(response);
+                    }
+                });
+    }
+    {
+
+    }
+
     //房东全部订单
-    public static void lanlordAllOrderList(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void lanlordAllOrderList(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1267,12 +1590,30 @@ public class MinSuApi {
                     }
                 });
     }
+    public static void lanlordAllOrderListq( final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_ORDER_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
     //房东待入住
-    public static void lanlordDairuzhuOrderList(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void lanlordDairuzhuOrderList(Activity activity, final int what, String token,int page, final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_DAIRUZHU_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1286,12 +1627,30 @@ public class MinSuApi {
                     }
                 });
     }
+    public static void lanlordDairuzhuOrderListq(Activity activity, final int what, String token,int page, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_DAIRUZHU_ORDER_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
     //房东入住中
-    public static void lanlordRuzhuzhongOrderList(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void lanlordRuzhuzhongOrderList(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_RUZHUZHONG_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1305,7 +1664,24 @@ public class MinSuApi {
                     }
                 });
     }
+    public static void lanlordRuzhuzhongOrderListq(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_RUZHUZHONG_ORDER_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
 
     //改变订单状态
     public static void changeOrderStatus(final int what, String token, String order_id,
@@ -1328,7 +1704,70 @@ public class MinSuApi {
                     }
                 });
     }
+    //判断是否有房
+    public static void isyoufang(String start_time, int house_id,int days,final int what, final CallBack mycallback)
+    {
+        OkGo.<String>
+                post(Constant.ISYOUFANG)
+                .params("start_time",start_time)
+                .params("house_id",house_id)
+                .params("days",days)
+                .execute(new StringCallback()
+                {
+                    @Override
+                    public void onSuccess(Response<String> response)
+                    {
+                        mycallback.onSuccess(what,response);
+                    }
+                });
+    }
 
+     //房间情况
+    public static void xiugaihouse(String token, int house_id,final int what, final CallBack mycallback)
+    {
+        OkGo.<String>
+                post(Constant.XIUGAIHOUSE)
+                .params("token",token)
+                .params("house_id",house_id)
+                .execute(new StringCallback()
+                {
+                    @Override
+                    public void onSuccess(Response<String> response)
+                    {
+                        mycallback.onSuccess(what,response);
+                    }
+                });
+    }
+    //聊天列表删除
+    public static void delete_char(int id, final int what, final CallBack mycallback)
+    {
+        OkGo.<String>
+                post(Constant.DELETE_CHAR)
+                .params("id",id)
+                .execute(new StringCallback()
+                {
+                    @Override
+                    public void onSuccess(Response<String> response)
+                    {
+                        mycallback.onSuccess(what,response);
+                    }
+                });
+    }
+
+public static void getToken(String token, final int what, final CallBack mycallback)
+{
+    OkGo.<String>
+            post(Constant.GET_TOKEN)
+            .params("token",token)
+            .execute(new StringCallback()
+            {
+                @Override
+                public void onSuccess(Response<String> response)
+                {
+                    mycallback.onSuccess(what,response);
+                }
+            });
+}
     //获取融云token
     public static void getRongyunToken(Activity activity, final int what, String token,
                                        int id, final CallBack myCallBack) {
@@ -1336,7 +1775,7 @@ public class MinSuApi {
                 .tag(App.getInstance())
                 .params("token", token)
                 .params("id", id)
-                .execute(new StringDialogCallback(activity, "加载中...") {
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -1349,7 +1788,25 @@ public class MinSuApi {
                     }
                 });
     }
+    public static void getRongyunTokenq(Activity activity, final int what, String token,
+                                       int id, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.GET_RONGYUN_TOKEN_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("id", id)
+                .execute(new StringDialogCallback(activity,"加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
     //房东确认入住
     public static void sureRuzhu(Activity activity, final int what, String token,
                                  int order_id, final CallBack myCallBack) {
@@ -1392,12 +1849,116 @@ public class MinSuApi {
                 });
     }
 
+    //发布文章
+    public static void fabu(Activity activity, final int what, String token, int article_type, String title,
+                            String content,ArrayList<File> article_img, int img_type, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.FABU)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("article_type",article_type)
+                .params("title", title)
+                .params("content",content)
+                .addFileParams("article_img[]",article_img)
+                .params("img_type",img_type)
+                .execute(new StringDialogCallback(activity, "发布中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                        Log.i("fabuActivity-",response.body());
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                        Log.i("fabuActivity-",response.body());
+
+                    }
+                });
+    }
+
+
+    public static void fabudantu(Activity activity, final int what, String token, int article_type, String title,
+                            String content, File article_img, int img_type, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.FABU)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("article_type",article_type)
+                .params("title", title)
+                .params("content",content)
+                .params("file",article_img)
+                .params("img_type",img_type)
+                .execute(new StringDialogCallback(activity, "发布中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                        Log.i("fabuActivity-",response.body());
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                        Log.i("fabuActivity-",response.body());
+
+                    }
+                });
+    }
+
+
+    public static void fabushiipin(Activity activity, final int what, String token, int article_type, String title,
+                            String content, File article_img, int img_type, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.FABU)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("article_type",article_type)
+                .params("title", title)
+                .params("content",content)
+                .params("file",article_img)
+                .params("img_type",img_type)
+                .execute(new StringDialogCallback(activity, "发布中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+
     //(房东)我的订单-退款申请
-    public static void tuikuanApply(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void tuikuanApply(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_TUIKUAN_APPLY_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+    public static void tuikuanApplyq(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_TUIKUAN_APPLY_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -1433,10 +1994,11 @@ public class MinSuApi {
     }
 
     //(房东)我的订单-提前退房
-    public static void tiqianTuiFang(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void tiqianTuiFang(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_TIQIAN_TUIFANG_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1450,7 +2012,24 @@ public class MinSuApi {
                     }
                 });
     }
+    public static void tiqianTuiFangq(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_TIQIAN_TUIFANG_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
     //(房东)确认提前退房
     public static void sureTiQianTuiFang(Activity activity, final int what, String token, int order_id, int is_tuifang, final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_SURE_TIQIAN_TUIFANG_URL)
@@ -1473,11 +2052,31 @@ public class MinSuApi {
     }
 
     //(房东)我的订单-已退房
-    public static void landlordYiTuiFang(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void landlordYiTuiFang(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.LANDLORD_YITUIFANG_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
+
+    public static void landlordYiTuiFangq(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
+        OkGo.<String>post(Constant.LANDLORD_YITUIFANG_ORDER_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("page",page)
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -1618,13 +2217,33 @@ public class MinSuApi {
                 });
     }
 
+
+    public static void roomCommentListq(Activity activity, final int what, String token, String house_id, final CallBack myCallBack) {
+        OkGo.<String>post(Constant.COMMENT_LIST_URL)
+                .tag(App.getInstance())
+                .params("token", token)
+                .params("house_id", house_id)
+                .execute(new StringDialogCallback(activity, "加载中...") {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        myCallBack.onSuccess(what, response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        myCallBack.onFail(what, response);
+                    }
+                });
+    }
     //房源评价点赞
-    public static void roomComment(Activity activity, final int what, String token, String content, int house_id, final CallBack myCallBack) {
+    public static void roomComment(Activity activity, final int what, String token, String content, int house_id, int order_id,final CallBack myCallBack) {
         OkGo.<String>post(Constant.COMMENT_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
                 .params("content", content)
                 .params("house_id", house_id)
+                .params("order_id",order_id)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1725,7 +2344,7 @@ public class MinSuApi {
         OkGo.<String>post(Constant.PASSENGER_LIST_URL)
                 .tag(App.getInstance())
                 .params("token", token)
-                .execute(new StringDialogCallback(activity, "加载中...") {
+                .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         myCallBack.onSuccess(what, response);
@@ -1830,10 +2449,11 @@ public class MinSuApi {
     }
 
     //已取消订单列表
-    public static void yiquxiao(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void yiquxiao(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.YIQUXIAO_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -1849,10 +2469,11 @@ public class MinSuApi {
     }
 
     //订单列表-提前退房
-    public static void tiqianTuifang(Activity activity, final int what, String token, final CallBack myCallBack) {
+    public static void tiqianTuifang(Activity activity, final int what, String token, int page,final CallBack myCallBack) {
         OkGo.<String>post(Constant.TUIFANG_ORDER_URL)
                 .tag(App.getInstance())
                 .params("token", token)
+                .params("page",page)
                 .execute(new StringDialogCallback(activity, "加载中...") {
                     @Override
                     public void onSuccess(Response<String> response) {

@@ -5,24 +5,31 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
-import com.lzy.okgo.model.Response;
-import com.minsu.minsu.api.Constant;
-import com.minsu.minsu.service.LocationService;
+import com.minsu.minsu.rongyun.RongCloudEvent;
+import com.minsu.minsu.user.LoginActivity;
+import com.minsu.minsu.user.setting.SettingActivity;
 import com.minsu.minsu.utils.DynamicTimeFormat;
 import com.minsu.minsu.utils.StorageUtil;
+import com.minsu.minsu.utils.ToastManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -34,49 +41,82 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.push.RongPushClient;
+import io.rong.push.common.RongException;
 import okhttp3.OkHttpClient;
 
 /**
  * Created by hpc on 2017/12/1.
  */
 
-public class App extends Application {
+public class App extends Application
+{
     private static final String TAG = "App";
     //记录当前栈里所有activity
     private List<Activity> activities = new ArrayList<Activity>();
     //记录需要一次性关闭的页面
     private List<Activity> activitys = new ArrayList<Activity>();
-    public LocationService locationService;
     public Vibrator mVibrator;
+    public static Handler handler;
+
+    public static Handler getHandler()
+    {
+        return handler;
+    }
+
+    public static void bindHandler(Handler h)
+    {
+        handler = h;
+    }
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
         instance = this;
         initOkGo();
-        UMShareAPI.get(this);
-
-        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
-            RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
+        //   JPushInterface.setDebugMode(true);
+        JPushInterface.init(getApplicationContext());
+        //注意：RongPushClient.registerMiPush() 一定要放在 RongIM.init() 前面。
+        try
+        {
+            UMShareAPI.get(this);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        RongPushClient.registerMiPush(this, "2882303761517711524", "5831771185524");
+//        RongPushClient.registerHWPush(this);
+        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())))
+        {
             RongIM.init(this);
             RongIM.getInstance().setMessageAttachedUserInfo(true);
+            RongIM.setServerInfo("nav.cn.ronghub.com", "up.qbox.me");
+            RongCloudEvent.init(this);
+            RongPushClient.init(this, "5831771185524");
+            try
+            {
+                RongPushClient.checkManifest(getApplicationContext());
+            } catch (RongException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         /***
          * 初始化定位sdk，建议在Application中创建
          */
-        locationService = new LocationService(instance);
+
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-        SDKInitializer.initialize(getApplicationContext());
+
         //检测角色状态
         String tokenId = StorageUtil.getTokenId(this);
 
@@ -109,26 +149,32 @@ public class App extends Application {
     }
 
     //static 代码段可以防止内存泄露
-    static {
+    static
+    {
         //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater()
+        {
             @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout)
+            {
                 return new ClassicsHeader(context).
                         setDrawableSize(16).setTimeFormat(new DynamicTimeFormat("最后更新： %s"));//指定为经典Header，默认是 贝塞尔雷达Header
             }
         });
         //设置全局的Footer构建器
-        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater()
+        {
             @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout)
+            {
                 //指定为经典Footer，默认是 BallPulseFooter
                 return new ClassicsFooter(context).setDrawableSize(16);
             }
         });
     }
 
-    private void initOkGo() {
+    private void initOkGo()
+    {
         //---------这里给出的是示例代码,告诉你可以这么传,实际使用的时候,根据需要传,不需要就不传-------------//
         HttpHeaders headers = new HttpHeaders();
 //        headers.put("commonHeaderKey1", "commonHeaderValue1");    //header不支持中文，不允许有特殊字符
@@ -185,9 +231,12 @@ public class App extends Application {
     {
         //微信
         PlatformConfig.setWeixin("wxa372aef05ce3769b", "67e84a335b5fe291ba2bebef2aa0efec");
-        //新浪微博(第三个参数为回调地址)
+
+        // PlatformConfig.setWeixin("wx2df607a3ab792365","b87da1aec3653bc51a3ab618466a04f3");
+
+        //新浪微博(第三个参数为回调地址)//原来签名d2690089032b7ee13d3e8cc5e4357b93
         PlatformConfig.setSinaWeibo("3729388083", "830346c946e542d1849d2951cc43ab22", "http://sns.whalecloud.com/sina2/callback");
-        //QQ
+        //QQ101456656   ab99ee682c7e1fdec4b1d9850819c8e7  1106603003 sQuWg0vII4I5Q0xN
         PlatformConfig.setQQZone("101456656", "ab99ee682c7e1fdec4b1d9850819c8e7");
     }
 
@@ -201,7 +250,8 @@ public class App extends Application {
      *
      * @return
      */
-    public static App getInstance() {
+    public static App getInstance()
+    {
         return instance;
     }
 
@@ -210,7 +260,8 @@ public class App extends Application {
      *
      * @param activity
      */
-    public void addActivity(Activity activity) {
+    public void addActivity(Activity activity)
+    {
         activities.add(activity);
     }
 
@@ -219,8 +270,10 @@ public class App extends Application {
      *
      * @param activity
      */
-    public void finishActivity(Activity activity) {
-        if (activity != null) {
+    public void finishActivity(Activity activity)
+    {
+        if (activity != null)
+        {
             this.activities.remove(activity);
             activity.finish();
             activity = null;
@@ -231,12 +284,15 @@ public class App extends Application {
     *给临时Activitys
     * 添加activity
     * */
-    public void addTemActivity(Activity activity) {
+    public void addTemActivity(Activity activity)
+    {
         activitys.add(activity);
     }
 
-    public void finishTemActivity(Activity activity) {
-        if (activity != null) {
+    public void finishTemActivity(Activity activity)
+    {
+        if (activity != null)
+        {
             this.activitys.remove(activity);
             activity.finish();
             activity = null;
@@ -246,9 +302,12 @@ public class App extends Application {
     /*
     * 退出指定的Activity
     * */
-    public void exitActivitys() {
-        for (Activity activity : activitys) {
-            if (activity != null) {
+    public void exitActivitys()
+    {
+        for (Activity activity : activitys)
+        {
+            if (activity != null)
+            {
                 activity.finish();
             }
         }
@@ -257,20 +316,29 @@ public class App extends Application {
     /**
      * 应用退出，结束所有的activity
      */
-    public void exit() {
-        for (Activity activity : activities) {
-            if (activity != null) {
+    public void exit(int s)
+    {
+        for (Activity activity : activities)
+        {
+            if (activity != null)
+            {
                 activity.finish();
             }
         }
-        System.exit(0);
+      if (s==2)
+      {
+          System.exit(0);
+      }
     }
 
-    public static String getCurProcessName(Context context) {
+    public static String getCurProcessName(Context context)
+    {
         int pid = android.os.Process.myPid();
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses())
+        {
+            if (appProcess.pid == pid)
+            {
                 return appProcess.processName;
             }
         }

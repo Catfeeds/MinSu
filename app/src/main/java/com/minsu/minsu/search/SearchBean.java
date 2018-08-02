@@ -14,7 +14,7 @@ public class SearchBean {
     public List<Data3> data3;
 
     public class Data1 {
-        public int house_id;
+        public String house_id;
         public String title;
         public String house_info;
         public String house_price;

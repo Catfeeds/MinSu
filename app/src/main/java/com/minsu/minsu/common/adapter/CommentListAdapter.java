@@ -44,14 +44,22 @@ public class CommentListAdapter extends BaseQuickAdapter<CommentBean.Data, BaseV
             /// 这一步必须要做,否则不会显示.
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             zan.setCompoundDrawables(drawable,null,null,null);
+            //zan.setBackgroundResource(R.mipmap.zan02);
         }else{
             Drawable drawable= context.getResources().getDrawable(R.mipmap.zan01);
             /// 这一步必须要做,否则不会显示.
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             zan.setCompoundDrawables(drawable,null,null,null);
+            //zan.setBackgroundResource(R.mipmap.zan01);
         }
 
-
+        if (item.head_pic==null)
+        {
+            Glide.with(mContext)
+                    .load("http://minsu.zyeo.net/Public/img/user.png")
+                    .into((ImageView) helper.getView(R.id.comment_user_img));
+            return;
+        }
         if (item.head_pic.contains("http")) {
             Glide.with(mContext).load(item.head_pic).into((ImageView) helper.getView(R.id.comment_user_img));
         } else {

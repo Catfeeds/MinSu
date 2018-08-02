@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
@@ -75,7 +76,7 @@ public class CitySelectActivity extends BaseActivity {
     private RecyclerView recyclerView_history;
     private RecyclerView recyclerView_hot;
     private TextView tv_hot;
-
+    private View statusBarView;
 
     @Override
     protected void processLogic() {
@@ -98,7 +99,6 @@ public class CitySelectActivity extends BaseActivity {
         tokenId = StorageUtil.getTokenId(this);
         initViews();
     }
-
     private void initViews() {
         //实例化汉字转拼音
 //        获取characterParser的实例
@@ -135,7 +135,10 @@ public class CitySelectActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(CitySelectActivity.this, "当前位置", Toast.LENGTH_SHORT).show();
-
+                Intent intent = getIntent();
+                intent.putExtra("address", location_city);
+                CitySelectActivity.this.setResult(0, intent);
+                CitySelectActivity.this.finish();
             }
         });
 
@@ -160,6 +163,7 @@ public class CitySelectActivity extends BaseActivity {
                     Intent intent = getIntent();
                     intent.putExtra("address", ((SortModel) adapter.getItem(position - 1)).getName());
                     CitySelectActivity.this.setResult(0, intent);
+                    StorageUtil.setKeyValue(CitySelectActivity.this,"location_city",((SortModel) adapter.getItem(position - 1)).getName());
                     CitySelectActivity.this.finish();
                 }
             }
@@ -227,10 +231,30 @@ public class CitySelectActivity extends BaseActivity {
                             CityBean cityBean = new Gson().fromJson(result.body(), CityBean.class);
                             List<CityBean.Data2> data2 = cityBean.data2;
                             List<CityBean.Data3> data3 = cityBean.data3;
-                            CityItemAdapter hotCityItemAdapter = new CityItemAdapter(R.layout.item_city, data2);
-                            CityHistoryItemAdapter historyCityItemAdapter = new CityHistoryItemAdapter(R.layout.item_city, data3);
+                            final CityItemAdapter hotCityItemAdapter = new CityItemAdapter(R.layout.item_city, data2);
+                            final CityHistoryItemAdapter historyCityItemAdapter = new CityHistoryItemAdapter(R.layout.item_city, data3);
                             recyclerView_history.setAdapter(historyCityItemAdapter);
                             recyclerView_hot.setAdapter(hotCityItemAdapter);
+                            hotCityItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = getIntent();
+                                    intent.putExtra("address", hotCityItemAdapter.getItem(position).name);
+                                    CitySelectActivity.this.setResult(0, intent);
+                                    StorageUtil.setKeyValue(CitySelectActivity.this,"location_city",hotCityItemAdapter.getItem(position).name);
+                                    CitySelectActivity.this.finish();
+                                }
+                            });
+                            historyCityItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = getIntent();
+                                    intent.putExtra("address", historyCityItemAdapter.getItem(position).name);
+                                    CitySelectActivity.this.setResult(0, intent);
+                                    StorageUtil.setKeyValue(CitySelectActivity.this,"location_city",historyCityItemAdapter.getItem(position).name);
+                                    CitySelectActivity.this.finish();
+                                }
+                            });
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -12,6 +12,7 @@ import android.widget.Toast;
  * Created by Carson_Ho on 16/10/31.
  */
 public class NetWorkStateReceiver extends BroadcastReceiver {
+    boolean isone=true;
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -54,11 +55,30 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
                 sb.append(networkInfo.getTypeName() + " connect is " + networkInfo.isConnected());
             }
             if (networks.length == 0) {
-                Toast.makeText(context, "暂无网络连接", Toast.LENGTH_SHORT).show();
+               if (isone)
+               {
+                   Toast.makeText(context, "暂无网络连接", Toast.LENGTH_SHORT).show();
+                   isone=false;
+               }
+                StorageUtil.setKeyValue(context,"networks","no");
+                iNewWork.no();
             } else {
+                StorageUtil.setKeyValue(context,"networks","yes");
+                isone=true;
+                iNewWork.yes();
 //                Toast.makeText(context, sb.toString(), Toast.LENGTH_SHORT).show();
             }
 
         }
+    }
+    private INewWork iNewWork;
+    public void setINew(INewWork iNewWork)
+    {
+        this.iNewWork=iNewWork;
+    }
+    public interface INewWork
+    {
+        void yes();
+        void no();
     }
 }

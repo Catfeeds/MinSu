@@ -1,5 +1,7 @@
 package com.minsu.minsu.common.fragment.landlord;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +18,19 @@ import com.minsu.minsu.api.callback.CallBack;
 import com.minsu.minsu.base.BaseFragment;
 import com.minsu.minsu.common.bean.OrderBean;
 import com.minsu.minsu.common.fragment.landlord.adapter.FRuZhuZhongOrderListAdapter;
+import com.minsu.minsu.houseResource.OrderDetailActvity;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +48,18 @@ public class LRuZhuZhongOrderFragment extends BaseFragment {
     Unbinder unbinder;
     private View view;
     private String tokenId;
+    List<OrderBean.Data> data = new ArrayList<>();
+    private int page=1;
+    private FRuZhuZhongOrderListAdapter orderListAdapter;
+    private int item;
+  private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity)
+    {
+        this.activity=activity;
+        super.onAttach(activity);
+    }
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -47,15 +68,61 @@ public class LRuZhuZhongOrderFragment extends BaseFragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser)
+        {
+            if (activity!=null)
+            {
+                MinSuApi.lanlordRuzhuzhongOrderListq(activity, 0x001, tokenId, 1,callBack);
+            }
+
+        }
+    }
+
+    @Override
     protected void initListener() {
+        refreshLayout.autoRefresh();
         tokenId = StorageUtil.getTokenId(getActivity());
+        refreshLayout.setOnRefreshListener(new OnRefreshListener()
+        {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout)
+            {
+                MinSuApi.lanlordRuzhuzhongOrderListq(getActivity(), 0x001, tokenId, 1,callBack);
+                if (StorageUtil.getValue(getActivity(),"networks")!=null&&
+                        StorageUtil.getValue(getActivity(),"networks").equals("no"))
+                {
+                    refreshlayout.finishRefresh(3000,false);
+                }
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener()
+        {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout)
+            {
+                MinSuApi.lanlordRuzhuzhongOrderList(getActivity(), 0x003, tokenId, page,callBack);
+                if (StorageUtil.getValue(getActivity(),"networks")!=null&&
+                        StorageUtil.getValue(getActivity(),"networks").equals("no"))
+                {
+                    refreshlayout.finishLoadmore(3000,false);
+                }
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        MinSuApi.lanlordRuzhuzhongOrderList(getActivity(), 0x001, tokenId, callBack);
+     //   MinSuApi.lanlordRuzhuzhongOrderListq(getActivity(), 0x001, tokenId,1, callBack);
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
     private CallBack callBack = new CallBack() {
         @Override
         public void onSuccess(int what, Response<String> result) {
@@ -65,17 +132,48 @@ public class LRuZhuZhongOrderFragment extends BaseFragment {
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
+                        if (refreshLayout!=null)
+                        {
+                            refreshLayout.finishLoadmore();
+                            refreshLayout.finishRefresh();
+                        }
                         if (code == 200) {
+                            page=1;
+                            page=page+1;
                             OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
-                            final FRuZhuZhongOrderListAdapter orderListAdapter = new FRuZhuZhongOrderListAdapter(R.layout.item_landlord_ruzhuzhong_order, orderBean.data);
+                            if (data!=null)
+                            {
+                                data.clear();
+                                data.addAll(orderBean.data);
+                            }else {
+                                return;
+                            }
+                            recyclerView=view.findViewById(R.id.recyclerView);
+                            orderListAdapter = new FRuZhuZhongOrderListAdapter(R.layout.item_landlord_ruzhuzhong_order, data);
+                            if (recyclerView==null)
+                            {
+                                return;
+                            }
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(orderListAdapter);
-                            if (orderBean.data.size() == 0) {
+                            if (data.size() == 0) {
                                 orderListAdapter.setEmptyView(R.layout.empty, recyclerView);
                             }
+                            orderListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener()
+                            {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position)
+                                {
+                                    Intent intent=new Intent(getActivity(), OrderDetailActvity.class);
+                                    intent.putExtra("bean",data.get(position));
+                                    intent.putExtra("type","1");
+                                    startActivity(intent);
+                                }
+                            });
                             orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                 @Override
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                    item = position;
                                     switch (view.getId()) {
                                         case R.id.confirm_tuifang:
                                             MinSuApi.sureTuiFang(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
@@ -84,7 +182,16 @@ public class LRuZhuZhongOrderFragment extends BaseFragment {
                                 }
                             });
                         } else if (code == 201) {
-                            ToastManager.show(msg);
+                            recyclerView=view.findViewById(R.id.recyclerView);
+                            orderListAdapter = new FRuZhuZhongOrderListAdapter(R.layout.item_landlord_ruzhuzhong_order, data);
+                            if (recyclerView==null)
+                            {
+                                return;
+                            }
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerView.setAdapter(orderListAdapter);
+                            orderListAdapter.setEmptyView(R.layout.empty, recyclerView);
+                           // ToastManager.show(msg);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -96,10 +203,53 @@ public class LRuZhuZhongOrderFragment extends BaseFragment {
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
-                            ToastManager.show(msg);
-                            MinSuApi.lanlordRuzhuzhongOrderList(getActivity(), 0x001, tokenId, callBack);
+                           // ToastManager.show(msg);
+                            orderListAdapter.remove(item);
+                            orderListAdapter.notifyDataSetChanged();
+                           // MinSuApi.lanlordRuzhuzhongOrderList(getActivity(), 0x001, tokenId,1, callBack);
                         } else if (code == 211) {
-                            ToastManager.show(msg);
+                           // ToastManager.show(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x003:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result.body());
+                        int code = jsonObject.getInt("code");
+                        String msg = jsonObject.getString("msg");
+                        if (refreshLayout!=null)
+                        {
+                            refreshLayout.finishLoadmore();
+                            refreshLayout.finishRefresh();
+                        }
+                        if (code == 200) {
+                            page=page+1;
+                            OrderBean orderBean = new Gson().fromJson(result.body(), OrderBean.class);
+                            if (data!=null)
+                            {
+                                data.addAll(orderBean.data);
+                            }
+//                            final FRuZhuZhongOrderListAdapter orderListAdapter = new FRuZhuZhongOrderListAdapter(R.layout.item_landlord_ruzhuzhong_order, data);
+//                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                            recyclerView.setAdapter(orderListAdapter);
+                            if (data.size() == 0) {
+                                orderListAdapter.setEmptyView(R.layout.empty, recyclerView);
+                            }
+                            orderListAdapter.notifyDataSetChanged();
+//                            orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//                                @Override
+//                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                                    switch (view.getId()) {
+//                                        case R.id.confirm_tuifang:
+//                                            MinSuApi.sureTuiFang(getActivity(), 0x002, tokenId, orderListAdapter.getItem(position).order_id, callBack);
+//                                            break;
+//                                    }
+//                                }
+//                            });
+                        } else if (code == 201) {
+                            // ToastManager.show(msg);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -26,5 +26,6 @@ public class CommentReplyBean {
         public String add_time;
         public String nickname;
         public String head_pic;
+        public String user_id;
     }
 }

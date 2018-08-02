@@ -10,10 +10,13 @@ public class FacilitiesBean implements Serializable{
     public int status;
     public String name;
     public Integer img;
+    public int tcolor;
 
-    public FacilitiesBean(int status, String name, Integer img) {
+    public FacilitiesBean(int status, String name, Integer img,int tcolor) {
         this.status = status;
         this.name = name;
         this.img = img;
+        this.tcolor=tcolor;
     }
+
 }

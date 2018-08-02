@@ -36,9 +36,11 @@ import com.minsu.minsu.base.BaseActivity;
 import com.minsu.minsu.user.camera.CropUtils;
 import com.minsu.minsu.user.camera.FileUtil;
 import com.minsu.minsu.user.camera.PermissionUtil;
+import com.minsu.minsu.utils.CheckUtil;
 import com.minsu.minsu.utils.StorageUtil;
 import com.minsu.minsu.utils.ToastManager;
 import com.minsu.minsu.widget.RoundedCornerImageView;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,6 +127,8 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     private static final int REQUEST_CODE_CROUP_PHOTO = 3;
     private Uri uri;
     private File file;
+    private TextView phones;
+    private String phone;
 
     @Override
     protected void processLogic() {
@@ -135,6 +139,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     protected void setListener() {
         token = StorageUtil.getTokenId(this);
         toolbarTitle.setText("个人资料");
+        phones=findViewById(R.id.phone);
         ivLeft.setVisibility(View.VISIBLE);
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +157,17 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         rlAuthentication.setOnClickListener(this);
         rlLandlordAuthentication.setOnClickListener(this);
         rlAvatar.setOnClickListener(this);
+        findViewById(R.id.rl_xiugaiinfo).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent=new Intent(UserInfoActivity.this,PhineYanActivity.class);
+                intent.putExtra("type","1");
+                intent.putExtra("phone",phone);
+                startActivity(intent);
+            }
+        });
         init();//建立相机存储的缓存的路径
     }
 
@@ -195,38 +211,62 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                             String mBirthday = jsonObject1.getString("birthday");
                             String mEmail = jsonObject1.getString("email");
                             int mSex = jsonObject1.getInt("sex");
+                            MinSuApi.getmobile(0x007,token,callBack);
                             int is_name = jsonObject1.getInt("is_name");
                             int is_house = jsonObject1.getInt("is_house");
                             if (is_house == 1) {
                                 landlordAuthentication.setText("认证通过");
+                                StorageUtil.setKeyValue(UserInfoActivity.this, "role", "landlord");
                             } else if (is_house == 2) {
                                 landlordAuthentication.setText("审核中...");
-                            } else if (is_house == 1) {
+                                StorageUtil.setKeyValue(UserInfoActivity.this, "role", "user");
+                            } else if (is_house == -1) {
                                 landlordAuthentication.setText("审核失败");
+                                StorageUtil.setKeyValue(UserInfoActivity.this, "role", "lsb");
+                            }else {
+
                             }
                             if (is_name == 1) {
                                 authentication.setText("认证通过");
+                                StorageUtil.setKeyValue(UserInfoActivity.this, "is_name", "isname");
                             } else if (is_name == 2) {
                                 authentication.setText("审核中...");
-                            } else if (is_name == 1) {
+                                StorageUtil.setKeyValue(UserInfoActivity.this, "is_name", "shz");
+                            } else if (is_name == -1) {
                                 authentication.setText("审核失败");
+                                StorageUtil.setKeyValue(UserInfoActivity.this, "is_name", "shsb");
+                            }else {
+
                             }
                             email.setText(mEmail);
                             birthday.setText(mBirthday);
                             nickname.setText(mNickname);
                             sex.setText((mSex == 1) ? "男" : "女");
+                            if (mHead_pic == null || mHead_pic.equals("null") || mHead_pic.equals(""))
+                            {
+                               try
+                               {
+                                   Glide.with(UserInfoActivity.this)
+                                           .load(R.mipmap.avatar_default)
+                                           .into(imgAvatar);
+                               }catch (IllegalArgumentException e)
+                               {
 
-                            if (mHead_pic.contains("http")) {
-                                Glide.with(UserInfoActivity.this)
-                                        .load(mHead_pic)
+                               }
+                            }else {
+                                if (mHead_pic.contains("http")) {
+                                    Glide.with(App.getInstance())
+                                            .load(mHead_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
-                                        .into(imgAvatar);
-                            } else {
-                                Glide.with(UserInfoActivity.this)
-                                        .load(Constant.BASE2_URL + mHead_pic)
+                                            .into(imgAvatar);
+                                } else {
+                                    Glide.with(App.getInstance())
+                                            .load(Constant.BASE2_URL + mHead_pic)
 //                                    .placeholder(R.mipmap.ic_launcher)
-                                        .into(imgAvatar);
+                                            .into(imgAvatar);
+                                }
                             }
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -307,6 +347,21 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         e.printStackTrace();
                     }
                     break;
+                case 0x007:
+                    try
+                    {
+                        JSONObject jsonObject=new JSONObject(result.body());
+                        if (jsonObject.getString("code").equals("200"))
+                        {
+                            JSONObject object=new JSONObject(jsonObject.getString("data"));
+                            phone = object.getString("mobile");
+                            phones.setText(phone);
+                        }
+                    } catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    break;
             }
         }
 
@@ -358,6 +413,10 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 });
                 break;
             case R.id.rl_birthday:
+                Calendar calendar=Calendar.getInstance();
+                final int years=calendar.get(Calendar.YEAR);
+                final int mouth=calendar.get(Calendar.MONTH);
+                final int days=calendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = null;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                     datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
@@ -366,6 +425,19 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                         public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                             ToastManager.show("您选择了：" + year + "年" + monthOfYear
                                     + "月" + dayOfMonth + "日");
+                            if (years<=year&&mouth<=monthOfYear&&days<dayOfMonth)
+                            {
+                                ToastManager.show("不能选择大于今天的日期");
+                                return;
+                            }else if (years<year)
+                            {
+                                ToastManager.show("不能选择大于今天的日期");
+                                return;
+                            }else if (years==year&&mouth<monthOfYear)
+                            {
+                                ToastManager.show("不能选择大于今天的日期");
+                                return;
+                            }
                             MinSuApi.birthdayChange(0x003, token, year + "-" + (monthOfYear + 1) + "-" + dayOfMonth, callBack);
                         }
 
@@ -375,17 +447,31 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     //初始化Calendar日历对象
                     Calendar mycalendar = Calendar.getInstance();
 
-                    int year = mycalendar.get(Calendar.YEAR); //获取Calendar对象中的年
-                    int month = mycalendar.get(Calendar.MONTH);//获取Calendar对象中的月
-                    int day = mycalendar.get(Calendar.DAY_OF_MONTH);//获取这个月的第几天
+                    final int yeara = mycalendar.get(Calendar.YEAR); //获取Calendar对象中的年
+                    final int montha = mycalendar.get(Calendar.MONTH);//获取Calendar对象中的月
+                    final int day = mycalendar.get(Calendar.DAY_OF_MONTH);//获取这个月的第几天
                     new DatePickerDialog(UserInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 //                            ToastManager.show("您选择了：" + year + "年" + month
 //                                    + "月" + dayOfMonth + "日");
+
+                            if (years<=year&&mouth<=month&&days<dayOfMonth)
+                            {
+                                ToastManager.show("不能选择大于今天的日期");
+                                return;
+                            }else if (years<year)
+                            {
+                                ToastManager.show("不能选择大于今天的日期");
+                                return;
+                            }else if (years==year&&mouth<month)
+                            {
+                                ToastManager.show("不能选择大于今天的日期");
+                                return;
+                            }
                             MinSuApi.birthdayChange(0x003, token, year + "-" + (month + 1) + "-" + dayOfMonth, callBack);
                         }
-                    }, year, month, day).show();
+                    }, yeara, montha, day).show();
                 }
 
                 break;
@@ -450,8 +536,15 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(View view) {
                         String email = EmailInputName.getText().toString();
-                        MinSuApi.emailChange(0x005, token, email, callBack);
-                        alertDialogEmail.dismiss();
+                        boolean email1 = CheckUtil.isEmail(email);
+                        if (email1) {
+                            MinSuApi.emailChange(0x005, token, email, callBack);
+                            alertDialogEmail.dismiss();
+                        } else {
+                            ToastManager.show("邮箱格式不正确");
+                        }
+
+
                     }
                 });
                 alertDialogBuilderEmail
@@ -460,17 +553,21 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 alertDialogEmail.show();
                 break;
             case R.id.rl_authentication:
-                startActivity(new Intent(UserInfoActivity.this, NameAuthenticationActivity.class));
+                Intent intent=new Intent(UserInfoActivity.this, NameAuthenticationActivity.class);
+                intent.putExtra("ttt",1);
+                startActivityForResult(intent,1);
                 break;
             case R.id.rl_landlord_authentication:
-                startActivity(new Intent(UserInfoActivity.this, LandlordAuthenticationActivity.class));
+                Intent intent1=new Intent(UserInfoActivity.this, LandlordAuthenticationActivity.class);
+                intent1.putExtra("ttt",1);
+                startActivityForResult(intent1,2);
+
                 break;
             case R.id.rl_avatar:
                 chooseType();
                 break;
         }
     }
-
     private void chooseType() {
         final String[] stringItems = {"拍照", "从相册选取"};
         final ActionSheetDialog dialog = new ActionSheetDialog(mContext, stringItems, null);
@@ -525,6 +622,32 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String statu=StorageUtil.getValue(UserInfoActivity.this,"statu");
+        StorageUtil.setKeyValue(UserInfoActivity.this,"statu","0");
+        String land=StorageUtil.getValue(UserInfoActivity.this,"role");
+        MinSuApi.userInfoq(this, 0x001, token, callBack);
+//        if (land.equals("lsb"))
+//        {
+//            landlordAuthentication.setText("审核失败");
+//        }else if (land.equals("landlord"))
+//        {
+//            landlordAuthentication.setText("认证通过");
+//        }else if (land.equals("user"))
+//        {
+//            landlordAuthentication.setText("审核中...");
+//        }
+//        if (statu.equals("1"))
+//        {
+//            authentication.setText("审核中...");
+//
+//        }else if (statu.equals("-1"))
+//        {
+//            authentication.setText("审核失败");
+//        }else if (statu.equals("0"))
+//        {
+//            authentication.setText("认证通过");
+//        }
+
         if (resultCode != -1) {
             return;
         }
@@ -545,6 +668,8 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         } else if (requestCode == REQUEST_CODE_CROUP_PHOTO) {
             uploadAvatarFromPhoto();
         }
+
+
     }
 
     private void uploadAvatarFromPhoto() {
@@ -580,5 +705,4 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         intent.putExtra("outputFormat", "JPEG");// 返回格式
         startActivityForResult(intent, REQUEST_CODE_CROUP_PHOTO);
     }
-
 }

@@ -17,6 +17,9 @@
     <dimen name="avatarSize">50dp</dimen>
     <dimen name="smallSpace">6dp</dimen>
 
+
+    <dimen name="title_15sp">15sp</dimen>
+    <dimen name="title_12sp">12sp</dimen>
     <dimen name="dp_066">0.66dp</dimen>
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_10">10dp</dimen>

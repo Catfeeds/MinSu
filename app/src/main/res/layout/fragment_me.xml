@@ -24,7 +24,7 @@
             android:layout_below="@+id/user_avatar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:text="Json LiChard"
+            android:maxLength="15"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -37,7 +37,6 @@
             android:layout_marginTop="5dp"
             android:drawableLeft="@mipmap/me_renzheng"
             android:drawablePadding="5dp"
-            android:text="已实名认证"
             android:textColor="@color/white"
             android:textSize="11sp" />
 
@@ -162,6 +161,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp">
 
+
             <LinearLayout
                 android:id="@+id/ll_coupon"
                 android:layout_width="0dp"
@@ -172,12 +172,14 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/xi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/me_youhui" />
 
                 <TextView
+                    android:id="@+id/xt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -218,11 +220,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/xii"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/me_collcet" />
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:id="@+id/xtt"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="收藏" />
@@ -237,8 +241,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
+        android:text="转变为房东"
         android:background="@drawable/frame_button_1"
-        android:text="成为房东"
         android:textColor="@color/white"
         android:textSize="18sp" />
 </RelativeLayout>

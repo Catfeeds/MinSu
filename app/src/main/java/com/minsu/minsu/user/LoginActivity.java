@@ -2,19 +2,35 @@ package com.minsu.minsu.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lzy.okgo.model.Response;
 
+import com.minsu.minsu.App;
+import com.minsu.minsu.common.lanuch.SplashActivity;
+import com.minsu.minsu.user.setting.SettingActivity;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -37,6 +53,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
+import io.rong.imkit.RongIM;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.login_mobile)
@@ -66,6 +84,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private int status = 1;
     private MyCountDownTimer myCountDownTimer;
     private static final String TAG = "LoginActivity";
+    private String type;
+    private PopupWindow popWindow;
+    private int i=0;
 
     @Override
     protected void processLogic() {
@@ -85,10 +106,88 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // TODO Auto-generated method stub
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+          if (i==0)
+          {
+              tt();
+          }
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        finish();
+        App.getInstance().exit(1);
+    }
+
+    private void tt()
+    {
+        String exit=StorageUtil.getValue(LoginActivity.this,"exit");
+        StorageUtil.setKeyValue(LoginActivity.this,"exit","2");
+        type=getIntent().getStringExtra("type");
+        if ((type!=null&&type.equals("app"))||exit!=null&&exit.equals("1"))
+        {
+            StorageUtil.setKeyValue(LoginActivity.this, "is_name", "");
+            StorageUtil.setKeyValue(LoginActivity.this, "role", "");
+            final RelativeLayout layout= (RelativeLayout) LayoutInflater.from(LoginActivity.this).inflate(R.layout.exit,null);
+            TextView textView=layout.findViewById(R.id.zhidao);
+            popWindow = new PopupWindow(layout,
+                    RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT,
+                    true);
+            RongIM.getInstance().logout();
+            textView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    layout.setVisibility(View.GONE);
+                    i=1;
+                    popWindow.dismiss();
+                   // startActivity(new Intent(LoginActivity.this,LoginActivity.class));
+                }
+            });
+
+            popWindow.setFocusable(true);
+            // 设置允许在外点击消失
+            popWindow.setOutsideTouchable(true);
+            // 设置背景，这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+            popWindow.setBackgroundDrawable(new BitmapDrawable());
+            //软键盘不会挡着popupwindow
+            popWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+            //设置SelectPicPopupWindow弹出窗体的背景
+//        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//        lp.alpha = 0.7f;
+//        getWindow().setAttributes(lp);
+            //设置菜单显示的位置
+            popWindow.showAtLocation(findViewById(R.id.weixin), Gravity.CENTER, 0, 0);
+            //监听菜单的关闭事件
+            popWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+//                WindowManager.LayoutParams lp = getWindow().getAttributes();
+//                lp.alpha = 1f;
+//                getWindow().setAttributes(lp);
+                }
+            });
+            //监听触屏事件
+            popWindow.setTouchInterceptor(new View.OnTouchListener() {
+                public boolean onTouch(View view, MotionEvent event) {
+                    return false;
+                }
+            });
+        }
+
+    }
+
+    @Override
     protected void loadViewLayout() {
         setContentView(R.layout.activity_login);
-
-
     }
 
     @Override
@@ -106,6 +205,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 buttonYanzhengma.setVisibility(View.VISIBLE);
                 dongtai_Login.setTextColor(getResources().getColor(R.color.white));
                 pass_Login.setTextColor(getResources().getColor(R.color.black));
+                ed_password.setHint("请输入验证码");
                 break;
             case R.id.password_login:
                 status = 2;
@@ -114,6 +214,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 pass_Login.setTextColor(getResources().getColor(R.color.white));
                 dongtai_Login.setTextColor(getResources().getColor(R.color.black));
                 buttonYanzhengma.setVisibility(View.GONE);
+                ed_password.setHint("请输入密码");
                 break;
             case R.id.button_yanzhengma:
                 edMobile = ed_mobile.getText().toString();
@@ -305,18 +406,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         public void onSuccess(int what, Response<String> result) {
             switch (what) {
                 case 0x001:
-                    try {
+                    try {//动态登录
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject loginData = new JSONObject(data.toString());
+                            String jiguang=loginData.getString("jiguang");
+                            StorageUtil.setKeyValue(LoginActivity.this,"jiguang",jiguang);
+                            JPushInterface.setAlias(getApplicationContext(),0,jiguang);
                             parseData(loginData);
                         } else if (code == 210) {
                             ToastManager.show(msg + "初始密码为666666");
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject loginData = new JSONObject(data.toString());
+                            String jiguang=loginData.getString("jiguang");
+                            StorageUtil.setKeyValue(LoginActivity.this,"jiguang",jiguang);
+                            JPushInterface.setAlias(getApplicationContext(),0,jiguang);
                             parseData(loginData);
                         }
                     } catch (JSONException e) {
@@ -324,7 +431,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                     break;
                 case 0x002:
-                    try {
+                    try {//发送验证码
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
@@ -336,13 +443,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                     break;
                 case 0x003:
-                    try {
+                    try {//密码登录
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
 
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject loginData = new JSONObject(data.toString());
+                            String jiguang=loginData.getString("jiguang");
+                            StorageUtil.setKeyValue(LoginActivity.this,"jiguang",jiguang);
+                            JPushInterface.setAlias(getApplicationContext(),0,jiguang);
                             parseData(loginData);
 
                         } else if (code == 111) {
@@ -354,7 +464,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                     break;
                 case 0x004:
-                    try {
+                    try {//第三方登录
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
@@ -362,10 +472,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             ToastManager.show(msg);
                             JSONObject data = jsonObject.getJSONObject("data");
                             JSONObject loginData = new JSONObject(data.toString());
+                            String jiguang=loginData.getString("jiguang");
+                            StorageUtil.setKeyValue(LoginActivity.this,"jiguang",jiguang);
+                            JPushInterface.setAlias(getApplicationContext(),0,jiguang);
                             String youmengToken = loginData.getString("token");
 //                            StorageUtil.setKeyValue(LoginActivity.this, "youmengToken", youmengToken);
                             StorageUtil.setKeyValue(LoginActivity.this, "token", youmengToken);
-
+                            StorageUtil.setKeyValue(LoginActivity.this, "nickname", loginData.getString("nickname"));
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else if (code == 111) {

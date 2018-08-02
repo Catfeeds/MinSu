@@ -91,6 +91,10 @@ public class MyCouponActivity extends BaseActivity {
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             CouponListBean couponListBean = new Gson().fromJson(result.body(), CouponListBean.class);
+                            for (int i=0;i<couponListBean.data.size();i++)
+                            {
+                                couponListBean.data.get(i).isview=1;
+                            }
                             final CouponListAdapter couponListAdapter = new CouponListAdapter(R.layout.item_coupon, couponListBean.data, "person");
                             if (couponListBean.data.size() == 0) {
                                 couponListAdapter.setEmptyView(R.layout.empty, recyclerView);
@@ -99,6 +103,10 @@ public class MyCouponActivity extends BaseActivity {
                             couponListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    if (type==null)
+                                    {
+                                        return;
+                                    }
                                     if (type.equals("order")) {
                                         int price = couponListAdapter.getItem(position).price;
                                         float floatMoney = Float.parseFloat(money);

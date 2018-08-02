@@ -3,11 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <fragment
-        android:id="@+id/conversationlist"
-        android:name="io.rong.imkit.fragment.ConversationListFragment"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/rong_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <!--<fragment-->
+        <!--android:id="@+id/conversationlist"-->
+        <!--android:name="io.rong.imkit.fragment.ConversationListFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+    </FrameLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </LinearLayout>

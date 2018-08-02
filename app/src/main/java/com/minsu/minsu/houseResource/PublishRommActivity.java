@@ -1,11 +1,17 @@
 package com.minsu.minsu.houseResource;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -112,8 +118,6 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
     TextView otherService;
     @BindView(R.id.rl_other_service)
     RelativeLayout rlOtherService;
-    @BindView(R.id.tag7)
-    TextView tag7;
     @BindView(R.id.room_address)
     TextView roomAddress;
     @BindView(R.id.rl_room_address)
@@ -124,7 +128,8 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
     ImageView addRoomPicture;
     @BindView(R.id.banner_pager)
     BGABanner bannerPager;
-    private EditText itemDescription;
+    private EditText ed_delit_address;
+    private EditText itemDescription,itemInfo;
     private EditText itemPrice;
     private Button confirm;
     private TextView mProvince;
@@ -139,6 +144,14 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
     public Map<Integer, Boolean> dat;
     private List<FacilitiesBean> choose;
     private ArrayList<String> photos;
+    private EditText ed_room_number;
+    List<String> datas = new ArrayList<>();
+    private int areaid;
+    private String areaname;
+    private int cityid;
+    private String cityname;
+    private String provicen;
+    private int mprovicenid;
 
     @Override
     protected void processLogic() {
@@ -147,6 +160,9 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void setListener() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        ed_room_number=findViewById(R.id.ed_room_number);
+        ed_delit_address=findViewById(R.id.ed_delit_address);
         toolbarTitle.setText("发布房源");
         tokenId = StorageUtil.getTokenId(this);
         data1 = (ArrayList<HouseBean.Data1>) getIntent().getSerializableExtra("data1");
@@ -217,19 +233,73 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
 //                startActivity(intent);
                 break;
             case R.id.release_room:
-                String province_id = StorageUtil.getValue(PublishRommActivity.this, "province_id");
-                String city_id = StorageUtil.getValue(PublishRommActivity.this, "city_id");
-                String area_id = StorageUtil.getValue(PublishRommActivity.this, "area_id");
-                String street_id = StorageUtil.getValue(PublishRommActivity.this, "street_id");
+                String province_id = StorageUtil.getValue(PublishRommActivity.this, "province_ids");
+                String city_id = StorageUtil.getValue(PublishRommActivity.this, "city_ids");
+                String area_id = StorageUtil.getValue(PublishRommActivity.this, "area_ids");
+                String street_id = StorageUtil.getValue(PublishRommActivity.this, "street_ids");
                 String room_type_id = StorageUtil.getValue(PublishRommActivity.this, "room_type_id");
                 String space_type_id = StorageUtil.getValue(PublishRommActivity.this, "space_type_id");
                 ArrayList<File> files = new ArrayList<>();
                 String room_price = roomPrice.getText().toString();
+                room_price=room_price.substring(0,room_price.length()-3);
+                String number=ed_room_number.getText().toString();
+                String roomTitle = roomDescription.getText().toString();
+                String roomDetail = roomInfo.getText().toString();
+
+                if (photos == null) {
+                    ToastManager.show("请上传房屋图片");
+                    return;
+                }
+                if (roomTitle.equals("")||roomTitle.equals("请输入房源描述")) {
+                    ToastManager.show("请输入房源描述");
+                    return;
+                }
+                if (roomDetail.equals("")||roomDetail.equals("请输入房源信息")) {
+                    ToastManager.show("请输入房源信息");
+                    return;
+                }
                 for (int i = 0; i < photos.size(); i++) {
                     files.add(FileUtil.getSmallBitmap(PublishRommActivity.this, photos.get(i)));
                 }
-                if (room_price.equals("")) {
+                if (room_price==null||room_price.equals("")) {
                     ToastManager.show("房源价格不能为空");
+                    return;
+                }
+                try
+                {
+                    double price=Double.parseDouble(room_price);
+                    if (price<=0)
+                    {
+                        ToastManager.show("价格不能小于0元");
+                        return;
+                    }
+                }catch (Exception e)
+                {
+
+                }
+                if (choose == null || choose.size() == 0) {
+                    ToastManager.show("请选择配套设施");
+                    return;
+                }
+                if (street_id==null||street_id.equals(""))
+                {
+                    ToastManager.show("请输入地址");
+                    return;
+                }
+                if (area_id==null||area_id.equals(""))
+                {
+                    ToastManager.show("请输入地址");
+                    return;
+                }
+                if (number==null||number.equals("0")||number.equals(""))
+                {
+                    ToastManager.show("请输入房间数目");
+                    return;
+                }
+                if (ed_delit_address.getText().toString().length()==0||
+                        ed_delit_address.getText().toString().equals("请输入详细地址"))
+                {
+                    ToastManager.show("请填写房源详细地址");
                     return;
                 }
                 //"1,4,7,8,6"
@@ -241,28 +311,35 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
 
                 }
                 Log.i(TAG, "onClick: pinjie" + sb.toString());
-                String roomTitle = roomDescription.getText().toString();
-                String roomDetail = roomInfo.getText().toString();
-                if (roomTitle.equals("")) {
-                    ToastManager.show("请输入房间名称");
-                    return;
-                }
-                if (roomDetail.equals("")) {
-                    ToastManager.show("请输入房间详情");
-                    return;
-                }
+
+
+              //  releaseRoom.setEnabled(false);
+                // int province, int city, int district, int town,String address_detail,
+               // ArrayList<File> house_img
+                //
+                String delite=ed_delit_address.getText().toString();
                 MinSuApi.addHouseSubmit(this, 0x004, tokenId, Integer.parseInt(room_type_id), Integer.parseInt(space_type_id), roomTitle,
                         roomDetail, room_price, sb.toString().substring(0, sb.toString().length() - 1),
                         Integer.parseInt(province_id), Integer.parseInt(city_id), Integer.parseInt(area_id),
-                        Integer.parseInt(street_id), files, callBack);
+                        Integer.parseInt(street_id),delite, files,Integer.parseInt(number), callBack);
                 break;
             case R.id.add_room_picture:
-                PhotoPicker.builder()
-                        .setPhotoCount(9)
-                        .setShowCamera(true)
-                        .setShowGif(true)
-                        .setPreviewEnabled(false)
-                        .start(this, PhotoPicker.REQUEST_CODE);
+                if (ContextCompat.checkSelfPermission(PublishRommActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.
+                        PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(PublishRommActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }else {
+                    PhotoPicker.builder()
+                            .setPhotoCount(5)
+                            .setShowCamera(true)
+                            .setSelected((ArrayList<String>)datas)
+                            .setShowGif(false)
+                            .setPreviewEnabled(false)
+                            .start(PublishRommActivity.this, PhotoPicker.REQUEST_CODE);
+                }
+
                 break;
         }
     }
@@ -273,13 +350,19 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
         final PopupWindow popWindow = new PopupWindow(contentView,
                 RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT,
                 true);
-        itemDescription = contentView.findViewById(R.id.item_description);
+        itemInfo = contentView.findViewById(R.id.item_description);
+       if (roomInfo!=null&&!roomInfo.getText().toString().equals("请输入房屋信息"))
+       {
+          // itemInfo.setText(roomInfo.getText().toString());
+         //  itemInfo.setSelection(roomInfo.length());
+       }
         TextView confirm_detail = contentView.findViewById(R.id.confirm_detail);
         confirm_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                roomInfo.setText(itemDescription.getText().toString());
+                roomInfo.setText(itemInfo.getText().toString());
                 popWindow.dismiss();
+                shuddown(itemInfo);
             }
         });
         contentView.setOnKeyListener(new View.OnKeyListener() {
@@ -326,12 +409,12 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
             if (data != null) {
 
-
+datas.clear();
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
                 Log.i(TAG, "onActivityResult: " + photos);
 //                for (String imagePath : photos) {
@@ -340,15 +423,94 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
 //
 //                }
                 addRoomPicture.setVisibility(View.GONE);
-                bannerPager.setAdapter(new BGABannerAdapter(PublishRommActivity.this));
+                final BGABannerAdapter adapter=new BGABannerAdapter(PublishRommActivity.this);
+                bannerPager.setAdapter(adapter);
 //        ArrayList<Integer> bannerImageData = DataProvider.getBannerImage();
                 List<String> bannerImage = new ArrayList<>();
                 for (int i = 0; i < photos.size(); i++) {
+                    bannerImage.clear();
                     bannerImage.add(photos.get(i));
+                    datas.addAll(bannerImage);
                 }
-                bannerPager.setData(bannerImage, null);
+                if (datas.size()>5)
+                {
+                    for (int i=0;i<datas.size()-5;i++)
+                    {
+                        datas.remove(datas.size()-(i+1));
+                    }
+                }
+                adapter.setItemClick(new BGABannerAdapter.ItemClick()
+                {
+                    @Override
+                    public void onItemClick(View view)
+                    {
+                        if (datas.size()>=5)
+                        {
+                            ToastManager.show("不能上传太多图片");
+                            return;
+                        }else {
+                            PhotoPicker.builder()
+                                    .setPhotoCount(5)
+                                    .setShowCamera(true)
+                                    .setSelected((ArrayList<String>)datas)
+                                    .setShowGif(false)
+                                    .setPreviewEnabled(false)
+                                    .start(PublishRommActivity.this, PhotoPicker.REQUEST_CODE);
+                        }
+                    }
+                });
+                adapter.setLongClick(new BGABannerAdapter.OnLongClick()
+                {
+                    @Override
+                    public void itemLongClick(int position)
+                    {
+                        datas.remove(position);
+                        if (datas.size()==0)
+                        {
+                            addRoomPicture.setVisibility(View.VISIBLE);
+                        }
+                        bannerPager.setData(datas, null);
+                    }
+                });
+                bannerPager.setData(datas, null);
+
+                final RelativeLayout textView=new RelativeLayout(PublishRommActivity.this);
+                textView.setBackground(getResources().getDrawable(R.drawable.deletebanner));
+                RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(70,70);
+                params.setMargins(900,10,0,0);
+                textView.setLayoutParams(params);
+                bannerPager.addView(textView);
+                textView.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        datas.remove(bannerPager.getCurrentItem());
+                        bannerPager.setData(datas,null);
+                        if (datas.size()==0)
+                        {
+                            textView.setVisibility(View.GONE);
+                            addRoomPicture.setVisibility(View.VISIBLE);
+                        }else {
+                            textView.setVisibility(View.VISIBLE);
+                            addRoomPicture.setVisibility(View.GONE);
+                        }
+                    }
+                });
             }
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        if (datas!=null)
+        {
+            datas.clear();
+            datas=null;
+        }
+        super.onDestroy();
+
     }
 
     private void showPopup04(View parent) {
@@ -372,12 +534,17 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
         conform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                StringBuffer buffer=new StringBuffer();
                 for (int i = 0; i < DataProvider.getFacilitiesList().size(); i++) {
                     if (dat.get(i)) {
                         choose.add(DataProvider.getFacilitiesList().get(i));
                     }
                 }
+                for (int i=0;i<choose.size();i++)
+                {
+                    buffer.append(choose.get(i).name+"  ");
+                }
+                supportFacilities.setText(buffer.toString());
                 Log.i(TAG, "onClick: " + choose);
                 if (choose.size() == 0) {
                     ToastManager.show("请选择配套设施");
@@ -400,7 +567,6 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
                 peitaoName.setText(item.name);
                 Glide.with(PublishRommActivity.this)
                         .load(item.img)
-//                        .placeholder(R.mipmap.ic_launcher)
                         .into(peitaoTu);
                 return view;
             }
@@ -414,13 +580,13 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
                     Glide.with(PublishRommActivity.this)
                             .load(DataProvider.getFacilitiesImage().get(position))
                             .into(iv);
-                    name.setTextColor(getResources().getColor(R.color.black));
+                    name.setTextColor(getResources().getColor(R.color.ad_color));
 
                 } else {
                     Glide.with(PublishRommActivity.this)
                             .load(DataProvider.getFacilitiesSecImage().get(position))
                             .into(iv);
-                    name.setTextColor(getResources().getColor(R.color.orangered));
+                    name.setTextColor(getResources().getColor(R.color.darkorange));
 
                 }
                 dat.put(position, !dat.get(position));
@@ -480,7 +646,8 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         MinSuApi.getCity(0x001, tokenId, provinceAdapter.getItem(position).id, callBack);
-                        StorageUtil.setKeyValue(PublishRommActivity.this, "province_id", provinceAdapter.getItem(position).id + "");
+                        provicen = provinceAdapter.getItem(position).name;
+                        mprovicenid = provinceAdapter.getItem(position).id;
                         mProvince.setText(provinceAdapter.getItem(position).name);
                     }
                 });
@@ -537,8 +704,24 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                roomPrice.setText(itemPrice.getText().toString());
+                String price=itemPrice.getText().toString();
+                double moey = 0;
+                try
+                {
+                     moey=Double.parseDouble(price);
+                }catch (Exception e)
+                {
+                    ToastManager.show("输入信息有误");
+                }
+               
+                if (price==null||moey==0)
+                {
+                    ToastManager.show("价格不能为0或空");
+                    return;
+                }
+                roomPrice.setText(itemPrice.getText().toString()+"元/天");
                 popWindow.dismiss();
+                shuddown(itemPrice);
             }
         });
 //        popWindow.setAnimationStyle(R.style.popupWindowAnimation);//设置动画
@@ -578,25 +761,33 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
         handle.postDelayed(new Runnable() {
             @Override
             public void run() {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Service.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//这里给它设置了弹出的时间，
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }, 0);
     }
 
-    private void showPopup01(View parent) {
+    private void showPopup01(View parent) {//房源描述
         View contentView = LayoutInflater.from(this).inflate(
                 R.layout.room_detail_input, null);
         final PopupWindow popWindow = new PopupWindow(contentView,
                 RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT,
                 true);
+
         itemDescription = contentView.findViewById(R.id.item_description);
+        if (roomDescription!=null&&!roomDescription.getText().toString().equals("请输入房源描述"))
+        {
+            itemDescription.setText(roomDescription.getText().toString());
+            itemDescription.setSelection(roomDescription.length());
+        }
         TextView confirm_title = contentView.findViewById(R.id.confirm_title);
         confirm_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 roomDescription.setText(itemDescription.getText().toString());
                 popWindow.dismiss();
+                shuddown(itemDescription);
             }
         });
         contentView.setOnKeyListener(new View.OnKeyListener() {
@@ -658,7 +849,8 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     mCity.setText(cityAdapter.getItem(position).name);
-                                    StorageUtil.setKeyValue(PublishRommActivity.this, "city_id", cityAdapter.getItem(position).id + "");
+                                    cityname = cityAdapter.getItem(position).name;
+                                    cityid = cityAdapter.getItem(position).id;
                                     MinSuApi.getArea(0x002, tokenId, cityAdapter.getItem(position).id, callBack);
                                 }
                             });
@@ -681,7 +873,8 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     mArea.setText(cityAdapter.getItem(position).name);
-                                    StorageUtil.setKeyValue(PublishRommActivity.this, "area_id", cityAdapter.getItem(position).id + "");
+                                    areaname = cityAdapter.getItem(position).name;
+                                    areaid = cityAdapter.getItem(position).id;
                                     MinSuApi.gettown(0x003, tokenId, cityAdapter.getItem(position).id, callBack);
                                 }
                             });
@@ -704,10 +897,13 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     mStreet.setText(cityAdapter.getItem(position).name);
-                                    StorageUtil.setKeyValue(PublishRommActivity.this, "street_id", cityAdapter.getItem(position).id + "");
+                                    StorageUtil.setKeyValue(PublishRommActivity.this, "street_ids", cityAdapter.getItem(position).id + "");
                                     roomAddress.setText(mProvince.getText().toString() + "/" + mCity.getText().toString()
                                             + "/" + mArea.getText().toString() + "/" + mStreet.getText().toString());
                                     popWindow3.dismiss();
+                                    StorageUtil.setKeyValue(PublishRommActivity.this, "province_ids", mprovicenid+ "");
+                                    StorageUtil.setKeyValue(PublishRommActivity.this, "city_ids", cityid+ "");
+                                    StorageUtil.setKeyValue(PublishRommActivity.this, "area_ids", areaid+ "");
                                 }
                             });
 
@@ -724,8 +920,9 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             ToastManager.show("发布成功");
-                            finish();
-
+                            startActivity(new Intent(PublishRommActivity.this, HouseResourceActivity.class));
+                            StorageUtil.setKeyValue(PublishRommActivity.this,"fabu","yes");
+//                            finish();
                         } else if (code == 100) {
                             ToastManager.show(msg);
                         }
@@ -746,4 +943,9 @@ public class PublishRommActivity extends BaseActivity implements View.OnClickLis
 
         }
     };
+    private void shuddown(EditText editText)
+    {
+        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
 }

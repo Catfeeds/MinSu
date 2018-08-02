@@ -87,7 +87,7 @@ public class TuiKuanApplyActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void processLogic() {
-        MinSuApi.applyTuikuanPage(this, 0x001, tokenId, Integer.parseInt(order_id), callBack);
+        MinSuApi.applyTuikuanPage(this, 0x001, tokenId,order_id, callBack);
     }
 
     @Override
@@ -146,6 +146,27 @@ public class TuiKuanApplyActivity extends BaseActivity implements View.OnClickLi
                             Glide.with(TuiKuanApplyActivity.this)
                                     .load(Constant.BASE2_URL + house_img)
                                     .into(orderRoomImg);
+
+
+                            String n_name=jsonObject1.getString("n_name");
+                            orderUserName.setText(n_name);
+                            String head_n=jsonObject1.getString("head_n");
+                            if (head_n==null)
+                            {
+                                Glide.with(mContext)
+                                        .load("http://minsu.zyeo.net/Public/img/user.png")
+                                        .into(orderUserImg);
+                                return;
+                            }
+                            if (head_n.contains("http")) {
+                                Glide.with(mContext)
+                                        .load(Constant.BASE2_URL+head_n)
+                                        .into(orderUserImg);
+                            } else {
+                                Glide.with(mContext)
+                                        .load(Constant.BASE2_URL + head_n)
+                                        .into(orderUserImg);
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -157,7 +178,7 @@ public class TuiKuanApplyActivity extends BaseActivity implements View.OnClickLi
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
-                            ToastManager.show(msg);
+                            ToastManager.show("申请退款成功");
                             finish();
                         } else if (code == 211) {
                             ToastManager.show(msg);

@@ -66,6 +66,8 @@ public class FindPasswordActivity extends BaseActivity implements View.OnClickLi
     Button submit;
     private String etMobile;
     private MyCountDownTimer myCountDownTimer;
+    private String msg;
+    private String number;
 
     @Override
     protected void processLogic() {
@@ -206,8 +208,10 @@ public class FindPasswordActivity extends BaseActivity implements View.OnClickLi
                         int code = jsonObject.getInt("code");
                         if (code == 200) {
                             String msg = jsonObject.getString("msg");
-                            ToastManager.show(msg);
                             finish();
+                        }else {
+                            String msg = jsonObject.getString("msg");
+                            ToastManager.show(msg);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -217,8 +221,13 @@ public class FindPasswordActivity extends BaseActivity implements View.OnClickLi
                     try {
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
+                        msg = jsonObject.getString("msg");
                         if (code == 200) {
-                            String msg = jsonObject.getString("msg");
+//                            String data=jsonObject.getString("data");
+//                            JSONObject object=new JSONObject(data);
+//                            number = object.getString("number");
+                            ToastManager.show(msg);
+                        }else {
                             ToastManager.show(msg);
                         }
                     } catch (JSONException e) {

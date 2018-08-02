@@ -2,21 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:background="@color/white"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-
+<RelativeLayout
+    android:layout_width="73dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/peitao_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/pc_01" />
+        android:layout_width="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="40dp" />
 
     <TextView
         android:id="@+id/peitao_name"
         android:layout_width="wrap_content"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/peitao_img"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="标准间" />
+         />
+</RelativeLayout>
+
 </LinearLayout>

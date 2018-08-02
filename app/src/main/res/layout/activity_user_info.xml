@@ -15,21 +15,23 @@
         <RelativeLayout
             android:id="@+id/rl_avatar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
             android:background="@color/white">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:text="头像"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <com.minsu.minsu.widget.RoundedCornerImageView
                 android:id="@+id/img_avatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/tag_arrow"
                 android:layout_marginEnd="10dp"
                 android:src="@mipmap/avatar_default" />
@@ -61,7 +63,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:text="昵称"
-                android:textSize="18sp" />
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/nickname"
@@ -103,7 +105,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:text="性别"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/sex"
@@ -144,7 +146,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:text="生日"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/birthday"
@@ -185,7 +187,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:text="邮箱"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/email"
@@ -198,6 +200,44 @@
 
             <ImageView
                 android:id="@+id/tag04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/arrow_right_0" />
+
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/rl_xiugaiinfo"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_xiugai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:text="修改手机号"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tag00"
+                android:layout_marginEnd="10dp"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/tag00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -226,7 +266,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:text="实名认证"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/authentication"
@@ -267,7 +307,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:text="房东认证"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/landlord_authentication"

@@ -20,11 +20,49 @@ public class BGABannerAdapter implements BGABanner.Adapter {
     }
 
     @Override
-    public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+    public void fillBannerItem(final BGABanner banner, View view, Object model, int position) {
+          ImageView imageView= (ImageView) view;
+         // imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
-                .load(model)
-//                .crossFade()
-//                .placeholder(R.mipmap.banner_0)
-                .into((ImageView) view);
+                .load(model.toString())
+                .into(imageView);
+
+
+        view.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                itemClick.onItemClick(view);
+            }
+        });
+
+        view.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View view)
+            {
+                longClick.itemLongClick(banner.getCurrentItem());
+                return false;
+            }
+        });
+
+    }
+    public interface ItemClick{
+         void onItemClick(View view);
+    }
+    private ItemClick itemClick;
+    public void setItemClick(ItemClick itemClick)
+    {
+        this.itemClick=itemClick;
+    }
+    private OnLongClick longClick;
+    public void setLongClick(OnLongClick longClick)
+    {
+        this.longClick=longClick;
+    }
+    public interface OnLongClick
+    {
+         void itemLongClick(int position);
     }
 }

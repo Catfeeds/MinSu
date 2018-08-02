@@ -44,6 +44,7 @@
         android:id="@+id/add_time"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:text="11.53"/>
 </LinearLayout>

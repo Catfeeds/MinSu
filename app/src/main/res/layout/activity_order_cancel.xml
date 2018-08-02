@@ -29,7 +29,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/logo02" />
 
             <TextView
                 android:id="@+id/order_userName"
@@ -37,8 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/order_userImg"
-                android:text="小贤" />
+                android:layout_toRightOf="@+id/order_userImg" />
 
             <TextView
                 android:id="@+id/order_number"
@@ -69,7 +68,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+               />
 
             <TextView
                 android:id="@+id/order_room_title"
@@ -78,7 +77,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/order_roomImg"
-                android:text="国贸地铁温馨单人间"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -91,7 +90,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/order_roomImg"
-                android:text="单人间一张床可住两人"
+                android:text=""
                 android:textSize="14sp" />
 
             <TextView
@@ -103,7 +102,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/order_roomImg"
-                android:text="入住: 2017-09-24"
+                android:text="入住: "
                 android:textSize="14sp" />
 
             <TextView
@@ -115,7 +114,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/order_roomImg"
-                android:text="离开: 2017-09-24"
+                android:text="离开:"
                 android:textSize="14sp" />
 
             <TextView
@@ -129,7 +128,7 @@
                 android:layout_toEndOf="@+id/order_roomImg"
                 android:drawableLeft="@mipmap/location_ad"
                 android:drawablePadding="5dp"
-                android:text="北京 海淀区 西三旗"
+                android:text=""
                 android:textSize="14sp" />
 
             <TextView
@@ -140,7 +139,7 @@
                 android:layout_below="@+id/order_room_description"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="20dp"
-                android:text="共1晚" />
+                android:text="" />
         </RelativeLayout>
 
     </LinearLayout>

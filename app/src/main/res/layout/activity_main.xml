@@ -17,6 +17,7 @@
         android:background="#ececec"
         android:layout_height="1dp" />
     <RelativeLayout
+        android:id="@+id/ll_dd"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -28,35 +29,56 @@
             android:background="@color/white"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:paddingBottom="-10dp">
+            >
 
             <RadioButton
                 android:id="@+id/rb_home"
                 style="@style/RadioButtonBottomTab"
+                android:layout_marginTop="4dp"
                 android:drawableTop="@drawable/tab_0_back"
                 android:checked="true"
                 android:text="@string/app_home" />
             <RadioButton
                 android:id="@+id/rb_order"
                 style="@style/RadioButtonBottomTab"
+                android:layout_marginTop="4dp"
+                android:visibility="gone"
                 android:drawableTop="@drawable/tab_4_back"
                 android:text="@string/app_order" />
             <RadioButton
                 android:id="@+id/rb_find"
                 style="@style/RadioButtonBottomTab"
+                android:layout_marginTop="4dp"
                 android:drawableTop="@drawable/tab_1_back"
                 android:text="@string/app_find" />
 
-            <RadioButton
-                android:id="@+id/rb_message"
-                style="@style/RadioButtonBottomTab"
-                android:drawableTop="@drawable/tab_2_back"
-                android:text="@string/app_message" />
 
+                <RadioButton
+                    android:id="@+id/rb_message"
+                    style="@style/RadioButtonBottomTab"
+                    android:layout_marginTop="4dp"
+                    android:drawableTop="@drawable/tab_2_back"
+                    android:text="@string/app_message" />
+
+            <TextView
+                android:id="@+id/tv_message_counts"
+                android:layout_width="16dp"
+                android:layout_marginTop="-23dp"
+                android:visibility="gone"
+                android:layout_alignRight="@id/tv_message_counts"
+                android:layout_height="17dp"
+                android:layout_marginLeft="-40dp"
+                android:gravity="center"
+                android:text="1"
+                android:background="@drawable/crcle"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                />
 
             <RadioButton
                 android:id="@+id/rb_me"
                 style="@style/RadioButtonBottomTab"
+                android:layout_marginTop="4dp"
                 android:drawableTop="@drawable/tab_3_back"
                 android:text="@string/app_me" />
         </RadioGroup>

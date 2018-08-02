@@ -12,7 +12,7 @@ public class HouseListBean {
     public ArrayList<Data> data;
 
     public class Data {
-        public int house_id;
+        public String house_id;
         public String title;
         public String house_info;
         public String house_price;

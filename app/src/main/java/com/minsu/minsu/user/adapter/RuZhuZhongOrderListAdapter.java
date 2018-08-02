@@ -41,8 +41,16 @@ public class RuZhuZhongOrderListAdapter extends BaseQuickAdapter<OrderBean.Data,
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");
         }
-
-
+        Glide.with(mContext)
+                .load(Constant.BASE2_URL + item.house_img)
+                .into((ImageView) helper.getView(R.id.order_roomImg));
+         if (item.head_pic==null)
+         {
+             Glide.with(mContext)
+                     .load("http://minsu.zyeo.net/Public/img/user.png")
+                     .into((ImageView) helper.getView(R.id.order_userImg));
+             return;
+         }
         if (item.head_pic.contains("http")) {
             Glide.with(mContext)
                     .load(item.head_pic)
@@ -52,9 +60,7 @@ public class RuZhuZhongOrderListAdapter extends BaseQuickAdapter<OrderBean.Data,
                     .load(Constant.BASE2_URL + item.head_pic)
                     .into((ImageView) helper.getView(R.id.order_userImg));
         }
-        Glide.with(mContext)
-                .load(Constant.BASE2_URL + item.house_img)
-                .into((ImageView) helper.getView(R.id.order_roomImg));
+
 
 
     }

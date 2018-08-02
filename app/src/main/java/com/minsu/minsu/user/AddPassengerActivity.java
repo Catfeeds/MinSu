@@ -1,17 +1,23 @@
 package com.minsu.minsu.user;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.flyco.dialog.entity.DialogMenuItem;
+import com.flyco.dialog.listener.OnOperItemClickL;
+import com.flyco.dialog.widget.NormalListDialog;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.R;
 import com.minsu.minsu.api.MinSuApi;
@@ -22,6 +28,10 @@ import com.minsu.minsu.utils.ToastManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +74,13 @@ public class AddPassengerActivity extends BaseActivity {
     @BindView(R.id.et_number)
     EditText etNumber;
     private String tokenId;
+    private RelativeLayout rlchengren,rlErtong;
     private  String passenger_id;
+    private ArrayList<DialogMenuItem> mMenuItems = new ArrayList<>();
+    private Button bt_ert;
+    private Button bt_cheng;
+    private String tvtype;
+    private int type=1;
 
     @Override
     protected void processLogic() {
@@ -73,7 +89,71 @@ public class AddPassengerActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-        toolbarTitle.setText("旅客编辑");
+        rlchengren=findViewById(R.id.rl_chengren);
+        rlErtong=findViewById(R.id.rl_ertong);
+        bt_ert = findViewById(R.id.bt_ert);
+        bt_cheng = findViewById(R.id.bt_cheng);
+        rlchengren.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                bt_cheng.setBackgroundResource(R.mipmap.anniu1);
+                bt_ert.setBackgroundResource(R.mipmap.anniu0);
+                type=1;
+                tvNumber.setEnabled(false);
+                etNumber.setFocusable(true);
+                if (etNumber.getText().toString().length()==0)
+                {
+                    etNumber.setHint("请输入证件号码");
+                }
+                etNumber.setFocusableInTouchMode(true);
+            }
+        });
+        rlErtong.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                bt_cheng.setBackgroundResource(R.mipmap.anniu0);
+                bt_ert.setBackgroundResource(R.mipmap.anniu1);
+                tvNumber.setEnabled(true);
+                type=0;
+                etNumber.setFocusable(false);
+                etNumber.setFocusableInTouchMode(false);
+            }
+        });
+        etName.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View view, boolean b)
+            {
+                if (b)
+                {
+                    etName.setText("  ");
+                }
+            }
+        });
+        etNumber.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View view, boolean b)
+            {
+                if (b)
+                {
+                    etNumber.setText("  ");
+                }
+            }
+        });
+        String types=getIntent().getStringExtra("type");
+        if (types!=null&&types.equals("1"))
+        {
+            toolbarTitle.setText("新增常用旅客");
+        }else if (types!=null&&types.equals("2"))
+        {
+            toolbarTitle.setText("常用旅客修改");
+        }
+
         ivLeft.setVisibility(View.VISIBLE);
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,10 +219,77 @@ public class AddPassengerActivity extends BaseActivity {
             public void onClick(View v) {
                 String mEtNumber = etNumber.getText().toString();
                 String mEtName = etName.getText().toString();
-                if (!passenger_id.equals("")&&passenger_id!=null){
-                    MinSuApi.editPassenger(AddPassengerActivity.this,0x003,tokenId,Integer.parseInt(passenger_id),mEtName,"身份证",mEtNumber,"成人",callBack);
+                if (type==1)
+                {
+                    tvtype ="成人";
+                }else if (type==0)
+                {
+                    tvtype ="儿童";
+                }
+                if (etName==null||etName.length()==0)
+                {
+                    ToastManager.show("请输入名字");
+                    return;
+                }
+                Pattern p = Pattern.compile(".*\\d+.*");
+                Matcher m = p.matcher(mEtName);
+                if (m.matches())
+                {
+                    ToastManager.show("请输入合法的名字");
+                    return;
+                }
+                if(mEtNumber==null)
+                {
+                    if (type==1)
+                    {
+                        ToastManager.show("请输入合法的身份证号码");
+                        return;
+                    }
+                }
+                if (mEtNumber.trim().length()!=18)
+                {
+                    if (type==1)
+                    {
+                        ToastManager.show("请输入合法的身份证号码");
+                        return;
+                    }
+                }
+                if (type==0)
+                {
+                    mEtNumber="";
+                }
+                if (!passenger_id.equals("")&&passenger_id!=null&& tvtype !=null&& tvtype.length()!=0){
+                    MinSuApi.editPassenger(AddPassengerActivity.this,0x003,tokenId,Integer.parseInt(passenger_id),mEtName,"身份证",mEtNumber, tvtype,callBack);
                 }else{
-                    MinSuApi.addPassenger(AddPassengerActivity.this,0x001,tokenId,mEtName,"身份证",mEtNumber,"成人",callBack);
+                    if (tvtype!=null)
+                    {
+                        if (tvtype.equals("儿童"))
+                        {
+                            if (tvtype !=null&&mEtNumber!=null&&mEtName!=null&mEtName.length()!=0)
+                            {
+                                MinSuApi.addPassenger(AddPassengerActivity.this,0x001,tokenId,mEtName,"身份证","", tvtype,callBack);
+                            }
+                        }else {
+                            if (tvtype !=null)
+                            {
+
+                                if (mEtNumber!=null&&mEtNumber.trim().length()==18)
+                                {
+                                    if (mEtName!=null&&mEtName.length()!=0)
+                                    {
+                                        MinSuApi.addPassenger(AddPassengerActivity.this,0x001,tokenId,mEtName,"身份证",mEtNumber, tvtype,callBack);
+                                    }else {
+                                        ToastManager.show("请输入名字");
+                                    }
+                                }else {
+                                    ToastManager.show("请输入正确的身份证号");
+                                }
+
+                            }
+                        }
+                    }
+
+
                 }
             }
         });
@@ -189,9 +336,23 @@ public class AddPassengerActivity extends BaseActivity {
                             String zj_code = jsonObject1.getString("zj_code");
                             String lk_type = jsonObject1.getString("lk_type");
                             tvName.setText(name);
-                            tvPassengerType.setText(zj_type);
-                            tvNumber.setText(zj_code);
-                            tvType.setText(lk_type);
+                            if (lk_type.equals("成人"))
+                            {
+                                bt_cheng.setBackgroundResource(R.mipmap.anniu1);
+                                bt_ert.setBackgroundResource(R.mipmap.anniu0);
+                                etNumber.setFocusable(true);
+                                etNumber.setFocusableInTouchMode(true);
+                            }else {
+                                etNumber.setFocusable(false);
+                                etNumber.setText("");
+                                etNumber.setFocusableInTouchMode(false);
+                                bt_cheng.setBackgroundResource(R.mipmap.anniu0);
+                                bt_ert.setBackgroundResource(R.mipmap.anniu1);
+                            }
+
+                            etNumber.setText(zj_code);
+                            etName.setText(name);
+                            tvType.setText(zj_type);
                         }else if (code==111){
                             ToastManager.show(msg);
                         }

@@ -12,11 +12,14 @@ import android.widget.TextView;
 import com.minsu.minsu.App;
 import com.minsu.minsu.R;
 import com.minsu.minsu.base.BaseActivity;
+import com.minsu.minsu.user.LandlordAuthenticationActivity;
 import com.minsu.minsu.user.LoginActivity;
+import com.minsu.minsu.user.NameAuthenticationActivity;
 import com.minsu.minsu.utils.StorageUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.rong.imkit.RongIM;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
@@ -114,8 +117,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.logout:
                 StorageUtil.setKeyValue(SettingActivity.this, "token", "");
+                StorageUtil.setKeyValue(SettingActivity.this, "is_name", "");
+                StorageUtil.setKeyValue(SettingActivity.this, "role", "");
                 startActivity(new Intent(SettingActivity.this, LoginActivity.class));
-                App.getInstance().exit();
+                RongIM.getInstance().logout();
+                App.getInstance().exit(2);
                 break;
         }
     }

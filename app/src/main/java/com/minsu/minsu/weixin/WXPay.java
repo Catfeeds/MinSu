@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.minsu.minsu.utils.MD5;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -11,6 +12,12 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * 微信支付
@@ -99,6 +106,26 @@ public class WXPay {
         }
 
 
+    }
+
+
+    public static String createSign(String characterEncoding,SortedMap<Object,Object> parameters){
+        StringBuffer sb = new StringBuffer();
+        Set es = parameters.entrySet();//所有参与传参的参数按照accsii排序（升序）
+        Iterator it = es.iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next();
+            String k = (String)entry.getKey();
+            Object v = entry.getValue();
+            if(null != v && !"".equals(v)
+                    && !"sign".equals(k) && !"key".equals(k)) {
+                sb.append(k + "=" + v + "&");
+            }
+        }
+        sb.append("key=" + "d2690089032b7ee13d3e8cc5e4357b93");
+        System.out.println("字符串:"+sb.toString());
+        String sign = MD5.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
+        return sign;
     }
 
     //支付回调响应

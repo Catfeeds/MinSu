@@ -32,6 +32,6 @@
         android:gravity="center"
         android:textSize="14sp"
         android:textColor="@color/white"
-        android:background="@color/orangered"
+        android:background="@color/orange"
         android:text="添加地址"/>
 </RelativeLayout>

@@ -35,6 +35,8 @@ public class FYiTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.Data,
         helper.setText(R.id.ruzhu_time, "入住：" + item.check_time);
         helper.setText(R.id.leave_time, "离开：" + item.leave_time);
         helper.setText(R.id.order_price, "￥：" + item.total_price);
+        helper.addOnClickListener(R.id.fytf_delite);
+        helper.addOnClickListener(R.id.showpingjiia);
         helper.setText(R.id.location_address, item.city + " " + item.district + " " + item.town);
        if (item.pay_status == 1) {
             if (item.order_status == 0) {
@@ -42,7 +44,6 @@ public class FYiTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.Data,
 
             } else if (item.order_status == 1) {
                 helper.setText(R.id.order_state, "入住中");
-                helper.addOnClickListener(R.id.confirm_tuifang);
             } else if (item.order_status == 2) {
                 helper.setText(R.id.order_state, "已退房");
             } else if (item.order_status == 3) {
@@ -50,13 +51,6 @@ public class FYiTuiFangOrderListAdapter extends BaseQuickAdapter<OrderBean.Data,
             }
         } else if (item.pay_status == -1) {
             helper.setText(R.id.order_state, "已取消");
-//            helper.getView(R.id.order_cancel).setVisibility(View.GONE);
-//            helper.getView(R.id.order_pay).setVisibility(View.GONE);
-//            helper.getView(R.id.tuikuan_apply).setVisibility(View.GONE);
-//            helper.getView(R.id.yudin_again).setVisibility(View.VISIBLE);
-//            helper.getView(R.id.order_delete).setVisibility(View.VISIBLE);
-//            helper.addOnClickListener(R.id.order_delete);
-//            helper.addOnClickListener(R.id.yudin_again);
         }
 
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +31,8 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CommentReplyActivity extends BaseActivity {
+public class CommentReplyActivity extends BaseActivity
+{
 
 
     @BindView(R.id.toolbar_title)
@@ -59,77 +61,109 @@ public class CommentReplyActivity extends BaseActivity {
     TextView commentTime;
     @BindView(R.id.send)
     TextView send;
+    @BindView(R.id.rl_content)
+    RelativeLayout rlContent;
     private String comment_id;
     private String tokenId;
 
     @Override
-    protected void processLogic() {
+    protected void processLogic()
+    {
         MinSuApi.replyPage(0x001, tokenId, Integer.parseInt(comment_id), callBack);
     }
 
     @Override
-    protected void setListener() {
+    protected void setListener()
+    {
         toolbarTitle.setText("评论回复");
         ivLeft.setVisibility(View.VISIBLE);
-        ivLeft.setOnClickListener(new View.OnClickListener() {
+        ivLeft.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 finish();
             }
         });
         comment_id = getIntent().getStringExtra("comment_id");
         tokenId = StorageUtil.getTokenId(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        send.setOnClickListener(new View.OnClickListener() {
+        send.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 String content = etContent.getText().toString();
-                if (content.equals("")) {
+                if (content.equals(""))
+                {
                     ToastManager.show("内容不能为空");
                     return;
                 }
+                send.setEnabled(false);
                 MinSuApi.commentReply(0x002, tokenId, Integer.parseInt(comment_id), content, callBack);
             }
         });
     }
 
     @Override
-    protected void loadViewLayout() {
+    protected void loadViewLayout()
+    {
         setContentView(R.layout.activity_comment_reply);
     }
 
-    private CallBack callBack = new CallBack() {
+    private CallBack callBack = new CallBack()
+    {
         @Override
-        public void onSuccess(int what, Response<String> result) {
-            switch (what) {
+        public void onSuccess(int what, Response<String> result)
+        {
+            switch (what)
+            {
                 case 0x001:
                     CommentReplyBean commentReplyBean = new Gson().fromJson(result.body(), CommentReplyBean.class);
-                    if (commentReplyBean.code == 200) {
+                    if (commentReplyBean.code == 200)
+                    {
                         commentContent.setText(commentReplyBean.data1.content);
                         commentName.setText(commentReplyBean.data1.nickname);
                         commentTime.setText(commentReplyBean.data1.add_time);
-                        if (commentReplyBean.data1.head_pic.contains("http")) {
-                            Glide.with(CommentReplyActivity.this).load(commentReplyBean.data1.head_pic).into(commentUserImg);
-                        } else {
-                            Glide.with(CommentReplyActivity.this).load(Constant.BASE2_URL + commentReplyBean.data1.head_pic).into(commentUserImg);
+                        if (commentReplyBean.data1.head_pic == null)
+                        {
+                            Glide.with(CommentReplyActivity.this)
+                                    .load("http://minsu.zyeo.net/Public/img/user.png")
+                                    .into(commentUserImg);
+                        } else
+                        {
+                            if (commentReplyBean.data1.head_pic.contains("http"))
+                            {
+                                Glide.with(CommentReplyActivity.this).load(commentReplyBean.data1.head_pic).into(commentUserImg);
+                            } else
+                            {
+                                Glide.with(CommentReplyActivity.this).load(Constant.BASE2_URL + commentReplyBean.data1.head_pic).into(commentUserImg);
+                            }
                         }
+
                         CommentReplyAdapter commentReplyAdapter = new CommentReplyAdapter(R.layout.item_comment, commentReplyBean.data2);
                         recyclerView.setAdapter(commentReplyAdapter);
                     }
                     break;
                 case 0x002:
-                    try {
+                    try
+                    {
                         JSONObject jsonObject = new JSONObject(result.body());
                         int code = jsonObject.getInt("code");
                         String msg = jsonObject.getString("msg");
-                        if (code == 200) {
+                        if (code == 200)
+                        {
                             ToastManager.show(msg);
                             MinSuApi.replyPage(0x001, tokenId, Integer.parseInt(comment_id), callBack);
                             etContent.setText("");
-                        } else if (code == 111) {
+                            send.setEnabled(true);
+                           // rlContent.setVisibility(View.GONE);
+                        } else if (code == 111)
+                        {
                             ToastManager.show(msg);
                         }
-                    } catch (JSONException e) {
+                    } catch (JSONException e)
+                    {
                         e.printStackTrace();
                     }
                     break;
@@ -137,23 +171,27 @@ public class CommentReplyActivity extends BaseActivity {
         }
 
         @Override
-        public void onFail(int what, Response<String> result) {
+        public void onFail(int what, Response<String> result)
+        {
 
         }
 
         @Override
-        public void onFinish(int what) {
+        public void onFinish(int what)
+        {
 
         }
     };
 
     @Override
-    protected Context getActivityContext() {
+    protected Context getActivityContext()
+    {
         return this;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);

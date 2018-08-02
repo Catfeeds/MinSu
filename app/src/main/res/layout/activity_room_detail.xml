@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         android:layout_above="@+id/ll_tag">
 
         <LinearLayout
@@ -25,12 +26,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:banner_pageChangeDuration="1000"
-                    app:banner_pointAutoPlayAble="true"
+                    app:banner_pointAutoPlayAble="false"
                     app:banner_pointContainerBackground="@android:color/transparent"
                     app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
                     app:banner_pointTopBottomMargin="15dp"
-                    app:banner_transitionEffect="rotate" />
-
+                    app:banner_transitionEffect="fade"
+                    />
+                <!--app:banner_transitionEffect="rotate"-->
                 <ImageView
                     android:id="@+id/iv_back"
                     android:layout_width="wrap_content"
@@ -48,38 +50,29 @@
                     android:id="@+id/detail_room_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/detail_room_price"
                     android:layout_marginTop="15dp"
-                    android:text="国贸地铁温馨单间"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/detail_room_description"
                     android:layout_width="wrap_content"
+                    android:layout_below="@id/detail_room_name"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/detail_room_name"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
-                    android:text="单人间一张床可住两人"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/detail_room_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/detail_room_description"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:drawableLeft="@mipmap/location_ad"
-                    android:drawablePadding="5dp"
-                    android:text="北京 海淀区 西三旗"
-                    android:textSize="13sp" />
+
 
                 <ImageView
                     android:id="@+id/detail_room_collect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@mipmap/collect"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/detail_room_description"
                     android:layout_marginEnd="15dp"
@@ -96,17 +89,28 @@
                     android:layout_toStartOf="@+id/detail_room_collect"
                     android:drawableLeft="@mipmap/comment"
                     android:drawablePadding="5dp"
-                    android:text="1000条评价"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/detail_room_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/detail_room_description"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/detail_room_comment_number"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@mipmap/location_ad"
+                    android:drawablePadding="5dp"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/detail_room_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@id/detail_room_name"
                     android:layout_marginEnd="15dp"
-                    android:layout_marginTop="30dp"
-                    android:text="￥50 /天"
                     android:textColor="@color/orange"
                     android:textSize="16sp" />
 
@@ -132,6 +136,8 @@
                         android:id="@+id/detail_user_img"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
                         android:src="@mipmap/avatar_default" />
 
                     <TextView
@@ -140,7 +146,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/detail_user_img"
-                        android:text="小仙仙"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -152,19 +157,19 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@+id/detail_user_img"
-                        android:text="实名认证"
-                        android:textSize="13sp" />
+                        android:text="房东认证"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/detail_fangdong_xingzhi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/detail_user_name"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="5dp"
                         android:layout_toRightOf="@+id/detail_shiming_renzheng"
-                        android:text="个人房东"
-                        android:textSize="13sp" />
+                        android:text=""
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/detail_connect_online"
@@ -173,6 +178,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="15dp"
                         android:drawablePadding="5dp"
+                        android:textSize="12sp"
                         android:drawableTop="@mipmap/online_connect"
                         android:text="在线联系" />
 
@@ -191,6 +197,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toLeftOf="@+id/tag1"
                         android:drawablePadding="5dp"
+                        android:textSize="12sp"
                         android:drawableTop="@mipmap/phone"
                         android:text="电话联系" />
                 </RelativeLayout>
@@ -265,30 +272,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/click_ruzhu_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="点击选择入住时间" />
-
-                <TextView
-                    android:id="@+id/click_leave_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="点击选择离开时间" />
-
-                <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                     android:id="@+id/calendarView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     app:mcv_selectionColor="@color/orange"
-                    app:mcv_showOtherDates="all" />
-            </LinearLayout>
+                 />
+                   />
 
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -330,7 +322,6 @@
         android:id="@+id/leave_time_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginStart="5dp"
         android:text="离开:" />
     <TextView
@@ -356,7 +347,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:background="@color/orangered"
+            android:background="@color/orange"
             android:gravity="center"
             android:text="立即预定"
             android:textColor="@color/white" />

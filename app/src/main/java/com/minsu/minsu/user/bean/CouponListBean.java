@@ -19,5 +19,6 @@ public class CouponListBean {
         public String start_time;
         public String end_time;
         public int is_type;
+        public int isview=0;
     }
 }

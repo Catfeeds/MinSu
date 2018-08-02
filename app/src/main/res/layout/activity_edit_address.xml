@@ -7,6 +7,10 @@
     tools:context="com.minsu.minsu.user.setting.EditAddressActivity">
 
     <include layout="@layout/toolbar" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/part_line"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,11 +22,12 @@
             android:text="姓名"/>
         <EditText
             android:id="@+id/username"
-            android:layout_marginTop="10dp"
+            android:inputType="textEmailSubject"
+            android:textSize="14sp"
+            android:gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="上官明月"/>
+            android:layout_height="30dp"
+            android:background="@null" />
         <View
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -40,9 +45,11 @@
             android:text="联系电话"/>
         <EditText
             android:id="@+id/user_phone"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="bottom"
+            android:inputType="number"
+            android:layout_height="30dp"
             android:background="@null"
             android:hint="您的电话号码"/>
         <View
@@ -64,9 +71,12 @@
             android:id="@+id/user_address"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="bottom"
+            android:maxLength="30"
+            android:layout_height="30dp"
             android:background="@null"
-            android:hint="您的居住地址"/>
+            android:hint="不能大于30个字符"/>
         <View
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -79,5 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
+        android:background="@drawable/frame_button_4"
+        android:textColor="@color/white"
         android:text="确认"/>
 </LinearLayout>

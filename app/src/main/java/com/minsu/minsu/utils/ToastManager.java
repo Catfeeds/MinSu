@@ -46,7 +46,7 @@ public class ToastManager {
 
     public void cancle() {
         if (toast != null) {
-            toast.cancel();
+           // toast.cancel();
         }
 
     }

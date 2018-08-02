@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$/IMKit" />
             <option value="$PROJECT_DIR$/IMLib" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/libraryrili" />
+            <option value="$PROJECT_DIR$/recyclerview-swipe" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

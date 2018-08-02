@@ -72,6 +72,11 @@ public class FeedbackActivity extends BaseActivity {
                 String content = etContent.getText().toString();
                 String phoneNumber = etNumber.getText().toString();
                 String email = etEmail.getText().toString();
+                if (content.length()==0||phoneNumber.length()==0||email.length()==0)
+                {
+                    ToastManager.show("请输入相关信息");
+                    return;
+                }
                 MinSuApi.feedback(FeedbackActivity.this, 0x001, tokenId, content, phoneNumber, email, callBack);
             }
         });

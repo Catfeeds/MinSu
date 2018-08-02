@@ -41,6 +41,7 @@ public class CommentSubmitActivity extends BaseActivity {
     TextView submit;
     private String tokenId;
     private String houseId;
+    private int order_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class CommentSubmitActivity extends BaseActivity {
         toolbarTitle.setText("评价");
 
         houseId = getIntent().getStringExtra("houseId");
+        order_id = getIntent().getIntExtra("order_id",0);
         ivLeft.setVisibility(View.VISIBLE);
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +72,7 @@ public class CommentSubmitActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String content = etContent.getText().toString();
-                MinSuApi.roomComment(CommentSubmitActivity.this, 0x001, tokenId, content, Integer.parseInt(houseId), callBack);
+                MinSuApi.roomComment(CommentSubmitActivity.this, 0x001, tokenId, content, Integer.parseInt(houseId),order_id, callBack);
             }
         });
     }
@@ -86,6 +88,7 @@ public class CommentSubmitActivity extends BaseActivity {
                         String msg = jsonObject.getString("msg");
                         if (code==200){
                             ToastManager.show(msg);
+                            StorageUtil.setKeyValue(CommentSubmitActivity.this,"ispj","yes");
                             finish();
                         }else if (code==211){
                             ToastManager.show(msg);

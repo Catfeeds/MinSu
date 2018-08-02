@@ -7,6 +7,8 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Response;
 import com.minsu.minsu.App;
 import com.minsu.minsu.R;
@@ -36,8 +40,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
+import cn.jpush.android.api.JPushInterface;
 
 public class LandlordAuthenticationActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.toolbar_title)
@@ -57,7 +65,7 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
     @BindView(R.id.idCard)
     EditText idCard;
     @BindView(R.id.user_phone)
-    EditText userPhone;
+    TextView userPhone;
     @BindView(R.id.user_address)
     EditText userAddress;
     @BindView(R.id.id_front)
@@ -80,7 +88,9 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
     private File frontFile;
     private File backFile;
     private File fcFile;
-
+    private int ttt=0;
+    private File file1=null ,file2=null,file3=null;
+    private int is_house;
     @Override
     protected void processLogic() {
         MinSuApi.landlordPage(this, 0x002, token, callBack);
@@ -88,6 +98,55 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
 
     @Override
     protected void setListener() {
+        idCard.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+
+            }
+        });
+        try
+        {
+            ttt=getIntent().getIntExtra("ttt",0);
+        }catch (Exception e)
+        {
+
+        }
+        userPhone.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View view, boolean b)
+            {
+                if (b)
+                {
+                    userPhone.setText("");
+                }
+            }
+        });
+        userAddress.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View view, boolean b)
+            {
+                if (b)
+                {
+
+                }
+            }
+        });
         token = StorageUtil.getTokenId(this);
         toolbarTitle.setText("房东认证");
         ivLeft.setVisibility(View.VISIBLE);
@@ -101,7 +160,7 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
         idBack.setOnClickListener(this);
         idFangchuan.setOnClickListener(this);
         submit.setOnClickListener(this);
-
+        userPhone.setOnClickListener(this);
         init();//建立相机存储的缓存的路径
     }
 
@@ -125,9 +184,23 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
         return this;
     }
 
+
+    @Override
+    protected void onDestroy()
+    {
+        StorageUtil.setKeyValue(LandlordAuthenticationActivity.this,"phones","");
+        super.onDestroy();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.user_phone:
+                Intent intent=new Intent(LandlordAuthenticationActivity.this,PhineYanActivity.class);
+                intent.putExtra("type","2");
+                intent.putExtra("house","2");
+                startActivityForResult(intent,101);
+                break;
             case R.id.id_front:
                 photoType = 1;
                 chooseType();
@@ -145,36 +218,81 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
                 String id_card = idCard.getText().toString();
                 String user_phone = userPhone.getText().toString();
                 String user_address = userAddress.getText().toString();
-                if (user_address.equals("")) {
-                    ToastManager.show("请输入姓名");
-                    return;
+                if (is_house==1)
+                {
+                    if (user_phone.length()!=11)
+                    {
+                        ToastManager.show("请输入正确的手机号");
+                        return;
+                    }
+                    break;
+                }else {
+                    if (userName.equals("")) {
+                        ToastManager.show("请输入姓名");
+                        return;
+                    }else {
+                        Pattern p = Pattern.compile(".*\\d+.*");
+                        Matcher m = p.matcher(userName);
+                        if (m.matches())
+                        {
+                            ToastManager.show("请输入合法的名字");
+                            return;
+                        }
+                    }
+                    if (id_card.equals("")) {
+                        ToastManager.show("请输入身份证号");
+                        return;
+                    }else {
+                        if (id_card.length()!=18)
+                        {
+                            ToastManager.show("请输入正确的身份证号码");
+                            return;
+                        }
+                    }
+                    if (user_phone.equals("")) {
+                        ToastManager.show("请输入电话");
+                        return;
+                    }else {
+                        if (user_phone.length()!=11)
+                        {
+                            ToastManager.show("请输入正确的电话号码");
+                            return;
+                        }
+                    }
+                    if (user_address.equals("")) {
+                        ToastManager.show("请输入地址");
+                        return;
+                    }
+                    if (frontFile==null)
+                    {
+                        frontFile=file1;
+                    }
+
+                    if (frontFile == null) {
+                        ToastManager.show("身份证正面照不能为空");
+                        return;
+                    }
+                    if (backFile==null)
+                    {
+                        backFile=file2;
+                    }
+                    if (backFile == null) {
+                        ToastManager.show("身份证反面照不能为空");
+                        return;
+                    }
+                    if (fcFile==null)
+                    {
+                        fcFile=file3;
+                    }
+                    if (fcFile == null) {
+                        ToastManager.show("房产证照片不能为空");
+                        return;
+                    }
+                    StorageUtil.setKeyValue(LandlordAuthenticationActivity.this,"phones","");
+                    MinSuApi.landlordSubmit(this, 0x001, token, userName, id_card, user_phone, user_address, frontFile, backFile, fcFile, callBack);
+                    break;
                 }
-                if (id_card.equals("")) {
-                    ToastManager.show("请输入身份证号");
-                    return;
-                }
-                if (user_phone.equals("")) {
-                    ToastManager.show("请输入电话");
-                    return;
-                }
-                if (user_address.equals("")) {
-                    ToastManager.show("请输入地址");
-                    return;
-                }
-                if (frontFile == null) {
-                    ToastManager.show("身份证正面照不能为空");
-                    return;
-                }
-                if (backFile == null) {
-                    ToastManager.show("身份证反面照不能为空");
-                    return;
-                }
-                if (fcFile == null) {
-                    ToastManager.show("房产证照片不能为空");
-                    return;
-                }
-                MinSuApi.landlordSubmit(this, 0x001, token, userName, id_card, user_phone, user_address, frontFile, backFile, fcFile, callBack);
-                break;
+
         }
     }
 
@@ -227,8 +345,14 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != -1) {
-            return;
+
+        if (requestCode==101)
+        {
+            String phone=StorageUtil.getValue(LandlordAuthenticationActivity.this,"phones");
+            if (phone!=null&&phone.length()>4)
+            {
+                userPhone.setText(phone);
+            }
         }
         if (requestCode == REQUEST_CODE_ALBUM && data != null) {
             Uri newUri;
@@ -264,15 +388,15 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
         //加载本地图片
         Uri uri = Uri.fromFile(cover);
         if (photoType == 1) {
-            Glide.with(this).load(uri).into(idFront);
+            Glide.with(App.getInstance()).load(uri).into(idFront);
             frontFile = FileUtil.getFileByUri(uri, this);
             StorageUtil.setKeyValue(LandlordAuthenticationActivity.this, "front_img", fileSrc);
         } else if (photoType == 2) {
-            Glide.with(this).load(uri).into(idBack);
+            Glide.with(App.getInstance()).load(uri).into(idBack);
             backFile = FileUtil.getFileByUri(uri, this);
             StorageUtil.setKeyValue(LandlordAuthenticationActivity.this, "back_img", fileSrc);
         } else if (photoType == 3) {
-            Glide.with(this).load(uri).into(idFangchuan);
+            Glide.with(App.getInstance()).load(uri).into(idFangchuan);
             fcFile = FileUtil.getFileByUri(uri, this);
             StorageUtil.setKeyValue(LandlordAuthenticationActivity.this, "fc_img", fileSrc);
         }
@@ -284,7 +408,7 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra("crop", "true");// crop=true 有这句才能出来最后的裁剪页面.
         intent.putExtra("aspectX", 1);// 这两项为裁剪框的比例.
-        intent.putExtra("aspectY", 1);// x:y=1:1
+        intent.putExtra("aspectY", 0.8);// x:y=1:1
 //        intent.putExtra("outputX", 400);//图片输出大小
 //        intent.putExtra("outputY", 400);
         intent.putExtra("output", Uri.fromFile(file));
@@ -303,6 +427,19 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
                         String msg = jsonObject.getString("msg");
                         if (code == 200) {
                             ToastManager.show(msg);
+                            userAddress.setFocusable(false);
+                            userPhone.setFocusable(false);
+                            username.setFocusable(false);
+                            idCard.setFocusable(false);
+                            idCard.setFocusableInTouchMode(false);
+                            userAddress.setFocusableInTouchMode(false);
+                            userPhone.setFocusableInTouchMode(false);
+                            username.setFocusableInTouchMode(false);
+                            idFront.setEnabled(false);
+                            idBack.setEnabled(false);
+                            idFangchuan.setEnabled(false);
+                            StorageUtil.setKeyValue(LandlordAuthenticationActivity.this, "role", "user");
+                            StorageUtil.setKeyValue(LandlordAuthenticationActivity.this,"statu","2");
                             finish();
                         } else if (code == 111) {
                             ToastManager.show(msg);
@@ -326,7 +463,8 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
                             String h_zheng_pic = jsonObject1.getString("h_zheng_pic");
                             String h_fan_pic = jsonObject1.getString("h_fan_pic");
                             String h_fc_pic = jsonObject1.getString("h_fc_pic");
-                            int is_house = jsonObject1.getInt("is_house");
+                            //String error_message=jsonObject1.getString("error_message");
+                            is_house = jsonObject1.getInt("is_house");
                             if (is_house == 2) {
                                 username.setEnabled(false);
                                 userPhone.setEnabled(false);
@@ -335,53 +473,132 @@ public class LandlordAuthenticationActivity extends BaseActivity implements View
                                 idFront.setClickable(false);
                                 idBack.setClickable(false);
                                 submit.setClickable(false);
-                                ToastManager.show("审核中");
+                                idFangchuan.setEnabled(false);
+                                StorageUtil.setKeyValue(LandlordAuthenticationActivity.this,"role","user");
+                                ToastManager.show("审核中,请您耐心等待");
+                                submit.setBackgroundResource(R.drawable.frame_button_22);
+                                submit.setText("审核中");
                             } else if (is_house == 1) {
-                                username.setEnabled(false);
-                                userPhone.setEnabled(false);
-                                userAddress.setEnabled(false);
-                                idCard.setEnabled(false);
-                                idFront.setClickable(false);
-                                idBack.setClickable(false);
-                                submit.setClickable(false);
-                                ToastManager.show("认证已通过，请勿重复提交");
-                            } else {
-                                if (!n_name.equals("null")) {
-                                    username.setText(n_name);
-                                }
-                                if (!n_mobile.equals("null")) {
-                                    userPhone.setText(n_mobile);
-                                }
-                                if (!n_address.equals("null")) {
-                                    userAddress.setText(n_address);
-                                }
-                                if (!n_card.equals("null")) {
-                                    idCard.setText(n_card);
-                                }
-                                if (!h_zheng_pic.equals("null")) {
-                                    Glide.with(LandlordAuthenticationActivity.this)
-                                            .load(Constant.BASE2_URL + h_zheng_pic)
-//                                    .placeholder(R.mipmap.ic_launcher)
-                                            .into(idFront);
-                                }
-                                if (!h_fan_pic.equals("null")) {
-                                    Glide.with(LandlordAuthenticationActivity.this)
-                                            .load(Constant.BASE2_URL + h_fan_pic)
-//                                    .placeholder(R.mipmap.ic_launcher)
-                                            .into(idBack);
-                                }
-                                if (!h_fc_pic.equals("null")) {
-                                    Glide.with(LandlordAuthenticationActivity.this)
-                                            .load(Constant.BASE2_URL + h_fc_pic)
-//                                    .placeholder(R.mipmap.ic_launcher)
-                                            .into(idFangchuan);
-                                }
+                                   StorageUtil.setKeyValue(LandlordAuthenticationActivity.this,"role","landlord");
+                                    username.setEnabled(false);
+                                    userPhone.setEnabled(true);
+                                    userAddress.setEnabled(false);
+                                    toolbarTitle.setVisibility(View.GONE);
+                                    idCard.setEnabled(false);
+                                    idFront.setClickable(false);
+                                    idBack.setClickable(false);
+                                submit.setBackgroundResource(R.drawable.frame_button_22);
+                                submit.setText("已认证");
+                                   String jiguang= StorageUtil.getValue(LandlordAuthenticationActivity.this,"jiguang");
+                                    JPushInterface.setAlias(getActivityContext(),0,"F"+jiguang);
+                                    submit.setClickable(false);
+                                    idFangchuan.setEnabled(false);
+                                    ToastManager.show("认证已通过，请勿重复提交");
+                            } else if (is_house==-1){
+//                                if (error_message!=null)
+//                                {
+//                                    Toast.makeText(LandlordAuthenticationActivity.this,"审核失败："+error_message,Toast.LENGTH_LONG).show();
+//                                }
+                                StorageUtil.setKeyValue(LandlordAuthenticationActivity.this,"role","lsb");
+                                username.setEnabled(true);
+                                userPhone.setEnabled(true);
+                                userAddress.setEnabled(true);
+                                idCard.setEnabled(true);
+                                idFront.setClickable(true);
+                                idBack.setClickable(true);
+                                submit.setClickable(true);
+                                idFangchuan.setEnabled(true);
+                                idBack.setBackgroundResource(R.mipmap.back003);
+                                idFront.setBackgroundResource(R.mipmap.back002);
+                                idFangchuan.setBackgroundResource(R.mipmap.back001);
+                            }
+
+                            if (!n_name.equals("null")) {
+                                username.setText(n_name);
+                            }
+                            if (!n_mobile.equals("null")) {
+                                n_mobile=n_mobile.substring(0,3)+"*****"+n_mobile.substring(n_mobile.length()-3,n_mobile.length());
+                                userPhone.setText(n_mobile);
+                            }
+                            if (!n_address.equals("null")) {
+                                userAddress.setText(n_address);
+                            }
+                            if (!n_card.equals("null")) {
+                                n_card=n_card.substring(0,3)+"************"+n_card.substring(n_card.length()-3,n_card.length());
+                                idCard.setText(n_card);
+                            }
+                            if (!h_zheng_pic.equals("null")) {//正面
+                                Glide.with(App.getInstance())
+                                        .load(Constant.BASE2_URL + h_zheng_pic)
+                                        .error(R.mipmap.back001)
+                                        .into(idFront);
+                                OkGo.<File>post(Constant.BASE2_URL+h_zheng_pic).execute(new FileCallback()
+                                {
+                                    @Override
+                                    public void onSuccess(Response<File> response)
+                                    {
+                                        file1 = response.body();
+                                        if (file1==null)
+                                        {
+                                            idFront.setBackgroundResource(R.mipmap.back001);
+                                        }
+                                    }
+                                });
+                            }
+                            if (!h_fan_pic.equals("null")) {//反面
+                                Glide.with(App.getInstance())
+                                        .load(Constant.BASE2_URL + h_fan_pic)
+                                        .error(R.mipmap.back002)
+                                        .into(idBack);
+                                OkGo.<File>post(Constant.BASE2_URL+h_fan_pic).execute(new FileCallback()
+                                {
+                                    @Override
+                                    public void onSuccess(Response<File> response)
+                                    {
+                                        file2 = response.body();
+                                        if (file2==null)
+                                        {
+                                            idBack.setBackgroundResource(R.mipmap.back002);
+                                        }
+                                    }
+                                });
+                            }
+                            if (!h_fc_pic.equals("null")) {//房产
+                                Glide.with(App.getInstance())
+                                        .load(Constant.BASE2_URL + h_fc_pic)
+                                        .error(R.mipmap.back001)
+                                        .into(idFangchuan);
+                                OkGo.<File>post(Constant.BASE2_URL+h_fc_pic).execute(new FileCallback()
+                                {
+                                    @Override
+                                    public void onSuccess(Response<File> response)
+                                    {
+                                        file3 = response.body();
+                                        if (file3==null)
+                                        {
+                                            idFangchuan.setBackgroundResource(R.mipmap.back001);
+                                        }
+                                    }
+                                });
                             }
 
                         } else if (code == 111) {
                             ToastManager.show(msg);
                         }
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 0x003:
+                    try
+                    {
+                        JSONObject jsonObject=new JSONObject(result.body());
+                        if (jsonObject.getString("code").equals("200"))
+                        {
+                            ToastManager.show("更换成功");
+                        }
+                    } catch (JSONException e)
+                    {
                         e.printStackTrace();
                     }
                     break;

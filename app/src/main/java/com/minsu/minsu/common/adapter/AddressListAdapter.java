@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.minsu.minsu.App;
 import com.minsu.minsu.R;
 import com.minsu.minsu.user.bean.AddressListBean;
 
@@ -26,11 +27,14 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressListBean.Data,Ba
             helper.setText(R.id.address_phone,item.mobile);
         int is_default = item.is_default;
         if (is_default==1){
-            helper.getView(R.id.default_address).setVisibility(View.VISIBLE);
+            helper.setText(R.id.default_address,"默认地址");
+            helper.setTextColor(R.id.default_address, App.getInstance().getResources().getColor(R.color.red));
         }else if (is_default==0){
-            helper.getView(R.id.default_address).setVisibility(View.GONE);
+            helper.setText(R.id.default_address,"设为默认地址");
+            helper.setTextColor(R.id.default_address,App.getInstance().getResources().getColor(R.color.grey));
         }
         helper.addOnClickListener(R.id.address_delete);
         helper.addOnClickListener(R.id.address_edit);
+        helper.addOnClickListener(R.id.default_address);
     }
 }

@@ -64,6 +64,7 @@
         android:background="@color/part_line" />
     <RelativeLayout
         android:id="@+id/rl_wallet"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 

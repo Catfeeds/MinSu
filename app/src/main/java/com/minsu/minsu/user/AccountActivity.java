@@ -55,6 +55,13 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         } else if (role.equals("user")) {
             rlWallet.setVisibility(View.GONE);
         }
+        String isfd=StorageUtil.getValue(AccountActivity.this,"isfd");
+        if (isfd!=null&&isfd.equals("yes"))
+        {
+            rlWallet.setVisibility(View.VISIBLE);
+        }else {
+            rlWallet.setVisibility(View.GONE);
+        }
         ivLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

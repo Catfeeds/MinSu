@@ -49,7 +49,7 @@ public class CustomProgressDialog extends Dialog implements DialogInterface.OnCa
         // 点手机返回键等触发Dialog消失，应该取消正在进行的网络请求等
         Context context = mContext.get();
         if (context != null) {
-            Toast.makeText(context, "cancel", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "cancel", Toast.LENGTH_SHORT).show();
 //            MyHttpClient.cancelRequests(context);
         }
     }

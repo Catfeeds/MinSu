@@ -16,5 +16,7 @@ public class AddressListBean {
         public String mobile;
         public int is_default;
         public int address_id;
+        public String address_name;
+        public int address_color;
     }
 }

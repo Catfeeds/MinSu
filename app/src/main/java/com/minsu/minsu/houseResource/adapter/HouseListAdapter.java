@@ -1,6 +1,7 @@
 package com.minsu.minsu.houseResource.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -28,25 +29,35 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean.Data, BaseV
     protected void convert(BaseViewHolder helper, HouseListBean.Data item) {
         helper.setText(R.id.room_name, item.title);
         helper.setText(R.id.room_description, item.house_info);
-        helper.setText(R.id.room_price, "￥" + item.house_price + "/天");
+        helper.setText(R.id.room_price, "￥" + item.house_price + "元/天");
         helper.setText(R.id.room_address, item.city + " " + item.district + " " + item.town);
         Glide.with(mContext)
                 .load(Constant.BASE2_URL + item.house_img)
                 .into((ImageView) helper.getView(R.id.room_img));
 
         helper.addOnClickListener(R.id.focus_room);
-        if (type.equals("home")) {
-            int collect = item.collect;
-            if (collect == 1) {
-                Glide.with(mContext)
-                        .load(R.mipmap.collected)
-                        .into((ImageView) helper.getView(R.id.focus_room));
-            } else if (collect == 0) {
-                Glide.with(mContext)
-                        .load(R.mipmap.collect)
-                        .into((ImageView) helper.getView(R.id.focus_room));
-            }
+        helper.getView(R.id.focus_room).setVisibility(View.GONE);
+//        if (type.equals("home")) {
+//
+//        }
+        int collect = item.collect;
+        if (collect == 1) {
+            Glide.with(mContext)
+                    .load(R.mipmap.collected)
+                    .into((ImageView) helper.getView(R.id.focus_room));
+            helper.setBackgroundRes(R.id.focus_room,R.mipmap.collected);
+            helper.getView(R.id.focus_room).setVisibility(View.VISIBLE);
+        } else if (collect == 0) {
+            Glide.with(mContext)
+                    .load(R.mipmap.collect)
+                    .into((ImageView) helper.getView(R.id.focus_room));
         }
 
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return super.getItemViewType(position);
     }
 }

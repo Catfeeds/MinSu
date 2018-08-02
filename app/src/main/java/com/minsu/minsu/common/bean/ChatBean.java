@@ -12,8 +12,10 @@ public class ChatBean {
     public List<Data> data;
     public class Data{
         public int id;
+        public String targetid;
         public String nickname;
         public String head_pic;
         public String add_time;
+        public String user_id;
     }
 }
